@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "ayan", "runtimeExecutable": "node", "runtimeArgs": ["dev-server.cjs"], "port": 4180 }
+  ]
+}
