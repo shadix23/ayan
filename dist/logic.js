@@ -103,37 +103,73 @@
     if (path === 'task') kit.task[lang][index] = clean;
     else if (path === 'story') kit.story[lang][index] = clean;
     else if (path === 'schedule') kit.schedule[index][lang] = clean;
+    kit.approved = null; // any edit cancels approval, even if the text is later restored
     kit.hash = kitHash(kit);
     return kit;
   }
 
   // privacy filter before text leaves the device (TTS / AI): blocks identifiers
   function sanitizeForExternal(text) {
-    var t = String(text || '');
+    var raw = String(text || '');
+    // strip zero-width / invisible chars so separators cannot hide identifiers
+    var t = raw.replace(/[​-‏⁠﻿­]/g, '');
     var issues = [];
     if (/[\w.+-]+@[\w-]+\.[\w.]+/.test(t)) issues.push('email');
-    if (/\+?\d[\d\s()-]{8,}\d/.test(t)) issues.push('phone');
+    if (t.replace(/\D/g, '').length >= 9 && /\d[\d\s().+-]{7,}\d/.test(t)) issues.push('phone-or-id');
     if (/\d{6,}/.test(t)) issues.push('long-number');
+    // name-like: two consecutive capitalised words (basic safeguard, not a guarantee)
+    if (/(^|[^\p{L}])\p{Lu}\p{Ll}{2,}\s+\p{Lu}\p{Ll}{2,}/u.test(t)) issues.push('name-like');
+    // \b does not work for Cyrillic in JS, so use unicode-aware lookarounds
+    if (/(?<!\p{L})(ул\.|улица|көшесі|көше|дом|кв\.|street)(?!\p{L})/iu.test(t)) issues.push('address-like');
     if (t.length > 400) issues.push('too-long');
+    if (t !== raw) issues.push('hidden-chars');
     return { ok: issues.length === 0, issues: issues, text: t };
   }
 
   // observation: {t, kitHash, topic, help: none|hint|adult, result: done|partial|refused|unclear, discomfort: bool}
-  function summarize(obs) {
-    var list = (obs || []).filter(function (o) { return o && o.result !== 'unclear'; });
-    var total = obs ? obs.length : 0;
+  // mode: 'real' (default) ignores synthetic demo records; 'demo' uses only them
+  function summarize(allObs, mode) {
+    var wantDemo = mode === 'demo';
+    var obs = (allObs || []).filter(function (o) { return o && !!o.demo === wantDemo; });
+    var list = obs.filter(function (o) { return o.result !== 'unclear'; });
+    var total = obs.length;
     if (list.length < MIN_OBS) return { enough: false, total: total, need: MIN_OBS, valid: list.length };
     var by = {};
     ['none', 'hint', 'adult'].forEach(function (h) { by[h] = { n: 0, done: 0 }; });
     var disc = 0;
     list.forEach(function (o) { var b = by[o.help] || by.none; b.n++; if (o.result === 'done') b.done++; if (o.discomfort) disc++; });
     var rows = Object.keys(by).map(function (h) { return { help: h, n: by[h].n, rate: by[h].n ? by[h].done / by[h].n : null }; });
-    return { enough: true, total: total, valid: list.length, rows: rows, discomfort: disc, discomfortRate: disc / list.length,
+    return { enough: true, demo: wantDemo, total: total, valid: list.length, rows: rows, discomfort: disc, discomfortRate: disc / list.length,
       note: 'observation-not-evidence' };
   }
 
+  var HELPS = ['none', 'hint', 'adult'], RESULTS = ['done', 'partial', 'refused', 'unclear'], VIEWS = ['kit', 'track', 'sum', 'data'];
+
+  function cleanObs(o) {
+    if (!o || typeof o !== 'object') return null;
+    if (HELPS.indexOf(o.help) < 0 || RESULTS.indexOf(o.result) < 0 || !TOPICS[o.topic]) return null;
+    if (typeof o.t !== 'number' || !isFinite(o.t)) return null;
+    return { t: o.t, topic: o.topic, help: o.help, result: o.result, discomfort: o.discomfort === true, demo: o.demo === true, kitHash: typeof o.kitHash === 'string' ? o.kitHash.slice(0, 16) : null };
+  }
+  function cleanSettings(st, keepSound) {
+    st = st && typeof st === 'object' ? st : {};
+    var cfs = typeof st.cfs === 'number' && isFinite(st.cfs) ? Math.min(2.2, Math.max(1, st.cfs)) : 1.4;
+    return { cfs: cfs, hc: st.hc === true, sound: keepSound ? st.sound === true : false };
+  }
+  // sanitize whole saved state (localStorage or imported); never throws
+  function cleanState(raw, fromImport) {
+    raw = raw && typeof raw === 'object' ? raw : {};
+    return {
+      lang: raw.lang === 'kk' ? 'kk' : 'ru',
+      size: [0, 1, 2].indexOf(raw.size) >= 0 ? raw.size : 0,
+      view: VIEWS.indexOf(raw.view) >= 0 ? raw.view : 'kit',
+      observations: Array.isArray(raw.observations) ? raw.observations.map(cleanObs).filter(Boolean) : [],
+      settings: cleanSettings(raw.settings, !fromImport) // an imported file never switches sound on
+    };
+  }
+
   function exportBackup(state) {
-    var body = JSON.stringify({ version: FORMAT_VERSION, state: state });
+    var body = JSON.stringify({ version: FORMAT_VERSION, state: { observations: state.observations, settings: state.settings } });
     return JSON.stringify({ version: FORMAT_VERSION, checksum: hash(body), body: body });
   }
   function importBackup(text) {
@@ -144,10 +180,12 @@
     if (hash(outer.body) !== outer.checksum) return { ok: false, error: 'bad-checksum' };
     var inner;
     try { inner = JSON.parse(outer.body); } catch (e2) { return { ok: false, error: 'bad-json' }; }
-    if (!inner || !inner.state || !Array.isArray(inner.state.observations)) return { ok: false, error: 'bad-shape' };
-    return { ok: true, state: inner.state };
+    if (!inner || inner.version !== FORMAT_VERSION || !inner.state || !Array.isArray(inner.state.observations)) return { ok: false, error: 'bad-shape' };
+    var good = inner.state.observations.map(cleanObs).filter(Boolean);
+    if (good.length !== inner.state.observations.length) return { ok: false, error: 'bad-records' };
+    return { ok: true, state: { observations: good, settings: cleanSettings(inner.state.settings, false) } };
   }
 
   return { TOPICS: TOPICS, MIN_OBS: MIN_OBS, generateKit: generateKit, kitHash: kitHash, approve: approve, isApproved: isApproved,
-    editKit: editKit, sanitizeForExternal: sanitizeForExternal, summarize: summarize, exportBackup: exportBackup, importBackup: importBackup };
+    editKit: editKit, sanitizeForExternal: sanitizeForExternal, summarize: summarize, exportBackup: exportBackup, importBackup: importBackup, cleanState: cleanState };
 });

@@ -40,26 +40,36 @@
     sensor: ['Сенсорлық мінез: баптаулар жеке болуы керек. Қолайсыздық болса, үзіліс беріңіз.', 'Сенсорные особенности индивидуальны: настройки подбирает взрослый. При дискомфорте предложите перерыв.'],
     topics_note: ['Қосу мен азайту: 3-4 сыныпта негізгі дағдыларды бекіту.', 'Сложение и вычитание: закрепление базовых навыков в 3-4 классе.'],
     sent_ext: ['Сыртқа жіберілетін мәтін', 'Текст, который будет отправлен наружу'], blocked: ['Мәтінде жеке деректер бар: жіберілмейді.', 'В тексте личные данные: не отправляется.'],
+    real_view: ['Нақты деректерді көрсету', 'Показать реальные данные'], demo_view: ['Демо-деректерді көрсету', 'Показать демо-данные'], popup: ['Терезе бұғатталды', 'Окно заблокировано браузером'],
     pr_title: ['Ata-analarға есеп', 'Отчёт для родителей']
   };
   var HELPTXT = {
     approve: ['Ересек мазмұнды тексеріп бекітеді. Мәтін өзгерсе, бекіту автоматты түрде алынады.', 'Взрослый проверяет содержание и утверждает. Если текст изменён, утверждение снимается автоматически.']
   };
 
-  var S = load() || { lang: 'ru', size: 0, view: 'kit', observations: [], settings: { cfs: 1.4, hc: false, sound: false } };
+  var S = L.cleanState(load(), false); // corrupted or tampered storage is sanitised, never crashes startup
   var kit = null, topicSel = 'add100', gradeSel = 3, levelSel = 'basic', variant = 0;
   var c = { step: 0, paused: false, hard: false };
+  var childKit = null, stickyMsg = '', showDemo = false;
 
   function t(k, o) { var p = D[k]; if (!p) return k; var s = p[S.lang === 'kk' ? 0 : 1]; if (o) for (var x in o) s = s.replace('{' + x + '}', o[x]); return s; }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]; }); }
   function lg() { return S.lang === 'kk' ? 'kk' : 'ru'; }
   function load() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
   function persist() {
-    try { localStorage.setItem(KEY, JSON.stringify(S)); return true; }
-    catch (e) { notify(t('savefail'), true); return false; }
+    try { localStorage.setItem(KEY, JSON.stringify(S)); if (stickyMsg) { stickyMsg = ''; paintBanner(); } return true; }
+    catch (e) { stickyMsg = t('savefail'); paintBanner(); return false; } // error stays visible until a save succeeds
   }
   var nt;
-  function notify(msg, bad) { var b = document.getElementById('banner'); b.textContent = msg; b.style.background = bad ? 'var(--bad-soft)' : 'var(--good-soft)'; b.style.color = bad ? 'var(--bad)' : 'var(--good)'; clearTimeout(nt); nt = setTimeout(function () { b.textContent = t('banner'); b.style.background = ''; b.style.color = ''; }, bad ? 6000 : 2200); }
+  function paintBanner() {
+    var b = document.getElementById('banner');
+    b.textContent = stickyMsg || t('banner');
+    b.style.background = stickyMsg ? 'var(--bad-soft)' : ''; b.style.color = stickyMsg ? 'var(--bad)' : '';
+  }
+  function notify(msg, bad) {
+    var b = document.getElementById('banner'); b.textContent = msg; b.style.background = bad ? 'var(--bad-soft)' : 'var(--good-soft)'; b.style.color = bad ? 'var(--bad)' : 'var(--good)';
+    clearTimeout(nt); nt = setTimeout(paintBanner, bad ? 6000 : 2200);
+  }
 
   // ---------- shell ----------
   function shell() {
@@ -70,7 +80,7 @@
     document.getElementById('sizeBtn').textContent = ['A', 'A+', 'A++'][S.size];
     var views = ['kit', 'track', 'sum', 'data'];
     document.getElementById('nav').innerHTML = views.map(function (v) { return '<button data-v="' + v + '"' + (S.view === v ? ' aria-current="page"' : '') + '>' + t('n_' + v) + '</button>'; }).join('');
-    document.getElementById('banner').textContent = t('banner');
+    paintBanner();
   }
 
   function render() {
@@ -95,9 +105,9 @@
     h += '<div class="card"><div class="row"><span class="tag demo">' + t('demo') + '</span><span class="tag goal">' + t('goalTag') + '</span>' +
       (ap ? '<span class="tag ok">✓ ' + t('approved') + '</span>' : '<span class="tag bad">' + t('notapp') + '</span>') + '</div>' +
       '<h2 style="margin-top:10px">' + esc(kit.goal[lg()]) + '</h2>' +
-      '<h3>' + t('t_sched') + '</h3><ol class="steps">' + kit.schedule.map(function (s, i) { return '<li><span class="ic">' + s.icon + '</span><input type="text" data-e="schedule" data-i="' + i + '" value="' + esc(s[lg()]) + '" aria-label="step"></li>'; }).join('') + '</ol>' +
-      '<h3 style="margin-top:14px">' + t('t_task') + '</h3><div class="edit">' + kit.task[lg()].map(function (x, i) { return '<input type="text" data-e="task" data-i="' + i + '" value="' + esc(x) + '">'; }).join('') + '</div>' +
-      '<h3 style="margin-top:14px">' + t('t_story') + '</h3><div class="edit">' + kit.story[lg()].map(function (x, i) { return '<input type="text" data-e="story" data-i="' + i + '" value="' + esc(x) + '">'; }).join('') + '</div>' +
+      '<h3>' + t('t_sched') + '</h3><ol class="steps">' + kit.schedule.map(function (s, i) { return '<li><span class="ic">' + s.icon + '</span><input type="text" data-e="schedule" data-i="' + i + '" value="' + esc(s[lg()]) + '" aria-label="' + t('t_sched') + ' ' + (i + 1) + '"></li>'; }).join('') + '</ol>' +
+      '<h3 style="margin-top:14px">' + t('t_task') + '</h3><div class="edit">' + kit.task[lg()].map(function (x, i) { return '<input type="text" data-e="task" data-i="' + i + '" value="' + esc(x) + '" aria-label="' + t('t_task') + ' ' + (i + 1) + '">'; }).join('') + '</div>' +
+      '<h3 style="margin-top:14px">' + t('t_story') + '</h3><div class="edit">' + kit.story[lg()].map(function (x, i) { return '<input type="text" data-e="story" data-i="' + i + '" value="' + esc(x) + '" aria-label="' + t('t_story') + ' ' + (i + 1) + '">'; }).join('') + '</div>' +
       '<p class="muted">' + t('editnote') + '</p>' +
       '<div class="row"><button class="btn primary" id="ap">' + t('approve') + '</button><span class="help" title="' + esc(HELPTXT.approve[S.lang === 'kk' ? 0 : 1]) + '">?</span>' +
       '<button class="btn" id="chb"' + (ap ? '' : ' disabled') + '>' + t('child') + '</button><button class="btn" id="pr">' + t('printb') + '</button></div>' +
@@ -115,8 +125,11 @@
   }
 
   function vSum() {
-    var s = L.summarize(S.observations);
+    var hasDemo = S.observations.some(function (o) { return o.demo; });
+    var s = L.summarize(S.observations, showDemo ? 'demo' : 'real');
     var h = '<h1>' + t('h_sum') + '</h1><div class="card">';
+    if (showDemo) h += '<div class="demo-banner"><b>' + t('synth') + '</b></div>';
+    if (hasDemo) h += '<p><button class="btn" id="demoToggle">' + (showDemo ? t('real_view') : t('demo_view')) + '</button></p>';
     if (!s.enough) h += '<p>' + t('need', { n: L.MIN_OBS, v: s.valid }) + '</p>';
     else {
       h += '<table><thead><tr><th>' + t('help') + '</th><th>' + t('n') + '</th><th>' + t('rate') + '</th></tr></thead><tbody>' +
@@ -124,29 +137,33 @@
         '</tbody></table><p>' + t('disc_rate') + ': ' + s.discomfort + ' / ' + s.valid + '</p>';
     }
     h += '<p class="muted"><span class="tag demo">' + t('synth') + '</span> ' + t('sumnote') + '</p>' +
-      '<div class="row"><button class="btn" id="demoData">' + t('load_demo') + '</button><button class="btn" id="rep"' + (s.enough ? '' : ' disabled') + '>' + t('report') + '</button><button class="btn warn" id="clr">' + t('clear') + '</button></div></div>';
+      '<div class="row"><button class="btn" id="demoData">' + t('load_demo') + '</button><button class="btn" id="rep"' + (s.enough && !showDemo ? '' : ' disabled') + '>' + t('report') + '</button><button class="btn warn" id="clr">' + t('clear') + '</button></div></div>';
     return h;
   }
 
   function vData() {
     return '<h1>' + t('h_data') + '</h1><div class="card"><h2>' + t('pmap') + '</h2><ul><li>' + t('p1') + '</li><li>' + t('p2') + '</li><li>' + t('p3') + '</li><li>' + t('p4') + '</li></ul></div>' +
-      '<div class="card"><h2>' + t('backup') + '</h2><div class="row"><button class="btn primary" id="bkExp">' + t('exp') + '</button><label class="btn" style="margin:0">' + t('imp') + '<input type="file" id="bkImp" accept=".json,application/json" class="hide"></label></div></div>' +
+      '<div class="card"><h2>' + t('backup') + '</h2><div class="row"><button class="btn primary" id="bkExp">' + t('exp') + '</button><label class="btn filebtn" style="margin:0">' + t('imp') + '<input type="file" id="bkImp" accept=".json,application/json" class="sr"></label></div></div>' +
       '<div class="card"><h2>' + t('status') + '</h2><p><span class="tag ok">OK</span> ' + t('st1') + '</p><p><span class="tag goal">Goal</span> ' + t('st2') + '</p><p><span class="tag demo">Hypothesis</span> ' + t('st3') + '</p></div>';
   }
 
   // ---------- child screen ----------
   function openChild() {
+    if (!kit || !L.isApproved(kit)) return;
+    childKit = JSON.parse(JSON.stringify(kit)); // child screen shows a frozen approved snapshot
     c = { step: 0, paused: false, hard: false };
+    ['top', 'app', 'banner'].forEach(function (id) { var e = document.getElementById(id); if (e) e.setAttribute('inert', ''); });
     var d = document.createElement('div'); d.id = 'child'; d.className = 'child' + (S.settings.hc ? ' hc' : ''); d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
     document.body.appendChild(d); drawChild();
   }
   function childItems() {
-    var items = kit.schedule.map(function (s) { return { icon: s.icon, text: s[lg()] }; });
-    items.splice(3, 0, { icon: '🧩', text: kit.task[lg()].join(' ') });
+    var items = childKit.schedule.map(function (s) { return { icon: s.icon, text: s[lg()] }; });
+    items.splice(3, 0, { icon: '🧩', text: childKit.task[lg()].join(' ') });
     return items;
   }
   function drawChild() {
     var d = document.getElementById('child'); if (!d) return;
+    if (!childKit || !L.isApproved(childKit)) { closeChild(); return; } // never show unapproved content
     d.style.setProperty('--cfs', S.settings.cfs + 'rem');
     var items = childItems(), cur = items[c.step], last = c.step >= items.length;
     var body;
@@ -168,9 +185,15 @@
     var chk = L.sanitizeForExternal(text); if (!chk.ok) { notify(t('blocked'), true); return; }
     try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(text); u.lang = S.lang === 'kk' ? 'kk-KZ' : 'ru-RU'; u.rate = 0.85; speechSynthesis.speak(u); } catch (e) { /* ignore */ }
   }
+  function closeChild() {
+    var d = document.getElementById('child'); if (d) d.remove();
+    childKit = null;
+    ['top', 'app', 'banner'].forEach(function (id) { var e = document.getElementById(id); if (e) e.removeAttribute('inert'); });
+  }
   function childAct(a) {
+    if (!document.getElementById('child') || !childKit) { if (a === 'exit') closeChild(); return; }
     var items = childItems();
-    if (a === 'exit') { var d = document.getElementById('child'); if (d) d.remove(); return; }
+    if (a === 'exit') { closeChild(); return; }
     if (a === 'next') c.step = Math.min(items.length, c.step + 1);
     if (a === 'back') c.step = Math.max(0, c.step - 1);
     if (a === 'pause') c.paused = true;
@@ -197,15 +220,17 @@
     [].forEach.call(document.querySelectorAll('[data-e]'), function (el) { el.addEventListener('change', function () { L.editKit(kit, el.dataset.e, lg(), +el.dataset.i, el.value); render(); }); });
     on('#ap', 'click', function () { L.approve(kit, 'teacher'); render(); notify(t('approved')); });
     on('#chb', 'click', function () { if (L.isApproved(kit)) openChild(); });
-    on('#pr', 'click', function () { window.print(); });
+    on('#pr', 'click', function () { printKit(); });
     on('#oTopic', 'click', function (e) { seg('oTopic', 'topic', e); });
     on('#oHelp', 'click', function (e) { seg('oHelp', 'help', e); });
     on('#oRes', 'click', function (e) { seg('oRes', 'result', e); });
     on('#oSave', 'click', function () {
       S.observations.push({ t: Date.now(), topic: obs.topic, help: obs.help, result: obs.result, discomfort: !!q('#oDisc').checked, kitHash: kit ? kit.hash : null });
-      if (persist()) notify(t('saved')); render();
+      obs = { topic: 'add100', help: 'none', result: 'done' }; // form shows defaults after render, so state must match
+      var okSave = persist(); render(); if (okSave) notify(t('saved'));
     });
-    on('#demoData', 'click', function () { demoData(); persist(); render(); });
+    on('#demoData', 'click', function () { S.observations = S.observations.filter(function (o) { return !o.demo; }); demoData(); persist(); showDemo = true; render(); });
+    on('#demoToggle', 'click', function () { showDemo = !showDemo; render(); });
     on('#clr', 'click', function () { if (confirm(t('clear_q'))) { S.observations = []; persist(); render(); } });
     on('#rep', 'click', function () { report(); });
     on('#bkExp', 'click', function () {
@@ -214,7 +239,14 @@
     });
     on('#bkImp', 'change', function (e) {
       var f = e.target.files[0]; if (!f) return; var r = new FileReader();
-      r.onload = function () { var res = L.importBackup(String(r.result)); if (res.ok) { S.observations = res.state.observations; S.settings = res.state.settings || S.settings; persist(); render(); notify(t('imp_ok')); } else notify(t('imp_bad'), true); };
+      r.onload = function () {
+        var res = L.importBackup(String(r.result));
+        if (!res.ok) { notify(t('imp_bad'), true); return; }
+        var prev = { o: S.observations, s: S.settings };
+        S.observations = res.state.observations; S.settings = res.state.settings;
+        if (persist()) { render(); notify(t('imp_ok')); }
+        else { S.observations = prev.o; S.settings = prev.s; render(); } // not saved: keep old data, error stays visible
+      };
       r.onerror = function () { notify(t('imp_bad'), true); }; r.readAsText(f);
     });
   }
@@ -228,16 +260,26 @@
     }
   }
 
+  function printKit() {
+    if (!kit) return;
+    var pieces = [].concat(kit.goal[lg()], kit.schedule.map(function (s) { return s[lg()]; }), kit.task[lg()], kit.story[lg()]);
+    if (!pieces.every(function (x) { return L.sanitizeForExternal(x).ok; })) { notify(t('blocked'), true); return; } // each line is checked on its own
+    var w = window.open('', '_blank'); if (!w) { notify(t('popup'), true); return; }
+    var li = function (a) { return a.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join(''); };
+    w.document.write('<!doctype html><meta charset="utf-8"><title>Ayan</title><style>body{font:18px system-ui;max-width:700px;margin:30px auto}li{margin:6px 0}</style><h1>' + esc(kit.goal[lg()]) + '</h1><p><i>' + t('demo') + (L.isApproved(kit) ? '' : ' | ' + t('notapp')) + '</i></p><h2>' + t('t_sched') + '</h2><ol>' + kit.schedule.map(function (s) { return '<li>' + s.icon + ' ' + esc(s[lg()]) + '</li>'; }).join('') + '</ol><h2>' + t('t_task') + '</h2><ol>' + li(kit.task[lg()]) + '</ol><h2>' + t('t_story') + '</h2><ol>' + li(kit.story[lg()]) + '</ol><p><i>' + t('banner') + '</i></p>');
+    w.document.close(); w.focus(); setTimeout(function () { w.print(); }, 300);
+  }
+
   function report() {
-    var s = L.summarize(S.observations); if (!s.enough) return;
-    var w = window.open('', '_blank'); if (!w) { notify('popup blocked', true); return; }
+    var s = L.summarize(S.observations, 'real'); if (!s.enough) return;
+    var w = window.open('', '_blank'); if (!w) { notify(t('popup'), true); return; }
     var rows = s.rows.map(function (r) { return '<tr><td>' + t('h_' + r.help) + '</td><td>' + r.n + '</td><td>' + (r.rate == null ? '-' : Math.round(r.rate * 100) + '%') + '</td></tr>'; }).join('');
     w.document.write('<!doctype html><meta charset="utf-8"><title>' + t('pr_title') + '</title><style>body{font:16px system-ui;max-width:700px;margin:30px auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bbb;padding:6px;text-align:left}</style><h1>' + t('pr_title') + '</h1><p>' + new Date().toLocaleDateString() + ' | ' + t('synth') + '</p><table><tr><th>' + t('help') + '</th><th>' + t('n') + '</th><th>' + t('rate') + '</th></tr>' + rows + '</table><p>' + t('disc_rate') + ': ' + s.discomfort + ' / ' + s.valid + '</p><p><i>' + t('sumnote') + '</i></p><p><i>' + t('banner') + '</i></p>');
     w.document.close(); w.focus(); setTimeout(function () { w.print(); }, 300);
   }
 
   // ---------- global events ----------
-  document.getElementById('nav').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { S.view = b.dataset.v; persist(); render(); } });
+  document.getElementById('nav').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { S.view = b.dataset.v; obs = { topic: 'add100', help: 'none', result: 'done' }; persist(); render(); } });
   document.getElementById('langBtn').addEventListener('click', function () { S.lang = S.lang === 'kk' ? 'ru' : 'kk'; persist(); render(); });
   document.getElementById('sizeBtn').addEventListener('click', function () { S.size = (S.size + 1) % 3; persist(); render(); });
   document.body.addEventListener('click', function (e) { var b = e.target.closest('[data-c]'); if (b) childAct(b.dataset.c); });

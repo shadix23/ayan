@@ -2,13 +2,27 @@
 const http = require('http'), fs = require('fs'), path = require('path');
 const root = path.join(__dirname, 'dist');
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json' };
-http.createServer((req, res) => {
-  let p = decodeURIComponent(req.url.split('?')[0]); if (p === '/') p = '/index.html';
-  const f = path.normalize(path.join(root, p));
-  if (!f.startsWith(root)) { res.writeHead(403); return res.end(); }
+
+// returns an absolute file path strictly inside root, or null
+function resolveSafe(url) {
+  let p;
+  try { p = decodeURIComponent(String(url).split('?')[0]); } catch (e) { return null; }
+  if (p.includes('\0')) return null;
+  if (p === '/') p = '/index.html';
+  const f = path.resolve(root, '.' + p);
+  const rel = path.relative(root, f);
+  if (!rel || rel.startsWith('..') || path.isAbsolute(rel)) return null;
+  return f;
+}
+
+const server = http.createServer((req, res) => {
+  const f = resolveSafe(req.url);
+  if (!f) { res.writeHead(400); return res.end('bad request'); }
   fs.readFile(f, (e, d) => {
     if (e) { res.writeHead(404); return res.end('not found'); }
-    res.writeHead(200, { 'Content-Type': types[path.extname(f)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+    res.writeHead(200, { 'Content-Type': types[path.extname(f)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
     res.end(d);
   });
-}).listen(4180, '127.0.0.1', () => console.log('Ayan: http://127.0.0.1:4180'));
+});
+module.exports = { resolveSafe };
+if (require.main === module) server.listen(4180, '127.0.0.1', () => console.log('Ayan: http://127.0.0.1:4180'));
