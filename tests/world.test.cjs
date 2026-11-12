@@ -1,0 +1,9 @@
+const test=require('node:test'),assert=require('node:assert/strict');
+const W=require('../dist/experience-logic.js');
+test('all nine activities have bilingual metadata and stable ids',()=>{assert.equal(W.games.length,9);assert.equal(new Set(W.games.map(g=>g.id)).size,9);for(const g of W.games)assert.ok(g.title[0]&&g.title[1]&&g.desc[0]&&g.desc[1]);});
+test('garden slots survive sparse placement and invalid data',()=>{const s=W.clean({garden:[null,null,4,99],enabled:['pairs','evil','pairs'],completed:['sort','sort']});assert.deepEqual(s.garden,[null,null,4,null]);assert.deepEqual(s.enabled,['pairs']);assert.deepEqual(s.completed,['sort']);assert.doesNotThrow(()=>W.clean(null));});
+test('completion rewards are idempotent and never granted for decorating',()=>{let s=W.award({},'pairs');s=W.award(s,'pairs');s=W.award(s,'garden');assert.deepEqual(s.completed,['pairs']);});
+test('sequence and puzzle require complete exact order',()=>{assert.ok(W.check('sequence',[0,1,2,3]));assert.ok(!W.check('sequence',[0,1]));assert.ok(!W.check('puzzle',[0,0,2,3]));});
+test('packing accepts just drawing supplies regardless of selection order',()=>{assert.ok(W.check('pack',[3,0,1]));assert.ok(!W.check('pack',[0,1,2]));assert.ok(!W.check('pack',[0,1,3,4]));});
+test('pattern and route questions have valid answers at each round',()=>{for(const id of ['pattern','route','listen'])for(let n=0;n<(id==='pattern'?4:3);n++){const q=W.question(id,n);assert.ok(q.choices[q.answer]!==undefined);}});
+test('restore validates data and preserves exact puzzle arrangement',()=>{const s={version:2,game:'puzzle',round:0,order:[2,0,3,1],matched:[]};assert.deepEqual(W.cleanSession(s),s);assert.equal(W.cleanSession({...s,order:[1,1,2,3]}),null);assert.equal(W.cleanSession({...s,game:'x'}),null);assert.equal(W.cleanSession({...s,round:500}),null);});

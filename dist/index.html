@@ -1,39 +1,8 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
-<title>Ayan</title>
-<link rel="preload" href="fonts/Nunito.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<a class="skip" href="#app" id="skip"></a>
-<aside class="sidebar" id="sidebar">
-  <button class="brand" id="brand" aria-label="Ayan"><span id="logo"></span><span class="brand-name">ayan<i>.</i></span></button>
-  <nav class="side-nav" id="nav" aria-label="main"></nav>
-  <div class="goal-card" id="goal"></div>
-  <div class="side-foot" id="sideFoot"></div>
-</aside>
-<div class="workspace" id="workspace">
-  <header class="topbar" id="top">
-    <div class="mobile-brand" id="mbrand"></div>
-    <span class="crumb" id="crumb"></span>
-    <div class="top-tools">
-      <div class="seg" id="langSeg" role="group" aria-label="language"></div>
-      <div class="seg" id="sizeSeg" role="group" aria-label="text size"></div>
-      <button class="round" id="themeBtn" aria-label="theme"></button>
-    </div>
-  </header>
-  <main id="app" tabindex="-1"></main>
-</div>
-<nav class="mobile-nav" id="mnav" aria-label="mobile"></nav>
-<div class="toast" id="banner" role="status" aria-live="polite"></div>
-<script src="logic.js"></script>
-<script src="game-logic.js"></script>
-<script src="mascot.js"></script>
-<script src="game-ui.js"></script>
-<script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ayan - понятный следующий шаг</title><link rel="icon" href="/assets/ayan-mark.svg"><link rel="stylesheet" href="/platform.css"><script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script><script src="/mascot.js"></script><link rel="stylesheet" href="/theme-fix.css"><link rel="stylesheet" href="/polish.css"></head><body>
+<header class="public-nav"><a class="platform-brand" href="/"><img src="/assets/ayan-mark.svg" alt="" width="44" height="44">ayan</a><nav><a href="#how">Как это работает</a><a href="#family">Родителям</a><a href="/teacher/login">Вход учителя →</a></nav></header>
+<main><section class="intro"><div><h1>Сложная тема.<br>Понятный <span>следующий шаг.</span></h1><p>Аян помогает пройти урок небольшими шагами: увидеть пример, попробовать самому и попросить помощь. Учитель выбирает материал, а семья видит результат.</p><div class="actions"><a class="primary" href="/teacher/login">Я учитель →</a><a class="secondary" href="/child/login">Я ученик</a></div><a class="quiet" href="/parent">Я родитель →</a></div><div class="intro-art"><div class="lesson-float"><span>Сегодня разбираемся</span><strong>Как сложить 2 и 3?</strong><div class="count-dots">● ● + ● ● ●</div><span>Сначала посмотрим на пример</span></div><div id="intro-mascot" class="intro-character" aria-label="Аян - трёхмерный светлячок"></div><div class="mascot-actions"><button data-mascot-clip="Wave">Привет, Аян</button><button data-mascot-clip="Fly">Полетели ↗</button><button data-mascot-clip="Celebrate">Покрутись</button></div></div></section>
+<section class="demo-entries"><span>Попробовать без регистрации</span><div class="actions"><a class="secondary" href="/demo/child">Для ученика →</a><a class="secondary" href="/demo/teacher">Для учителя →</a><a class="secondary" href="/demo/parent">Для родителя →</a></div></section><section class="story-section" id="how"><h2>Один урок.<br>Три понятных шага.</h2><div class="story-grid"><article><span class="step-number">01</span><h3>Учитель готовит</h3><p>Задаёт тему, проверяет объяснение и выбирает задания для конкретного ученика.</p></article><article><span class="step-number">02</span><h3>Ребёнок пробует</h3><p>Видит один шаг за раз. Может посмотреть пример, услышать текст или сделать перерыв.</p></article><article><span class="step-number">03</span><h3>Семья замечает рост</h3><p>В отчёте - пройденные задания, использованные подсказки и темы для повторения.</p></article></div></section>
+<section class="support-section"><div><h2>Меньше неожиданностей.<br>Больше ясности.</h2><p>Предсказуемый порядок, короткие инструкции, отключение движения и пауза в любой момент. Настройки подбирает взрослый под потребности ребёнка.</p></div><div class="support-example"><span>Твой план</span><div>1. Посмотреть пример <span>✓</span></div><div class="current">2. Попробовать вместе <span>Сейчас</span></div><div>3. Решить самому</div><small>Можно остановиться и вернуться позже</small></div></section>
+<section class="family-section" id="family"><h2>У каждого - своё пространство</h2><p>Подготовка урока остаётся у учителя. У ребёнка - только его задания. Родителю доступен отдельный отчёт по приглашению.</p><div class="actions"><a class="primary" href="/teacher/login">Подготовить занятие →</a><a class="secondary" href="/parent">Посмотреть отчёт</a></div></section>
+<section class="faq"><h2>Перед первым занятием</h2><details><summary>Как ребёнку войти?</summary><p>Учитель создаёт профиль без фамилии и отправляет одноразовую ссылку. Почта ребёнку не нужна.</p></details><details><summary>Для кого подходит Ayan?</summary><p>Для занятий с дополнительной визуальной и пошаговой поддержкой. Настройки и материал выбирает взрослый. Ayan не заменяет педагога или специалиста.</p></details><details><summary>Кто проверяет объяснения?</summary><p>Учитель проверяет материал перед публикацией. Ответы помощника могут содержать ошибки.</p></details></section></main>
+<footer class="public-footer"><a class="platform-brand" href="/"><img src="/assets/ayan-mark.svg" alt="" width="32" height="32">ayan</a><span>Понимать. Пробовать. Расти.</span><a href="/teacher/login">Вход для учителя</a></footer><script src="/landing.js"></script></body></html>

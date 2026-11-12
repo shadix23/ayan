@@ -1,0 +1,126 @@
+/* Ayan polish layer. Loaded last on every page.
+   One set of tokens, one primary button, quiet chrome, no eyebrow labels.
+   Legacy layers (style, experience, unslop, platform, theme-fix) still load before this file;
+   merging them into one stylesheet is separate cleanup work. */
+
+:root,:root[data-theme="light"],:root[data-theme="dark"]{
+  color-scheme:light;
+  --bg:#f7f8f5;--surface:#fff;--surface2:#f1f4ee;--rail:#fff;
+  --ink:#1f2b23;--text:#33413a;--muted:#5b675e;--line:#e0e5dc;--line-strong:#c9d3c2;
+  --accent:#4c7a2c;--accent-hover:#3f6824;--accent-ink:#35561d;--accent-soft:#eaf2e1;--on-accent:#fff;
+  --side:248px;--r:16px;--ease-out:cubic-bezier(.22,1,.36,1);
+}
+
+/* Browser surfaces */
+::selection{background:#d5e7c2;color:var(--ink)}
+:focus-visible{outline:3px solid #8fb86a;outline-offset:2px}
+html{scrollbar-color:#c9d3c2 transparent}
+body{caret-color:var(--accent)}
+a{text-underline-offset:3px}
+
+/* One primary button everywhere (was a pale fill that looked disabled) */
+.primary,.btn.primary,.world-primary,button.primary,a.primary{
+  background:var(--accent)!important;border-color:var(--accent)!important;color:var(--on-accent)!important;
+  box-shadow:0 1px 2px rgba(31,43,35,.12)!important;font-weight:700;
+  transition:background-color .16s var(--ease-out),transform .12s var(--ease-out);
+}
+.primary:hover,.btn.primary:hover,.world-primary:hover{background:var(--accent-hover)!important;border-color:var(--accent-hover)!important}
+.primary:active,.btn.primary:active,.world-primary:active{transform:scale(.98)}
+.primary:disabled,.btn.primary:disabled,.world-primary:disabled{background:#c9d3c2!important;border-color:#c9d3c2!important;color:#fff!important;cursor:not-allowed}
+
+/* Eyebrow labels above headings are removed; status labels on cards stay as plain meta text */
+.eyebrow,.overline{display:none!important}
+.world-card .eyebrow,.teacher-world-catalog .world-card .eyebrow{
+  display:block!important;font-size:13px!important;line-height:20px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted)!important;margin-bottom:4px
+}
+.mini-label{text-transform:none!important;letter-spacing:0!important;font-size:13px!important;font-weight:600!important;color:var(--muted)!important}
+
+/* Demo switcher: a small floating pill instead of a bar that collides with the sidebar */
+.demo-bar{
+  position:fixed!important;right:16px;bottom:16px;left:auto;top:auto!important;z-index:60;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:8px 14px!important;border:1px solid var(--line)!important;border-radius:999px;
+  background:rgba(255,255,255,.96)!important;box-shadow:0 4px 16px rgba(31,43,35,.10);
+  font:600 13px/1.4 Nunito,system-ui,sans-serif!important;color:var(--muted)!important;max-width:calc(100vw - 32px)
+}
+.demo-bar a{color:var(--ink);text-decoration:none!important;padding:4px 8px;border-radius:999px}
+.demo-bar a:hover{background:var(--surface2)}
+.demo-bar a[aria-current]{background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
+.sidebar .side-foot{padding-bottom:64px}
+
+/* Teacher cabinet shell */
+.sidebar{width:var(--side)!important}
+.workspace{margin-left:var(--side)!important}
+.topbar{gap:16px}
+.teacher-mode-slot{display:flex;align-items:center;gap:4px}
+.teacher-mode-slot .world-secondary{
+  min-height:40px!important;padding:8px 12px!important;border:0!important;background:transparent!important;box-shadow:none!important;
+  color:var(--muted)!important;font-size:14px!important;font-weight:600;border-radius:8px!important
+}
+.teacher-mode-slot .world-secondary:hover{background:var(--surface2)!important;color:var(--ink)!important}
+.side-foot,.foot-note{font-size:13px!important;color:var(--muted)!important;line-height:1.5}
+
+/* Teacher home: page title first, then the real lesson tool, then shortcuts */
+#app:has(> #product-teacher){display:flex;flex-direction:column}
+#app:has(> #product-teacher) > .head{order:-2}
+#app:has(> #product-teacher) > #product-teacher{order:-1;margin-bottom:32px}
+.teacher-hero,.world-teacher-link{display:none!important}
+
+.account-panel{border:1px solid var(--line)!important;border-radius:var(--r)!important;box-shadow:none!important;background:var(--surface)!important}
+.account-panel h2{font-size:20px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.account-panel label{font-size:14px;font-weight:600;color:var(--text)}
+.account-panel input,.account-panel textarea,.account-panel select{border-color:var(--line-strong)!important;border-radius:8px!important}
+.account-panel hr{border:0;border-top:1px solid var(--line);margin:24px 0}
+
+.tasks .task{border:1px solid var(--line)!important;box-shadow:none!important;border-radius:var(--r)!important;transform:none!important}
+.tasks .task:hover{border-color:var(--line-strong)!important;background:#fbfcfa!important}
+.task-icon{background:var(--accent-soft)!important;color:var(--accent-ink)!important}
+.tasks .task-games{grid-column:1/-1}
+.task-text em{font-style:normal;font-size:13px;color:var(--muted)}
+.task-text em.warn{color:#8a5a12}
+
+/* Child world header: the child does not leave to the marketing site; exit sits quietly on the right */
+.world-header > a.world-secondary[href="/"]{display:none!important}
+.world-header{display:flex;align-items:center;gap:16px}
+.world-header .world-tools{margin-left:auto}
+.world-header > button.world-secondary[data-logout]{
+  order:10;min-height:40px!important;padding:8px 14px!important;background:transparent!important;border:1px solid var(--line)!important;
+  box-shadow:none!important;color:var(--muted)!important;font-size:14px!important;border-radius:8px!important
+}
+
+/* Child cards: one calm surface, no lift */
+.world-card{border:1px solid var(--line)!important;box-shadow:none!important;transform:none!important}
+.world-card:hover{border-color:var(--line-strong)!important}
+.world-card h3{color:var(--ink);font-weight:700;letter-spacing:-.01em}
+.world-card p{color:var(--muted)}
+#assigned-lesson h2{font-size:24px}
+.route-link{display:inline-block;width:20px;border-top:2px dotted var(--line-strong);vertical-align:middle}
+
+/* Game answers: white tiles, one clear selected state, matched tiles stay readable */
+.answer-tile{background:var(--surface)!important;border:1.5px solid #d6dfcf!important;color:var(--ink)!important;box-shadow:none!important;transform:none!important}
+.answer-tile:hover:not(:disabled){border-color:#9fb98a!important;background:#fbfdf9!important}
+.answer-tile.selected{background:var(--accent-soft)!important;border-color:var(--accent)!important;color:var(--accent-ink)!important}
+.answer-tile:disabled{opacity:1!important;background:#f3f7ee!important;border-color:#e0e8d8!important;color:#6d8a57!important}
+.pair-connector{font-size:0!important;min-width:24px}
+.round-track i{background:#e3e9dd}
+.round-track i.filled{background:var(--accent)}
+
+/* Landing */
+.intro h1,.story-section h2,.support-section h2,.family-section h2,.faq h2{letter-spacing:-.02em;color:var(--ink);font-weight:650}
+.story-section h3{font-weight:700;color:var(--ink)}
+.intro h1 span{color:var(--accent)}
+.step-number{color:var(--accent)!important;font-weight:700}
+.mascot-actions button{border-radius:999px}
+
+@media (max-width:760px){
+  .workspace{margin-left:0!important}
+  .demo-bar{position:relative!important;left:auto;right:auto;bottom:auto;border-radius:0;box-shadow:none;border-width:0 0 1px!important;
+    flex-wrap:nowrap;overflow-x:auto;max-width:none;padding:6px 12px!important;gap:4px;white-space:nowrap}
+  .world-header{flex-wrap:nowrap!important;gap:8px}
+  .world-header .world-tools [data-motion] span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .world-header > button.world-secondary[data-logout]{padding:6px 10px!important;min-height:36px!important}
+  .hero-copy p br{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .primary,.btn.primary,.world-primary{transition:none}
+}
