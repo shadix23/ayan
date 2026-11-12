@@ -10,7 +10,7 @@
    img.onerror=()=>{img.style.visibility='hidden';};
    const reduced=matchMedia('(prefers-reduced-motion: reduce)');
    function start(){if(dead||actor||loading||opts.motion===false||reduced.matches)return;loading=true;
-     modulePromise ||= import('./mascot3d.js');
+     modulePromise ||= import('./mascot3d.mjs');
      modulePromise.then(m=>m.mount(host,{...opts,clip:current})).then(a=>{loading=false;if(dead||opts.motion===false||reduced.matches){a.destroy();host.classList.remove('has-3d');}else actor=a;}).catch(error=>{console.warn('Ayan 3D fallback:',error);loading=false;host.classList.add('static-fallback');});
    }
    function play(clip){current=clip;actor?.play(clip);const available=['Idle','Wave','Explain','Point','Think','Celebrate','Encourage','Rest'];img.src=BASE+'stills/'+(available.includes(clip)?clip:'Celebrate')+'.png';}

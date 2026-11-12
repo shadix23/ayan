@@ -1,6 +1,6 @@
 (async()=>{
  const demo=location.pathname.startsWith('/demo/');
- const demoRequest=demo?(await import('/demo-data.js')).request:null;
+ const demoRequest=demo?(await import('/demo-data.mjs')).request:null;
  const role=location.pathname.endsWith('/child')?'child':'teacher';
  const api=async(url,opts)=>{if(demoRequest)return demoRequest(url,opts?.body?JSON.parse(opts.body):undefined,opts?.method);const r=await fetch(url,opts);if(!r.ok)throw Error('Не удалось сохранить данные');return r.json();};
  const me=await api('/api/me?role='+role).catch(()=>null);if(!me)return location.replace('/'+role+'/login');

@@ -31,7 +31,7 @@ const redirect=(res,url)=>{res.writeHead(302,{Location:url,'Cache-Control':'no-s
 async function body(req){let s='';for await(const c of req){s+=c;if(s.length>250000)throw Error('Request too large');}return JSON.parse(s||'{}');}
 async function teacher(req){return (await auth.api.getSession({headers:fromNodeHeaders(req.headers)}))?.user;}
 async function child(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ayan_child='))?.slice(11);if(!token)return null;return (await query('SELECT c.* FROM ayan_children c JOIN ayan_child_sessions s ON c.id=s.child WHERE s.token=? AND s.expires>?',[hash(token),Date.now()]))[0];}
-const staticRoot=path.resolve('dist'),mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.ttf':'font/ttf','.webm':'video/webm','.mp4':'video/mp4'};
+const staticRoot=path.resolve('dist'),mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.ttf':'font/ttf','.webm':'video/webm','.mp4':'video/mp4'};
 export async function handler(req,res){try{
  const url=new URL(req.url,origin),p=url.pathname;
  if(req.method!=='GET'&&req.method!=='HEAD'&&!p.startsWith('/api/auth/')&&req.headers.origin!==origin)return send(res,403,{error:'Origin rejected'});
