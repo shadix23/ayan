@@ -4,8 +4,16 @@
   "private": true,
   "description": "Ayan: prototype of a teacher assistant for visual support of lessons (ASD). Demo templates, not clinically validated.",
   "scripts": {
-    "start": "node dev-server.cjs",
+    "start": "node server.mjs",
     "test": "node --test tests/*.test.cjs"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "@ai-sdk/groq": "^4.0.81",
+    "ai": "^7.0.170",
+    "better-auth": "^1.7.22",
+    "pg": "^8.23.1"
+  }
 }
