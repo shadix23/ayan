@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<base href="/">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Ayan</title>
+<link rel="icon" href="assets/garden-puzzle.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/Nunito.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="experience.css">
+<link rel="stylesheet" href="unslop.css">
+<link rel="stylesheet" href="platform.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+<a class="skip" href="#app" id="skip"></a>
+<aside class="sidebar" id="sidebar">
+  <button class="brand" id="brand" aria-label="Ayan"><span id="logo"></span><span class="brand-name">ayan<i>.</i></span></button>
+  <nav class="side-nav" id="nav" aria-label="main"></nav>
+  <div class="goal-card" id="goal"></div>
+  <div class="side-foot" id="sideFoot"></div>
+</aside>
+<div class="workspace" id="workspace">
+  <header class="topbar" id="top">
+    <div class="mobile-brand" id="mbrand"></div>
+    <span class="crumb" id="crumb"></span>
+    <div class="top-tools">
+      <div class="seg" id="langSeg" role="group" aria-label="language"></div>
+      <div class="seg" id="sizeSeg" role="group" aria-label="text size"></div>
+      <button class="round" id="themeBtn" aria-label="theme"></button>
+    </div>
+  </header>
+  <main id="app" tabindex="-1"></main>
+</div>
+<nav class="mobile-nav" id="mnav" aria-label="mobile"></nav>
+<div class="toast" id="banner" role="status" aria-live="polite"></div>
+<script src="account-boot.js"></script>
+</body>
+</html>

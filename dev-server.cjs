@@ -26,4 +26,4 @@ const server = http.createServer((req, res) => {
   });
 });
 module.exports = { resolveSafe };
-if (require.main === module) server.listen(4180, '127.0.0.1', () => console.log('Ayan: http://127.0.0.1:4180'));
+if (require.main === module) { const port = Number(process.env.PORT) || 4180; server.listen(port, '127.0.0.1', () => console.log('Ayan: http://127.0.0.1:' + port)); }
