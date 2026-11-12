@@ -143,7 +143,7 @@
       note: 'observation-not-evidence' };
   }
 
-  var HELPS = ['none', 'hint', 'adult'], RESULTS = ['done', 'partial', 'refused', 'unclear'], VIEWS = ['kit', 'track', 'sum', 'data'];
+  var HELPS = ['none', 'hint', 'adult'], RESULTS = ['done', 'partial', 'refused', 'unclear'], VIEWS = ['home', 'kit', 'track', 'sum', 'data'];
 
   function cleanObs(o) {
     if (!o || typeof o !== 'object') return null;
@@ -162,7 +162,7 @@
     return {
       lang: raw.lang === 'kk' ? 'kk' : 'ru',
       size: [0, 1, 2].indexOf(raw.size) >= 0 ? raw.size : 0,
-      view: VIEWS.indexOf(raw.view) >= 0 ? raw.view : 'kit',
+      view: VIEWS.indexOf(raw.view) >= 0 ? raw.view : 'home',
       observations: Array.isArray(raw.observations) ? raw.observations.map(cleanObs).filter(Boolean) : [],
       settings: cleanSettings(raw.settings, !fromImport) // an imported file never switches sound on
     };

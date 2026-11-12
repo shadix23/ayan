@@ -100,7 +100,7 @@ test('import rejects empty records and clamps settings', () => {
 
 test('cleanState survives corrupted storage', () => {
   const s = L.cleanState({ view: 'hax', lang: 'xx', size: 9, observations: [{}, 5, null, ob('none', 'done')], settings: { cfs: 0 } });
-  assert.strictEqual(s.view, 'kit'); assert.strictEqual(s.lang, 'ru'); assert.strictEqual(s.size, 0);
+  assert.strictEqual(s.view, 'home'); assert.strictEqual(s.lang, 'ru'); assert.strictEqual(s.size, 0);
   assert.strictEqual(s.observations.length, 1); assert.ok(s.settings.cfs >= 1);
   assert.doesNotThrow(() => L.cleanState(null)); assert.doesNotThrow(() => L.cleanState('x'));
 });

@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>Ayan</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top" id="top">
-  <div class="brand"><span class="logo" aria-hidden="true">◐</span><b>Ayan</b><span class="proto" data-i="proto"></span></div>
+  <button class="brand" id="brand" aria-label="Ayan"><span id="logo"></span><span>Ayan</span><span class="proto" data-i="proto"></span></button>
   <nav id="nav" aria-label="main"></nav>
   <div class="tools">
+    <button class="chip" id="themeBtn" aria-label="theme"></button>
     <button class="chip" id="langBtn" aria-label="language"></button>
     <button class="chip" id="sizeBtn" aria-label="text size">A</button>
   </div>
