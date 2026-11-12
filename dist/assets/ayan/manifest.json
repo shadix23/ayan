@@ -1,0 +1,65 @@
+{
+  "fps": 24,
+  "duration_seconds": 3,
+  "frame_range": [
+    1,
+    73
+  ],
+  "model": "ayan-animations.glb",
+  "clips": [
+    {
+      "name": "Idle",
+      "label": "Ожидание",
+      "use": "Спокойное парение и моргание; базовое состояние.",
+      "loop": true
+    },
+    {
+      "name": "Wave",
+      "label": "Приветствие",
+      "use": "Приветствие при первом открытии урока.",
+      "loop": true
+    },
+    {
+      "name": "Explain",
+      "label": "Объяснение",
+      "use": "Небольшие жесты для объяснения и озвучки; без фонемного липсинка.",
+      "loop": true
+    },
+    {
+      "name": "Point",
+      "label": "Подсказка",
+      "use": "Указывает вправо на следующий шаг или элемент.",
+      "loop": true
+    },
+    {
+      "name": "Think",
+      "label": "Размышление",
+      "use": "Ожидание результата, пауза перед подсказкой.",
+      "loop": true
+    },
+    {
+      "name": "Celebrate",
+      "label": "Успех",
+      "use": "Мягкая радость после выполненного задания.",
+      "loop": true
+    },
+    {
+      "name": "Encourage",
+      "label": "Поддержка",
+      "use": "Небольшой кивок и приглашающий жест при повторной попытке.",
+      "loop": true
+    },
+    {
+      "name": "Rest",
+      "label": "Отдых",
+      "use": "Спокойное покачивание с закрытыми глазами для перерыва.",
+      "loop": true
+    }
+  ],
+  "notes": [
+    "Point points to the character right as seen by the viewer.",
+    "Explain has subtle mouth motion, not phoneme-based lip sync.",
+    "Honor prefers-reduced-motion; show still pose when reduced motion is enabled.",
+    "Use 0.25–0.4 second crossfades between 3D clips."
+  ]
+}

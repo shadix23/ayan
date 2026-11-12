@@ -26,19 +26,18 @@
     data: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
     moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/>',
     print: '<path d="M7 9V3h10v6M7 17H5a1 1 0 0 1-1-1v-5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5a1 1 0 0 1-1 1h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/>',
-    play: '<path d="M7 4l13 8-13 8z"/>', arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>', doc: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>'
+    play: '<path d="M7 4l13 8-13 8z"/>', games: '<rect x="3" y="7" width="18" height="11" rx="5"/><path d="M8 11v3M6.5 12.5h3"/><circle cx="15.5" cy="11.5" r="1"/><circle cx="17.5" cy="13.5" r="1"/>', arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>', doc: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>'
   };
   function icon(n, cls) { return '<svg class="ic' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true">' + (P[n] || P.task) + '</svg>'; }
-  // brand mark placeholder: the user is designing the Ayan character separately; swap this SVG for it later
-  var OWL = '<svg class="mascot" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="18" fill="#2858e0"/>' +
-    '<text x="32" y="43" text-anchor="middle" font-family="Comfortaa,Nunito,sans-serif" font-weight="700" font-size="32" fill="#fff">a</text>' +
-    '<circle cx="47" cy="17" r="5" fill="#f08a24"/></svg>';
+  // brand mark: Ayan the firefly (still pose from the animation kit)
+  var OWL = '<img class="mascot" src="assets/ayan/stills/Idle.png" alt="" aria-hidden="true" width="44" height="58">';
 
   // ---------- i18n: [kk, ru] ----------
   var D = {
     skip: ['Мазмұнға өту', 'Перейти к содержимому'],
     crumb: ['Мұғалім кабинеті', 'Кабинет учителя'],
     n_home: ['Басты бет', 'Главная'], n_kit: ['Сабақ жинағы', 'Комплект урока'], n_track: ['Бақылау', 'Наблюдения'], n_sum: ['Қорытынды', 'Сводка'], n_data: ['Деректер', 'Данные'],
+    n_games: ['Ойындар', 'Игры'], m_games: ['Ойындар', 'Игры'], play_ayan: ['Аянмен ойнау', 'Играть с Аяном'],
     m_home: ['Басты', 'Главная'], m_kit: ['Жинақ', 'Комплект'], m_track: ['Бақылау', 'Отметка'], m_sum: ['Қорытынды', 'Сводка'], m_data: ['Деректер', 'Данные'],
     goal_l: ['Аптадағы бақылау', 'Наблюдения за неделю'], goal_p: ['Қорытынды үшін кемінде 5 жазба.', 'Для сводки нужно минимум 5 записей.'],
     side_t: ['Инклюзивті сабақ', 'Инклюзивный урок'], side_p: ['Аутизм спектріндегі балаға көрнекі қолдау. Прототип.', 'Визуальная поддержка для ребёнка с РАС. Прототип.'],
@@ -47,7 +46,7 @@
     hello_p: ['Тапсырманы таңдаңыз - жүйе қадам-қадаммен көрсетеді. Түсініксіз сөздің жанындағы «?» белгісін басыңыз.', 'Выберите задачу - система проведёт по шагам. Нажмите «?» рядом с непонятным словом.'],
     demo_pill: ['Демо-шаблондар (тексерілмеген)', 'Демо-шаблоны (не проверены)'],
     st_1: ['Тақырыпты таңдаңыз', 'Выберите тему'], st_2: ['Тексеріп бекітіңіз', 'Проверьте и утвердите'], st_3: ['Баламен көрсетіңіз', 'Покажите ребёнку'],
-    tk_kit: ['Сабақ жинағын жасау', 'Создать комплект урока'], tk_kit_p: ['Көрнекі кесте, жеңілдетілген тапсырма, әлеуметтік әңгіме.', 'Визуальное расписание, упрощённое задание, социальная история.'], tk_kit_m: ['4 тақырып · 3-4 сынып', '4 темы · 3-4 класс'],
+    tk_kit: ['Сабақ жинағын жасау', 'Создать комплект урока'], tk_kit_p: ['Көрнекі кесте, жеңілдетілген тапсырма, әлеуметтік әңгіме.', 'Визуальное расписание, упрощённое задание, социальная история.'], tk_kit_m: ['4 тақырып, 3-4 сынып', '4 темы, 3-4 класс'],
     tk_ex: ['Мысалды көрсету', 'Показать пример'], tk_ex_p: ['Бір басуда дайын, бекітілген жинақ: питч үшін.', 'Готовый утверждённый комплект в один клик: для демо.'], tk_ex_m: ['Демо', 'Демо'],
     tk_tr: ['Бақылауды белгілеу', 'Отметить наблюдение'], tk_tr_p: ['Көмек деңгейі, нәтиже, қолайсыздық: 10 секундта.', 'Уровень помощи, результат, дискомфорт: за 10 секунд.'],
     tk_sum: ['Қорытындыны көру', 'Посмотреть сводку'], tk_sum_p: ['Қай қолдау жиі сәтті болды: бақылау, дәлел емес.', 'Какая поддержка чаще помогала: наблюдение, не доказательство.'],
@@ -130,7 +129,8 @@
   function weekCount() { var since = Date.now() - 7 * 86400000; return S.observations.filter(function (o) { return !o.demo && o.t >= since; }).length; }
 
   // ---------- shell (Jaz!: sidebar + topbar + mobile bottom nav) ----------
-  var VIEWS = ['home', 'kit', 'track', 'sum', 'data'];
+  var VIEWS = ['home', 'kit', 'games', 'track', 'sum', 'data'];
+  var GUI = window.AyanGamesUI;
   function shell() {
     document.documentElement.lang = lg();
     document.documentElement.style.setProperty('--fs', (15 + S.size * 2) + 'px');
@@ -150,8 +150,9 @@
   function go(v) { S.view = v; obs = OBS0(); persist(); render(); window.scrollTo(0, 0); }
   function render() {
     shell();
-    document.getElementById('app').innerHTML = ({ home: vHome, kit: vKit, track: vTrack, sum: vSum, data: vData })[S.view]() + '<p class="foot-note">' + t('banner') + '</p>';
+    document.getElementById('app').innerHTML = ({ home: vHome, kit: vKit, games: GUI.view, track: vTrack, sum: vSum, data: vData })[S.view]() + '<p class="foot-note">' + t('banner') + '</p>';
     bind();
+    if (S.view === 'games') GUI.bind();
   }
 
   // ---------- views ----------
@@ -207,7 +208,7 @@
         '<p class="muted">' + t('editnote') + '</p><div class="row" style="margin-top:8px"><button class="btn primary lg" id="ap"' + (ap ? ' disabled' : '') + '>' + icon('shield') + (ap ? t('approved') : t('approve')) + '</button><span class="help" title="' + esc(HELPTXT[S.lang === 'kk' ? 0 : 1]) + '" aria-label="' + esc(HELPTXT[S.lang === 'kk' ? 0 : 1]) + '">?</span></div>' +
         (ap ? '' : '<p class="muted" style="margin-top:10px">' + t('appneed') + '</p>') + '</div>' + wnav(true, ap);
     } else {
-      h += '<div class="card">' + top + '<div class="row" style="margin:14px 0"><button class="btn primary lg" id="chb"' + (ap ? '' : ' disabled') + '>' + icon('play') + t('child') + '</button><button class="btn lg" id="pr">' + icon('print') + t('printb') + '</button></div>' +
+      h += '<div class="card">' + top + '<div class="row" style="margin:14px 0"><button class="btn primary lg" id="chb"' + (ap ? '' : ' disabled') + '>' + icon('play') + t('child') + '</button><button class="btn lg" id="pr">' + icon('print') + t('printb') + '</button><button class="btn lg" id="playAyan"' + (ap ? '' : ' disabled') + '>' + icon('games') + t('play_ayan') + '</button></div>' +
         '<div class="row"><label style="margin:0;font-weight:600"><input type="checkbox" id="sHc"' + (S.settings.hc ? ' checked' : '') + '> ' + t('s_contrast') + '</label><label style="margin:0;font-weight:600"><input type="checkbox" id="sSound"' + (S.settings.sound ? ' checked' : '') + '> ' + t('s_sound') + '</label></div>' +
         '<p class="muted" style="margin-top:12px">' + t('sensor') + '</p></div>' + wnav(true, null);
     }
@@ -338,6 +339,7 @@
     on('#ap', 'click', function () { L.approve(kit, 'teacher'); render(); notify(t('approved')); });
     on('#chb', 'click', function () { openChild(); });
     on('#pr', 'click', function () { printKit(); });
+    on('#playAyan', 'click', function () { if (L.isApproved(kit)) { GUI.fromKit(kit); go('games'); } });
     on('#sHc', 'change', function (e) { S.settings.hc = e.target.checked; persist(); });
     on('#sSound', 'change', function (e) { S.settings.sound = e.target.checked; persist(); });
     on('#oTopic', 'click', function (e) { seg('oTopic', 'topic', e); });
@@ -407,7 +409,8 @@
   document.getElementById('sizeSeg').addEventListener('click', function (e) { var b = e.target.closest('[data-size]'); if (b) { S.size = +b.dataset.size; persist(); render(); } });
   document.getElementById('themeBtn').addEventListener('click', function () { try { localStorage.setItem(TKEY, isDark() ? 'light' : 'dark'); } catch (e) { /* ignore */ } applyTheme(); });
   document.body.addEventListener('click', function (e) { var b = e.target.closest('[data-c]'); if (b) childAct(b.dataset.c); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') childAct('exit'); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { childAct('exit'); GUI.onKey(e); } });
 
+  GUI.init({ lang: lg, esc: esc, icon: icon, notify: notify, setInert: setInert, rerender: render, go: function (v) { GUI.reset(); go(v); } });
   render();
 })();

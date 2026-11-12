@@ -1,7 +1,8 @@
 // Minimal static server for dist/. No data leaves the device; no API keys here.
 const http = require('http'), fs = require('fs'), path = require('path');
 const root = path.join(__dirname, 'dist');
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json',
+  '.png': 'image/png', '.webp': 'image/webp', '.webm': 'video/webm', '.mp4': 'video/mp4', '.glb': 'model/gltf-binary', '.ttf': 'font/ttf', '.txt': 'text/plain; charset=utf-8' };
 
 // returns an absolute file path strictly inside root, or null
 function resolveSafe(url) {

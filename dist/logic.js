@@ -143,7 +143,7 @@
       note: 'observation-not-evidence' };
   }
 
-  var HELPS = ['none', 'hint', 'adult'], RESULTS = ['done', 'partial', 'refused', 'unclear'], VIEWS = ['home', 'kit', 'track', 'sum', 'data'];
+  var HELPS = ['none', 'hint', 'adult'], RESULTS = ['done', 'partial', 'refused', 'unclear'], VIEWS = ['home', 'kit', 'games', 'track', 'sum', 'data'];
 
   function cleanObs(o) {
     if (!o || typeof o !== 'object') return null;
