@@ -53,7 +53,7 @@
     tk_rep: ['Ата-аналарға есеп', 'Отчёт для родителей'], tk_rep_p: ['PDF есеп: күндер, көмек деңгейі, шектеулер.', 'Отчёт в PDF: даты, уровень помощи, ограничения выводов.'],
     tk_data: ['Деректер және көшірме', 'Данные и копия'], tk_data_p: ['Деректер картасы, сақтық көшірме, қалпына келтіру.', 'Карта данных, резервная копия, восстановление.'], tk_data_m: ['Деректер құрылғыда', 'Данные на устройстве'],
     recs: ['жазба', 'записей'],
-    helpbox: ['Кез келген терминнің жанындағы «?» белгісін басыңыз. Мәтінді үлкейту үшін жоғарыдағы «A+» батырмасын басыңыз.', 'Нажмите «?» рядом с любым термином. Чтобы увеличить текст, нажмите «A+» вверху.'],
+    helpbox: ['Кез келген терминнің жанындағы «?» белгісін басыңыз.', 'Нажмите «?» рядом с любым термином.'],
     h_kit: ['Сабақ жинағы', 'Комплект урока'], h_kit_p: ['Төрт қадам: параметрлер, тексеру, бекіту, көрсету.', 'Четыре шага: параметры, проверка, утверждение, показ.'],
     w1: ['Параметрлер', 'Параметры'], w2: ['Тексеру', 'Проверка'], w3: ['Бекіту', 'Утверждение'], w4: ['Көрсету', 'Показ'],
     topic: ['Тақырып', 'Тема'], grade: ['Сынып', 'Класс'], level: ['Оқу деңгейі', 'Уровень чтения'], basic: ['Базалық (қысқа сөйлем)', 'Базовый (короткие фразы)'], fluent: ['Еркін оқиды', 'Читает свободно'],
@@ -133,7 +133,7 @@
   var GUI = window.AyanGamesUI;
   function shell() {
     document.documentElement.lang = lg();
-    document.documentElement.style.setProperty('--fs', (15 + S.size * 2) + 'px');
+    document.documentElement.style.setProperty('--fs', '16px');
     document.getElementById('skip').textContent = t('skip');
     document.getElementById('logo').innerHTML = OWL;
     document.getElementById('mbrand').innerHTML = OWL + '<span class="brand-name">ayan<i>.</i></span>';
@@ -144,7 +144,7 @@
     document.getElementById('goal').innerHTML = '<div class="mini-label">' + t('goal_l') + '</div><div class="goal-num">' + wc + ' <small>/ ' + L.MIN_OBS + '</small></div><div class="meter"><i style="width:' + Math.min(100, wc / L.MIN_OBS * 100) + '%"></i></div><div class="muted" style="font-size:.78rem">' + t('goal_p') + '</div>';
     document.getElementById('sideFoot').innerHTML = '<b>' + t('side_t') + '</b>' + t('side_p');
     document.getElementById('langSeg').innerHTML = '<button data-lang="kk" aria-pressed="' + (S.lang === 'kk') + '">Қаз</button><button data-lang="ru" aria-pressed="' + (S.lang === 'ru') + '">Рус</button>';
-    document.getElementById('sizeSeg').innerHTML = ['A', 'A+', 'A++'].map(function (a, i) { return '<button data-size="' + i + '" aria-pressed="' + (S.size === i) + '">' + a + '</button>'; }).join('');
+    document.getElementById('sizeSeg').hidden = true;
     applyTheme(); paintBanner();
   }
   function go(v) { S.view = v; obs = OBS0(); persist(); render(); window.scrollTo(0, 0); }
@@ -153,6 +153,7 @@
     document.getElementById('app').innerHTML = ({ home: vHome, kit: vKit, games: GUI.view, track: vTrack, sum: vSum, data: vData })[S.view]() + '<p class="foot-note">' + t('banner') + '</p>';
     bind();
     if (S.view === 'games') GUI.bind();
+    window.dispatchEvent(new CustomEvent('ayan:render', {detail:{view:S.view,lang:S.lang}}));
   }
 
   // ---------- views ----------
