@@ -33,7 +33,7 @@
  d.querySelector('#answer-form')?.addEventListener('submit',async e=>{e.preventDefault();const result=await event('answer',d.querySelector('#lesson-response').value);d.querySelector('#lesson-feedback').textContent=result?.value==='correct'?'Верно. Ты завершил задание. Результат сохранён.':'Попробуем ещё раз. Можно вернуться к объяснению и попросить помощь.';});
  d.querySelector('#assistant-form').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button'),out=d.querySelector('#assistant-reply');b.disabled=true;out.textContent='Аян думает…';event('hint');try{out.textContent=await ask(d.querySelector('#assistant-question').value);}catch(e){out.textContent=e.message;}finally{b.disabled=false;}};
  }
- function decorate(){document.querySelectorAll('.brand #logo,.mobile-brand').forEach(el=>{el.innerHTML='<img src="/assets/ayan-mark.svg" alt="" width="40" height="40">';});document.querySelectorAll('.mode-switch').forEach(el=>el.remove());if(A.role==='teacher')teacherPanel();else mountChild();}
+ function decorate(){document.querySelectorAll('.brand #logo,.mobile-brand').forEach(el=>{el.innerHTML='<img src="/assets/ayan-mark.svg" alt="" width="40" height="40">';});document.querySelectorAll('.mode-switch').forEach(el=>el.remove());if(A.role==='teacher'){const view=document.querySelector('#nav [aria-current="page"]')?.dataset.v;if(!view||view==='home')teacherPanel();}else mountChild();}
  request(lessonURL).then(l=>{lesson=l;document.querySelector('#assigned-lesson')?.remove();decorate();}).catch(()=>decorate());
  new MutationObserver(()=>{if(A.role==='child')mountChild();}).observe(document.querySelector('#world'),{childList:true});
  window.addEventListener('ayan:render',decorate);decorate();

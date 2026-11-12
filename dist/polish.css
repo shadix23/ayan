@@ -188,3 +188,60 @@ body,#world{background:var(--bg)!important}
 @media (prefers-reduced-motion:reduce){
   .tasks .task,.world-card,.nav-item{transition:none!important;transform:none!important}
 }
+
+/* Parent report */
+.parent-page{max-width:760px!important;margin:0 auto;padding:32px 20px 96px}
+.parent-page>h1{font-size:clamp(26px,4vw,34px);line-height:1.2;margin:0 0 24px;color:var(--ink)}
+.parent-page #parent-form{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:12px}
+.parent-page #parent-form[hidden]{display:none}
+.parent-page #parent-form input{width:100%;padding:14px 16px;border:1px solid var(--line-strong);border-radius:12px;background:#fff}
+.parent-head h2{font-size:22px;margin:0;color:var(--ink)}
+.parent-head p{margin:4px 0 0;color:var(--muted)}
+.parent-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.parent-stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.parent-stat b{display:block;font-size:30px;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.parent-stat span{display:block;margin-top:4px;font-size:14px;line-height:1.35;color:var(--muted)}
+.parent-stat:first-child{background:var(--accent-soft);border-color:#d3e4c2}
+.parent-stat:first-child b{color:var(--accent-ink)}
+.parent-home{background:#17301f;color:#e8efe2;border-radius:var(--r);padding:20px 24px;margin:0 0 8px}
+.report-list .parent-home h3{margin:0 0 6px;font-size:17px;color:#ffd75e}
+.parent-home p{margin:0;line-height:1.55}
+.report-list h3{font-size:18px;color:var(--ink)}
+.parent-chips{display:flex;flex-wrap:wrap;gap:8px}
+.parent-chips span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:15px;color:var(--text)}
+.parent-day{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin:0 0 12px}
+.parent-day-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap;margin-bottom:8px}
+.parent-day-top h4{margin:0;font-size:17px;color:var(--ink)}
+.parent-day-top span{font-size:14px;color:var(--muted)}
+.parent-timeline{list-style:none;margin:0;padding:0}
+.parent-timeline li{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:16px}
+.parent-timeline time{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.parent-timeline span{position:relative;padding-left:18px}
+.parent-timeline span::before{content:"";position:absolute;left:0;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--line-strong)}
+.parent-timeline .tone-good span{font-weight:700;color:var(--accent-ink)}
+.parent-timeline .tone-good span::before{background:var(--accent)}
+.parent-timeline .tone-retry span::before{background:#d59a2a}
+.parent-timeline .tone-help span::before{background:#6f8fb5}
+.parent-note,.parent-empty{color:var(--muted);font-size:14px;line-height:1.5;margin-top:20px}
+.auth-note{margin:16px 0 0;font-size:14px}
+.auth-note a{color:var(--muted);text-decoration:underline}
+@media(max-width:560px){.parent-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* Plain document page (data and privacy) */
+.doc-page{max-width:760px;margin:0 auto;padding:32px 20px 96px;color:var(--text);line-height:1.6}
+.doc-page h1{font-size:clamp(28px,4.4vw,38px);line-height:1.15;margin:0 0 12px;color:var(--ink)}
+.doc-page h2{font-size:20px;margin:36px 0 10px;color:var(--ink)}
+.doc-lead{font-size:18px;color:var(--muted);margin:0 0 28px;max-width:56ch}
+.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.doc-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 24px}
+.doc-card h2{margin-top:0}
+.doc-page ul{margin:0;padding-left:20px}
+.doc-page li{margin:6px 0}
+.doc-note{background:var(--accent-soft);border-radius:var(--r);padding:16px 20px;margin-top:32px;color:var(--accent-ink)}
+.doc-meta{font-size:14px;color:var(--muted)}
+@media(max-width:640px){.doc-grid{grid-template-columns:1fr}}
+
+/* Teacher home: the lesson editor is the main path, the rest is a secondary tool list */
+.tools-title{margin:8px 0 16px}
+.tools-title h2{font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0 0 4px}
+.tools-title p{margin:0;color:var(--muted);font-size:16px;max-width:60ch}
