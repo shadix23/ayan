@@ -3,7 +3,7 @@
  'use strict';
  const W=window.AyanWorld,key='ayan.experience.v2',esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  let data;try{data=W.clean(JSON.parse(localStorage.getItem(key)));}catch{data=W.clean();}
- let lang=document.documentElement.lang==='kk'?1:0,role='teacher',filter='all',actor=null,game=null,selection=null,order=[],round=0,matched=[],feedback='',paused=false,done=false;
+ let lang=document.documentElement.lang==='kk'?1:0,role=new URLSearchParams(location.search).get('mode')==='child'?'child':'teacher',filter='all',actor=null,game=null,selection=null,order=[],round=0,matched=[],feedback='',paused=false,done=false;
  let pending;try{pending=W.cleanSession(JSON.parse(localStorage.getItem('ayan.session.v2')));}catch{pending=null;}
  const root=document.createElement('div');root.id='world';document.body.append(root);
  const tx=(a,b)=>lang?b:a;
