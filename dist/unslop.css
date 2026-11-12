@@ -1,0 +1,80 @@
+/* Ayan redline pass. Unslop methodology by Damir Sokolovsky
+   https://github.com/heydamir/unslop · CC BY 4.0.
+   Existing game controls and mascot clips retain their behavior. */
+:root,:root[data-theme="light"],:root[data-theme="dark"]{
+ --bg:#fafbf9;--surface:#fff;--surface2:#f4f6f2;--rail:#fff;
+ --ink:#253329;--text:#39483d;--muted:#647067;--line:#e1e6df;
+ --accent:#527532;--accent-ink:#395522;--accent-soft:#edf3e5;
+ --motion-out:cubic-bezier(.22,1,.36,1);--motion-pop:cubic-bezier(.22,1,.36,1);--r:16px;
+}
+body,#world{background:var(--bg);color:var(--text)}
+button,input,select,textarea{font-family:var(--font)}
+.sidebar{padding:32px 16px;--side:248px}.brand{margin-bottom:40px}
+.nav-item{min-height:40px;font-weight:500;color:var(--muted)}
+.workspace{padding:0 32px 48px}.topbar{min-height:80px;margin-bottom:32px}
+.head h1,.head h2,.teacher-hero h2,.section-top h2,.garden-promo h2,.play-panel h1,.play-rest h2{font-weight:600;letter-spacing:-.02em}
+.head p,.teacher-hero p,.play-instruction,.play-rest p{color:var(--muted);font-size:16px}
+.eyebrow,.world-card-copy .eyebrow{font-size:12px;line-height:20px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--muted)}
+.btn,.world-primary,.world-secondary{font-size:14px;font-weight:600;border-radius:8px;min-height:48px;padding:12px 20px;box-shadow:none;gap:12px}
+.btn.primary,.world-primary{background:var(--accent);border-color:var(--accent);color:white;box-shadow:none}
+.world-primary:hover,.world-secondary:hover,.task:hover,.world-card:hover,.answer-tile:hover{transform:none;box-shadow:none}
+.world-primary:hover{background:#405e26}.world-secondary{border-color:var(--line);color:var(--text)}
+.world-primary:active,.world-secondary:active,.btn:active{transform:scale(.98);box-shadow:none}
+.mode-switch{border-radius:10px;padding:4px;background:#eef1eb}
+.mode-switch button{font-size:14px;font-weight:600;padding:8px 20px;min-height:40px;border-radius:6px;color:var(--muted)}
+.mode-switch button[aria-pressed=true]{box-shadow:0 1px 2px #00000008;color:var(--ink)}
+.world-header{height:88px;padding:0 32px;max-width:1280px}
+.world-brand{font:600 28px var(--font);letter-spacing:-1px;gap:8px;color:var(--ink)}
+.world-tools{gap:16px}.world-tools button{min-height:44px;font-size:13px;font-weight:500;color:var(--muted)}
+.world-main{max-width:1280px;padding:8px 32px 32px}
+.world-hero{background:#f0f4e9;border:1px solid #e3e9db;border-radius:20px;min-height:384px;grid-template-columns:1fr 1fr}
+.hero-copy{padding:48px}.hero-copy h1{font-size:clamp(36px,3.8vw,52px);font-weight:600;letter-spacing:-.035em;line-height:1.12;margin:16px 0;color:var(--ink)}
+.hero-copy p{font-size:17px;line-height:1.6;color:#53614f;margin-bottom:24px}
+.hero-note{font-size:13px;color:#59664f;margin-top:12px}
+.orbit,.floating-leaf,.mascot-bubble{display:none}.hero-scene:before{display:none}
+.hero-character{inset:0 16px}.fly-trigger{font-size:14px;min-height:44px;padding:12px 16px;right:16px;bottom:16px;color:#47652e}
+.world-section{margin-top:40px}.section-top{margin-bottom:24px;gap:24px}
+.section-top h2{font-size:28px;margin:4px 0 0}.world-filters{gap:8px}
+.world-filters button{font-size:14px;font-weight:500;min-height:44px;padding:8px 16px;border-radius:8px;color:var(--muted)}
+.world-grid{gap:24px}.world-card{border-radius:16px;border-color:var(--line);animation:none!important;transition:border-color 160ms var(--motion-out),background 160ms var(--motion-out)}
+.world-card:hover{border-color:#91a47f;background:#fdfefa}
+.game-art{background:#f4f6f1;color:#596b4d;height:128px}
+.art-disc{background:none;border:0;border-radius:0;transform:none;box-shadow:none}
+.world-card:hover .art-disc{transform:none}.art-disc svg{width:48px;height:48px;stroke-width:2}
+.art-mini,.game-duration{display:none}
+.task-preview{display:flex;justify-content:center;align-items:center;gap:12px;padding:16px;font-size:20px;font-weight:500}
+.task-preview>svg{width:48px;height:48px;stroke-width:2}.preview-tile{background:#fff;border:1px solid #d9e1d1;border-radius:8px;min-width:40px;height:48px;padding:8px;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+.preview-pattern{font-size:28px;letter-spacing:8px}.preview-pattern b{font-weight:500;color:var(--ink)}
+.preview-puzzle img{border-radius:8px}.preview-garden>svg{width:48px;height:88px}
+.world-card-copy{padding:20px 24px 24px;min-height:160px}.world-card-copy h3{font-size:21px;font-weight:600;letter-spacing:-.015em;margin:8px 0;color:var(--ink)}
+.world-card-copy p{font-size:15px;line-height:1.55;color:var(--muted);max-width:28ch;padding-right:16px}
+.card-arrow{background:none;color:#516346;right:16px;bottom:20px}
+.garden-promo{padding:24px;gap:24px;background:white;border-color:var(--line);border-radius:16px;margin-top:32px}
+.garden-mini{background:#edf3e5;border-radius:12px;width:64px;height:80px}.garden-promo h2{font-size:24px;margin:4px 0 8px}.garden-promo p{font-size:15px;color:var(--muted)}
+.world-footer{font-size:13px;color:var(--muted);padding:32px 0 8px}
+.teacher-hero{background:#f0f4e9;border:1px solid #e3e9db;border-radius:16px;padding:32px;margin-bottom:32px}
+.teacher-hero h2{font-size:32px;margin:12px 0}.teacher-hero p{margin-bottom:24px}.teacher-art{border:0;width:144px;height:144px}.teacher-art span{display:none}
+.card{padding:24px;border-radius:16px}.task{border-radius:12px;min-height:128px}.task-text b{font-weight:600}.task-text span{font-size:15px}.side-foot,.foot-note{font-size:12px!important;color:var(--muted)!important}
+.world-config{border-radius:16px;padding:32px}.world-config h2{font-size:28px;font-weight:600;letter-spacing:-.02em}.world-config p{font-size:15px;color:var(--muted)}
+.config-list{gap:8px}.config-list label{font-size:14px;font-weight:500;padding:12px;border-radius:8px}.config-note{font-size:13px!important}.config-actions{gap:8px}
+.play-world{padding:16px 32px 48px}.play-layout{gap:24px}.play-panel{padding:32px;border-radius:16px}.play-friend{border-radius:16px;background:#f0f4e9}
+.friend-note{font-weight:500;color:#53614f;font-size:16px;padding:0 24px 24px}.play-panel h1{font-size:32px}.play-instruction{font-size:17px}
+.play-bottom{padding-top:20px;margin-top:24px;gap:16px}.play-bottom span,.garden-note,.puzzle-note,.listen-word span{font-size:14px;color:var(--muted)}
+.answer-tile{font-weight:600;border-radius:12px}.answer-tile:disabled{opacity:.65}.object-tile{font-size:15px;font-weight:500}.sequence-bank button{font-size:15px}.sequence-slot{font-size:15px}
+.listen-word b{font-weight:600}.text-button{font-size:14px}.choice small{font-size:14px}.basket-row b{font-size:15px;font-weight:500}
+#world-feedback{font-size:16px;color:#45652b}.world-card,.hero-copy,.play-panel,.garden-plot.planted svg{animation:none}
+@media(prefers-reduced-motion:no-preference){.world-main{animation:world-reveal 360ms var(--motion-out) both}}
+@media(max-width:760px){
+ .world-header{height:auto;min-height:88px;padding:16px 20px;gap:12px}.world-main{padding:8px 20px 24px}
+ .world-hero{grid-template-columns:1fr;border-radius:16px}.hero-copy{padding:32px 24px 0}.hero-copy h1{font-size:36px}.hero-copy p{font-size:16px}.hero-note{display:block}
+ .hero-scene{height:264px;margin-top:0}.hero-character{inset:0 32px}.fly-trigger{bottom:8px}
+ .world-section{margin-top:32px}.section-top{gap:16px}.section-top h2{font-size:26px}.world-filters button{padding:8px 12px}
+ .world-grid{grid-template-columns:1fr;gap:16px}.world-card{display:grid;grid-template-columns:104px 1fr;align-items:stretch}
+ .game-art{height:100%;min-height:148px}.task-preview{padding:12px;gap:4px;flex-wrap:wrap;align-content:center;font-size:16px}.preview-tile{min-width:32px;height:40px;padding:4px}.preview-pattern{font-size:20px;letter-spacing:2px}.preview-puzzle img{width:80px;height:80px}.preview-garden>svg{width:24px;height:64px}.task-preview>svg{width:32px;height:32px}
+ .world-card-copy{padding:16px;min-height:148px}.world-card-copy h3{font-size:20px;margin:4px 0 8px}.world-card-copy p{font-size:14px;padding-right:8px}.world-card-copy .eyebrow{font-size:12px}.card-arrow{display:none}
+ .garden-promo{padding:20px;gap:16px}.garden-promo h2{font-size:22px}.garden-promo p{font-size:14px}.garden-mini{width:48px;height:64px}.world-footer{font-size:12px}
+ .workspace{padding:0 20px 104px}.teacher-hero{padding:24px}.teacher-hero h2{font-size:28px}.topbar{min-height:88px;padding:16px 0}
+ .play-world{padding:16px 20px 32px}.play-panel{padding:24px 16px}.play-panel h1{font-size:28px}.play-bottom{flex-wrap:wrap}.play-bottom span{font-size:13px}.friend-note{font-size:15px}.object-tile{font-size:13px}.basket-row b{font-size:14px}
+ .world-config{padding:24px}.config-list label{font-size:14px}.world-tools{gap:12px}
+}
+@media(prefers-reduced-motion:reduce){.world-main{animation:none!important}}
