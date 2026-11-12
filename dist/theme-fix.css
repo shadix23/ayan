@@ -1,0 +1,27 @@
+/* Stable, low-stimulation light theme for both system color preferences. */
+:root,:root[data-theme="light"],:root[data-theme="dark"]{color-scheme:light;--bg:#f7f8f5;--surface:#fff;--surface2:#f0f2ed;--rail:#fff;--ink:#29362e;--text:#39483d;--muted:#5f6c62;--line:#dce2d8;--accent:#597c3d;--accent-ink:#3f5a2c;--accent-soft:#edf2e7;--on-accent:#fff}
+body,#world{background:#f7f8f5;color:#39483d}
+.world-hero,.teacher-hero,.intro-art{background:#f0f3eb}
+.hero-copy h1,.world-card-copy h3,.play-panel h1,.account-panel h2{color:#29362e}
+.world-secondary{color:#43543c;background:#fff;border-color:#d7dfd1}
+.world-primary{background:#597c3d;color:#fff;border-color:#597c3d}
+.primary{background:#d8e6c7;border-color:#c4d6ad;box-shadow:none;color:#2f4528}
+.primary:hover{background:#cbdcb7}
+.platform-brand>img{width:72px;height:40px;object-fit:contain}
+.world-brand .brand-leaf{width:64px;height:36px}.world-brand .brand-leaf img{width:64px;height:36px;object-fit:contain}
+.brand #logo img{width:64px;height:36px;object-fit:contain}
+.intro-character{position:absolute;inset:64px -8px 36px 96px}
+.intro-character .ayan-fallback,.intro-character .ayan-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.intro-character.has-3d>.ayan-fallback{visibility:hidden}
+.mascot-actions{position:absolute;bottom:8px;left:16px;right:16px;display:flex;justify-content:center;gap:8px;z-index:3}
+.mascot-actions button{border:1px solid #d3ddc9;background:#fff;color:#435a35;padding:8px 12px;min-height:44px;border-radius:8px;font-size:13px}
+.demo-entries{max-width:1240px;padding:0 32px 48px;margin:auto}.demo-entries>span{display:block;font-size:14px;color:#5f6c62;margin-bottom:16px}
+.demo-bar{position:relative;z-index:10;padding:12px 24px;background:#eef2e9;border-bottom:1px solid #dce3d4;color:#40523a;font:14px/1.5 Nunito,system-ui;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.demo-bar a{text-decoration:underline;text-underline-offset:4px}
+.demo-bar a[aria-current]{font-weight:700}
+.account-panel{color:#39483d}.account-panel p,.account-panel label{color:#53614f}
+.account-panel hr{border:0;border-top:1px solid #e1e6db;margin:24px 0}
+#lesson-editor label{display:block;margin:16px 0 8px}
+.report-list h3{margin:32px 0 12px}
+@media(max-width:760px){.intro-character{inset:40px 8px 48px 24px}.demo-entries{padding:0 20px 32px}.demo-entries .actions{gap:8px}.demo-entries .secondary{width:100%}.demo-bar{gap:12px;padding:12px 20px}.mascot-actions{left:8px;right:8px;gap:4px}.mascot-actions button{padding:8px;font-size:12px}.platform-brand>img{width:64px}}
+@media(prefers-reduced-motion:no-preference){.teacher-hero{animation:world-reveal 400ms cubic-bezier(.22,1,.36,1) both}}

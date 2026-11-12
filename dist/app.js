@@ -119,11 +119,11 @@
   }
 
   // ---------- theme ----------
-  function theme() { try { return localStorage.getItem(TKEY) || 'auto'; } catch (e) { return 'auto'; } }
-  function isDark() { var th = theme(); return th === 'dark' || (th === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+  function theme() { return 'light'; }
+  function isDark() { return false; }
   function applyTheme() {
     var th = theme(), r = document.documentElement;
-    if (th === 'auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', th);
+    r.setAttribute('data-theme', 'light');
     document.getElementById('themeBtn').innerHTML = icon(isDark() ? 'sun' : 'moon');
   }
   function weekCount() { var since = Date.now() - 7 * 86400000; return S.observations.filter(function (o) { return !o.demo && o.t >= since; }).length; }

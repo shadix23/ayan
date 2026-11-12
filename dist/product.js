@@ -1,7 +1,8 @@
 (()=>{
  const A=window.AyanAccount,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const request=async(url,data)=>{const r=await fetch(url,data===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const value=await r.json();if(!r.ok)throw Error(value.error||'Не удалось выполнить запрос');return value;};
+ const request=async(url,data)=>{if(A.demoRequest)return A.demoRequest(url,data);const r=await fetch(url,data===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const value=await r.json();if(!r.ok)throw Error(value.error||'Не удалось выполнить запрос');return value;};
  const lessonURL='/api/lesson?role='+A.role+(A.role==='teacher'?'&child='+A.child:'');
+ if(A.demo){const bar=document.createElement('aside');bar.className='demo-bar';bar.innerHTML='Демонстрация · пример данных <a href="/demo/child">Ученик</a><a href="/demo/teacher">Учитель</a><a href="/demo/parent">Родитель</a>';document.body.prepend(bar);}
  let lesson=null,index=0,large=false,paused=false;
  function panel(html){const el=document.createElement('section');el.className='account-panel';el.innerHTML=html;return el;}
  async function ask(prompt,context){return (await request('/api/assistant',{prompt,context})).text;}

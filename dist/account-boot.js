@@ -1,8 +1,10 @@
 (async()=>{
- const role=location.pathname==='/child'?'child':'teacher';
- const api=async(url,opts)=>{const r=await fetch(url,opts);if(!r.ok)throw Error('Не удалось сохранить данные');return r.json();};
+ const demo=location.pathname.startsWith('/demo/');
+ const demoRequest=demo?(await import('/demo-data.js')).request:null;
+ const role=location.pathname.endsWith('/child')?'child':'teacher';
+ const api=async(url,opts)=>{if(demoRequest)return demoRequest(url,opts?.body?JSON.parse(opts.body):undefined,opts?.method);const r=await fetch(url,opts);if(!r.ok)throw Error('Не удалось сохранить данные');return r.json();};
  const me=await api('/api/me?role='+role).catch(()=>null);if(!me)return location.replace('/'+role+'/login');
- window.AyanAccount={role,me,api,child:null};
+ window.AyanAccount={role,me,api,child:null,demo,demoRequest};
  if(role==='teacher'){let children=await api('/api/children');if(!children.length)children=[await api('/api/children',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({label:'Ученик 1'})})];window.AyanAccount.children=children;window.AyanAccount.child=sessionStorage.getItem('ayan.selected.'+me.id);if(!children.some(c=>c.id===window.AyanAccount.child))window.AyanAccount.child=children[0].id;}
  const stateURL='/api/state?role='+role+(role==='teacher'?'&child='+window.AyanAccount.child:'');
  const prefix='ayan.account.'+me.id+'.',nativeGet=Storage.prototype.getItem,nativeSet=Storage.prototype.setItem;

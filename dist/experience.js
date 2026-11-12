@@ -70,7 +70,7 @@
  function flower(n){return '<svg viewBox="0 0 60 80" aria-hidden="true"><path d="M30 72V34M30 60Q8 56 13 45Q27 44 30 60M30 53Q49 48 48 39Q34 39 30 53" fill="#75a763" stroke="#548246" stroke-width="2"/><g fill="'+['#f4b1b4','#e4d681','#b7a7db','#efa97a','#c5e0a8','#9acfd4'][n%6]+'">'+[0,60,120,180,240,300].map(a=>'<ellipse cx="30" cy="22" rx="9" ry="13" transform="rotate('+a+' 30 32)"/>').join('')+'</g><circle cx="30" cy="32" r="7" fill="#fff2b3"/></svg>';}
  function correct(){setFeedback(tx('Верно, продолжим','Дұрыс, жалғастырайық'),'Wave');}
  function click(e){const b=e.target.closest('button');if(!b)return;
-   if(b.hasAttribute('data-logout')){fetch(role==='teacher'?'/api/auth/sign-out':'/api/child/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(()=>location.assign('/'));return;}
+   if(b.hasAttribute('data-logout')){if(window.AyanAccount?.demo){location.assign('/');return;}fetch(role==='teacher'?'/api/auth/sign-out':'/api/child/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(()=>location.assign('/'));return;}
    if(b.hasAttribute('data-config'))return configure();
    if(b.hasAttribute('data-home'))return closeGame();
    if(b.dataset.play)return begin(b.dataset.play);

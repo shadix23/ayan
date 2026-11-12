@@ -2,6 +2,10 @@
 
 Public introduction: / . Separate authenticated teacher entry: /teacher/login . Child invitation entry: /child/login . Parent read-only report: /parent .
 
+Added isolated no-registration examples at /demo/child, /demo/teacher and /demo/parent. They run on browser-local sample data and never fetch or mutate live account records. A prepared addition lesson, curated games and example parent events make each role reviewable immediately. Demo AI explicitly directs visitors to the real authenticated assistant instead of returning pretend model responses.
+
+Fixed the legacy automatic dark theme overriding learner text and backgrounds. Light tokens are now stable under dark OS preferences. The capsule face logo is a flat original SVG; the landing and child world use the real WebGL mascot with greeting, fly and spin actions. Reduced-motion users get a still image. Per the owner's temporary request, teacher password minimum is 4 characters (a four-digit password is accepted); this setting must be reviewed before a wider release.
+
 Better Auth handles teacher passwords and sessions. Neon Postgres stores accounts, named/pseudonymous child profiles, curated activities, assigned lessons and lesson events. Child invitation tokens are random, hashed in storage, single-use and expire after 24 hours. Child sessions expire after 7 days. Parent links are read-only, expire after 30 days and are rotated when a new link is generated. Ownership is checked on teacher requests; child requests derive identity from the server session.
 
 Teacher workflow: select/add learner → enter topic, short explanation steps, question and answer → check and publish → issue child/parent invitations. Child workflow: open assigned lesson → one instruction at a time → optional speech, larger text, repeated instruction, pause → answer checked on server. Parent sees actual correct/retry/help events and chronology, not an inferred diagnosis or mastery score.

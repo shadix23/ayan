@@ -15,7 +15,7 @@ const postgres=!!process.env.DATABASE_URL;
 const db=postgres?new pg.Pool({connectionString:process.env.DATABASE_URL}):new DatabaseSync('.data/ayan.sqlite');
 let secret=process.env.BETTER_AUTH_SECRET;
 if(!secret){if(process.env.NODE_ENV==='production')throw Error('BETTER_AUTH_SECRET required');const p='.data/auth-secret';if(!fs.existsSync(p))fs.writeFileSync(p,crypto.randomBytes(48).toString('hex'),{mode:0o600});secret=fs.readFileSync(p,'utf8');}
-export const auth=betterAuth({database:db,secret,baseURL:origin,emailAndPassword:{enabled:true,minPasswordLength:12},rateLimit:{enabled:true,storage:'database'},trustedOrigins:[origin]});
+export const auth=betterAuth({database:db,secret,baseURL:origin,emailAndPassword:{enabled:true,minPasswordLength:4},rateLimit:{enabled:true,storage:'database'},trustedOrigins:[origin]});
 await (await getMigrations(auth.options)).runMigrations();
 async function query(sql,params=[]){if(postgres){let n=0;return (await db.query(sql.replace(/\?/g,()=>'$'+(++n)),params)).rows;}const stmt=db.prepare(sql);return /^\s*(SELECT|INSERT.*RETURNING)/i.test(sql)?stmt.all(...params):(stmt.run(...params),[]);}
 await query('CREATE TABLE IF NOT EXISTS ayan_children (id TEXT PRIMARY KEY, owner TEXT NOT NULL, label TEXT NOT NULL, state TEXT NOT NULL)');
@@ -74,7 +74,9 @@ export async function handler(req,res){try{
   if(req.method==='GET'){const v=(await query('SELECT state FROM ayan_teacher_state WHERE owner=?',[u.id]))[0];return send(res,200,v?JSON.parse(v.state):null);}const input=await body(req);await query('INSERT INTO ayan_teacher_state (owner,state) VALUES (?,?) ON CONFLICT(owner) DO UPDATE SET state=excluded.state',[u.id,JSON.stringify(input)]);return send(res,200,{ok:true});
  }
  let file=p;
- if(p==='/teacher'||p==='/child'){const u=p==='/teacher'?await teacher(req):await child(req);if(!u)return redirect(res,p+'/login');file='/app.html';}
+ if(p==='/demo/teacher'||p==='/demo/child')file='/app.html';
+ else if(p==='/demo/parent')file='/parent.html';
+ else if(p==='/teacher'||p==='/child'){const u=p==='/teacher'?await teacher(req):await child(req);if(!u)return redirect(res,p+'/login');file='/app.html';}
  else if(p==='/teacher/login'||p==='/child/login')file='/login.html';
  else if(p==='/parent')file='/parent.html';
  else if(p==='/')file='/index.html';
