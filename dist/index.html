@@ -1,8 +1,215 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ayan - понятный следующий шаг</title><link rel="icon" href="/assets/ayan-mark.svg"><link rel="stylesheet" href="/platform.css"><script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script><script src="/mascot.js"></script><link rel="stylesheet" href="/theme-fix.css"><link rel="stylesheet" href="/polish.css"></head><body>
-<header class="public-nav"><a class="platform-brand" href="/"><img src="/assets/ayan-mark.svg" alt="" width="44" height="44">ayan</a><nav><a href="#how">Как это работает</a><a href="#family">Родителям</a><a href="/teacher/login">Вход учителя →</a></nav></header>
-<main><section class="intro"><div><h1>Сложная тема.<br>Понятный <span>следующий шаг.</span></h1><p>Аян помогает пройти урок небольшими шагами: увидеть пример, попробовать самому и попросить помощь. Учитель выбирает материал, а семья видит результат.</p><div class="actions"><a class="primary" href="/teacher/login">Я учитель →</a><a class="secondary" href="/child/login">Я ученик</a></div><a class="quiet" href="/parent">Я родитель →</a></div><div class="intro-art"><div class="lesson-float"><span>Сегодня разбираемся</span><strong>Как сложить 2 и 3?</strong><div class="count-dots">● ● + ● ● ●</div><span>Сначала посмотрим на пример</span></div><div id="intro-mascot" class="intro-character" aria-label="Аян - трёхмерный светлячок"></div><div class="mascot-actions"><button data-mascot-clip="Wave">Привет, Аян</button><button data-mascot-clip="Fly">Полетели ↗</button><button data-mascot-clip="Celebrate">Покрутись</button></div></div></section>
-<section class="demo-entries"><span>Попробовать без регистрации</span><div class="actions"><a class="secondary" href="/demo/child">Для ученика →</a><a class="secondary" href="/demo/teacher">Для учителя →</a><a class="secondary" href="/demo/parent">Для родителя →</a></div></section><section class="story-section" id="how"><h2>Один урок.<br>Три понятных шага.</h2><div class="story-grid"><article><span class="step-number">01</span><h3>Учитель готовит</h3><p>Задаёт тему, проверяет объяснение и выбирает задания для конкретного ученика.</p></article><article><span class="step-number">02</span><h3>Ребёнок пробует</h3><p>Видит один шаг за раз. Может посмотреть пример, услышать текст или сделать перерыв.</p></article><article><span class="step-number">03</span><h3>Семья замечает рост</h3><p>В отчёте - пройденные задания, использованные подсказки и темы для повторения.</p></article></div></section>
-<section class="support-section"><div><h2>Меньше неожиданностей.<br>Больше ясности.</h2><p>Предсказуемый порядок, короткие инструкции, отключение движения и пауза в любой момент. Настройки подбирает взрослый под потребности ребёнка.</p></div><div class="support-example"><span>Твой план</span><div>1. Посмотреть пример <span>✓</span></div><div class="current">2. Попробовать вместе <span>Сейчас</span></div><div>3. Решить самому</div><small>Можно остановиться и вернуться позже</small></div></section>
-<section class="family-section" id="family"><h2>У каждого - своё пространство</h2><p>Подготовка урока остаётся у учителя. У ребёнка - только его задания. Родителю доступен отдельный отчёт по приглашению.</p><div class="actions"><a class="primary" href="/teacher/login">Подготовить занятие →</a><a class="secondary" href="/parent">Посмотреть отчёт</a></div></section>
-<section class="faq"><h2>Перед первым занятием</h2><details><summary>Как ребёнку войти?</summary><p>Учитель создаёт профиль без фамилии и отправляет одноразовую ссылку. Почта ребёнку не нужна.</p></details><details><summary>Для кого подходит Ayan?</summary><p>Для занятий с дополнительной визуальной и пошаговой поддержкой. Настройки и материал выбирает взрослый. Ayan не заменяет педагога или специалиста.</p></details><details><summary>Кто проверяет объяснения?</summary><p>Учитель проверяет материал перед публикацией. Ответы помощника могут содержать ошибки.</p></details></section></main>
-<footer class="public-footer"><a class="platform-brand" href="/"><img src="/assets/ayan-mark.svg" alt="" width="32" height="32">ayan</a><span>Понимать. Пробовать. Расти.</span><a href="/teacher/login">Вход для учителя</a></footer><script src="/landing.js"></script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ayan - уроки по шагам для ребёнка с РАС</title>
+<meta name="description" content="Ayan помогает учителю подготовить урок по шагам для ребёнка с РАС в обычном классе. Прототип: математика 3-4 класса, 9 игр, казахский и русский.">
+<meta name="theme-color" content="#f6f4ea">
+<link rel="icon" href="/assets/ayan-mark.svg">
+<link rel="preload" href="/fonts/Nunito.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/landing.css">
+<script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script>
+<script src="/mascot.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Перейти к содержанию</a>
+
+<header class="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="/" aria-label="Ayan, на главную"><img src="/assets/ayan-mark.svg" alt="" width="40" height="40"><span>ayan</span></a>
+    <nav aria-label="Разделы">
+      <a href="#how">Как работает</a>
+      <a href="#calm">Для ребёнка</a>
+      <a href="#roles">Кому</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn btn-ghost" href="/teacher/login">Войти</a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" data-enter>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="hero-fact"><span class="dot" aria-hidden="true"></span>Прототип: математика 3-4 класса, 9 игр, Қаз и Рус</p>
+      <h1>Урок по шагам для ребёнка с РАС в обычном классе</h1>
+      <p class="lead">Учитель готовит объяснение и выбирает игры. Ребёнок видит один шаг за раз. Родитель получает короткий отчёт.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/demo/teacher">Открыть демо учителя<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
+        <a class="btn btn-secondary" href="/demo/child">Посмотреть экран ребёнка</a>
+      </div>
+      <p class="hero-note">Без регистрации. Демо-данные хранятся только в вашем браузере.</p>
+    </div>
+
+    <div class="hero-stage">
+      <div class="stage-glow" aria-hidden="true"></div>
+      <div id="intro-mascot" class="stage-mascot" role="img" aria-label="Аян, трёхмерный светлячок"></div>
+
+      <div class="ui-card step-card" aria-hidden="true">
+        <div class="step-track"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+        <b>Шаг 2 из 4</b>
+        <strong>Добавь ещё три яблока</strong>
+        <div class="apples"><span></span><span></span><em>+</em><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="ui-card hint-card" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3zM9.5 19h5M10.5 21.5h3"/></svg>
+        <span>Можно не спешить</span>
+      </div>
+
+      <div class="mascot-actions" role="group" aria-label="Движения Аяна">
+        <button data-mascot-clip="Wave">Привет, Аян</button>
+        <button data-mascot-clip="Fly">Полетели</button>
+        <button data-mascot-clip="Celebrate">Покрутись</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <h2>Три экрана одного урока</h2>
+    <p class="section-lead">У каждого участника своё пространство и только то, что ему нужно.</p>
+
+    <div class="how-grid">
+      <article class="how-item">
+        <div class="shot" aria-hidden="true">
+          <div class="shot-bar"><i></i><i></i><i></i><span>Кабинет учителя</span></div>
+          <div class="shot-body">
+            <label>Тема урока</label>
+            <div class="field">Сложение: 2 + 3</div>
+            <label>Объяснение: один шаг на строке</label>
+            <div class="field area">Посмотри: у тебя два яблока.<br>Добавь ещё три яблока.<br>Посчитай все яблоки вместе.</div>
+            <div class="shot-actions"><span class="chip">Помочь с объяснением (ИИ)</span><span class="chip solid">Проверено, назначить</span></div>
+          </div>
+        </div>
+        <h3>Учитель готовит и проверяет</h3>
+        <p>Пишет объяснение по шагам сам или с черновиком от ИИ. Материал уходит ребёнку только после проверки взрослым.</p>
+        <a class="text-link" href="/demo/teacher">Демо учителя</a>
+      </article>
+
+      <article class="how-item">
+        <div class="shot" aria-hidden="true">
+          <div class="shot-bar"><i></i><i></i><i></i><span>Экран ребёнка</span></div>
+          <div class="shot-body child">
+            <div class="step-track"><i class="on"></i><i></i><i></i></div>
+            <strong>Найди пару</strong>
+            <div class="pairs"><span class="sel">2 + 3</span><span>6</span><span>4 − 2</span><span class="sel">5</span><span>3 + 3</span><span>2</span></div>
+            <div class="shot-actions"><span class="chip">Подсказка</span><span class="chip">Перерыв</span></div>
+          </div>
+        </div>
+        <h3>Ребёнок идёт в своём темпе</h3>
+        <p>Один шаг на экране, подсказка и перерыв всегда рядом. Нет таймеров, рейтингов и штрафов за ошибку.</p>
+        <a class="text-link" href="/demo/child">Демо ребёнка</a>
+      </article>
+
+      <article class="how-item">
+        <div class="shot" aria-hidden="true">
+          <div class="shot-bar"><i></i><i></i><i></i><span>Отчёт родителю</span></div>
+          <div class="shot-body report">
+            <strong>Саша, неделя</strong>
+            <div class="row"><span>Пройдено шагов</span><b>12</b></div>
+            <div class="row"><span>Использовано подсказок</span><b>3</b></div>
+            <div class="row"><span>Тема для повторения</span><b>Вычитание</b></div>
+            <p class="disclaimer">Наблюдение, не диагноз</p>
+          </div>
+        </div>
+        <h3>Семья видит, что было на уроке</h3>
+        <p>Короткий отчёт по ссылке-приглашению: что пройдено, где помогали подсказки, что повторить дома.</p>
+        <a class="text-link" href="/demo/parent">Демо родителя</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="calm" id="calm">
+  <div class="wrap calm-grid">
+    <div>
+      <h2>Спокойный экран, на котором ничего не происходит внезапно</h2>
+      <p>Ребёнку с РАС важны порядок и предсказуемость. Экран ребёнка в Ayan устроен вокруг этого.</p>
+      <ul class="calm-list">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>План виден заранее</b><span>Ребёнок знает, сколько шагов впереди и какой сейчас.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>Движение можно выключить</b><span>Одна кнопка, и Аян становится неподвижной картинкой.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>Перерыв в любой момент</b><span>Игра ждёт. Прогресс не сгорает, наград за скорость нет.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>Ошибка без наказания</b><span>Аян отвечает «Попробуем ещё раз. Я рядом.»</span></div></li>
+      </ul>
+    </div>
+
+    <div class="plan" aria-hidden="true">
+      <span class="plan-title">Твой план</span>
+      <div class="plan-row done"><i>1</i><span>Посмотреть пример</span><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <div class="plan-row now"><i>2</i><span>Попробовать вместе</span><em>Сейчас</em></div>
+      <div class="plan-row"><i>3</i><span>Решить самому</span></div>
+      <div class="plan-foot">
+        <span class="toggle"><b></b></span><span>Движение выключено</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="roles" id="roles">
+  <div class="wrap">
+    <h2>Попробуйте каждую роль в демо</h2>
+    <p class="section-lead">Регистрация не нужна. Пример ученика уже заполнен.</p>
+    <div class="roles-grid">
+      <a class="role" href="/demo/teacher">
+        <span class="role-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v10H4zM9 20h6M12 16v4"/></svg></span>
+        <h3>Учитель</h3>
+        <p>Готовит урок, выбирает игры, отмечает наблюдения за 30 секунд.</p>
+        <span class="role-go">Открыть кабинет<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span>
+      </a>
+      <a class="role" href="/demo/child">
+        <span class="role-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4 0-7-3-7-7 0-5 7-11 7-11s7 6 7 11c0 4-3 7-7 7z"/></svg></span>
+        <h3>Ребёнок</h3>
+        <p>Проходит урок по шагам и играет с Аяном. Заходит по одноразовой ссылке, без почты.</p>
+        <span class="role-go">Открыть игры<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span>
+      </a>
+      <a class="role" href="/demo/parent">
+        <span class="role-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg></span>
+        <h3>Родитель</h3>
+        <p>Читает отчёт по приглашению учителя. Видит только своего ребёнка.</p>
+        <span class="role-go">Открыть отчёт<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap faq-grid">
+    <div>
+      <h2>Честно о прототипе</h2>
+      <p class="section-lead">Ayan сейчас демо. Мы не обещаем доказанный эффект и не ставим диагнозы.</p>
+    </div>
+    <div class="faq-list">
+      <details><summary>Как ребёнку войти?</summary><p>Учитель создаёт профиль без фамилии и отправляет одноразовую ссылку. Почта ребёнку не нужна.</p></details>
+      <details><summary>Заменяет ли Ayan педагога или специалиста?</summary><p>Нет. Настройки и материал выбирает взрослый. Ayan помогает подготовить визуальную и пошаговую поддержку, решение всегда за учителем.</p></details>
+      <details><summary>Кто проверяет объяснения от ИИ?</summary><p>Учитель. Черновик ИИ может содержать ошибки, поэтому ребёнок видит только то, что взрослый проверил и назначил.</p></details>
+      <details><summary>Проверены ли казахские тексты?</summary><p>Пока нет. Казахские тексты и учебные материалы ждут проверки носителем языка и учителем.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap close-box">
+    <h2>Подготовьте первый урок за несколько минут</h2>
+    <div class="actions">
+      <a class="btn btn-light" href="/teacher/login">Создать кабинет учителя<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
+      <a class="btn btn-outline-light" href="/demo/teacher">Сначала демо</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-row">
+    <a class="brand" href="/"><img src="/assets/ayan-mark.svg" alt="" width="32" height="32"><span>ayan</span></a>
+    <span>Понимать. Пробовать. Расти.</span>
+    <nav aria-label="Вход"><a href="/teacher/login">Учителю</a><a href="/child/login">Ученику</a><a href="/parent">Родителю</a></nav>
+  </div>
+</footer>
+<script src="/landing.js"></script>
+</body>
+</html>

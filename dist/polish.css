@@ -124,3 +124,67 @@ a{text-underline-offset:3px}
 @media (prefers-reduced-motion:reduce){
   .primary,.btn.primary,.world-primary{transition:none}
 }
+
+/* ---- Pass 2: same visual world as the landing (warm paper, forest ink, firefly glow) ---- */
+:root,:root[data-theme="light"],:root[data-theme="dark"]{
+  --bg:#f6f4ea;--surface:#fff;--surface2:#f1efe2;--rail:#fffdf6;
+  --ink:#16261b;--text:#3a4a3f;--muted:#5d6b60;--line:#e2dfcf;--line-strong:#cbc7b0;
+  --accent:#3f7a2a;--accent-hover:#33661f;--accent-ink:#2c5a1b;--accent-soft:#e4efd6;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+}
+body,#world{background:var(--bg)!important}
+
+/* Type: confident headings */
+.head h1,.head h2,.account-panel h2,.section-top h2,.hero-copy h1,.play-panel h1,.garden-promo h2,.teacher-world-catalog h1{font-weight:800!important;letter-spacing:-.025em!important;color:var(--ink)!important}
+.head h1,.head h2{font-size:clamp(28px,2.6vw,36px)!important;line-height:1.12}
+.head p{font-size:17px!important;max-width:56ch}
+
+/* Sidebar: paper rail, solid active item */
+.sidebar{background:var(--rail)!important;border-right:1px solid var(--line)!important}
+.nav-item{border-radius:12px!important;font-weight:650;color:var(--text)!important;transition:background-color .18s ease,color .18s ease,transform .16s var(--ease-out)}
+.nav-item:active{transform:scale(.98)}
+.nav-item[aria-current="page"]{background:var(--accent)!important;color:#fff!important;box-shadow:0 6px 16px -8px rgba(63,122,42,.6)}
+.nav-item[aria-current="page"] svg{color:#fff!important;stroke:#fff}
+@media (hover:hover){.nav-item:not([aria-current="page"]):hover{background:var(--surface2)!important;color:var(--ink)!important}}
+.goal-card{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:16px!important}
+.goal-num{color:var(--ink)!important;font-weight:800}
+.meter{background:var(--surface2)!important}.meter i{background:var(--accent)!important}
+
+/* Cards and panels: white on paper, soft depth, lift on hover */
+.account-panel,.tasks .task,.world-card,.garden-promo,#assigned-lesson{box-shadow:0 1px 2px rgba(22,38,27,.05),0 10px 28px -16px rgba(22,38,27,.16)!important}
+.tasks .task{transition:transform .22s var(--ease-out),border-color .2s ease,box-shadow .22s ease!important}
+.tasks .task:active,.world-card:active{transform:scale(.985)!important}
+.world-card{transition:transform .22s var(--ease-out),border-color .2s ease!important}
+@media (hover:hover) and (pointer:fine){
+  .tasks .task:hover{transform:translateY(-2px)!important;border-color:#bfd3a6!important}
+  .world-card:hover{transform:translateY(-2px)!important;border-color:#bfd3a6!important}
+  .task:hover .task-go svg{transform:translateX(3px)}
+}
+.task-go svg{transition:transform .2s var(--ease-out)}
+.task-icon{border-radius:14px!important}
+.task-text b{color:var(--ink);font-weight:750}
+.steps-strip{background:var(--accent-soft)!important;border:0!important;border-radius:14px!important}
+.steps-strip b{background:var(--accent)!important;color:#fff!important}
+.pill.warn{background:#fbf1d6!important;border-color:#eedcaa!important;color:#7a4f0d!important}
+.helpbox{background:var(--surface)!important;border:1px dashed var(--line-strong)!important;border-radius:16px!important}
+
+/* Inputs: clear focus */
+.account-panel input,.account-panel textarea,.account-panel select{background:#fff!important;transition:border-color .16s ease,box-shadow .16s ease}
+.account-panel input:focus,.account-panel textarea:focus,.account-panel select:focus{outline:0!important;border-color:var(--accent)!important;box-shadow:0 0 0 4px rgba(63,122,42,.16)!important}
+.account-panel .secondary,.world-secondary{background:#fff!important;border:1.5px solid var(--line)!important;color:var(--ink)!important;font-weight:700;border-radius:12px!important;transition:transform .16s var(--ease-out),border-color .2s ease}
+.account-panel .secondary:active,.world-secondary:active{transform:scale(.97)}
+@media (hover:hover){.account-panel .secondary:hover,.world-secondary:hover{border-color:#b9b59c!important}}
+.primary,.btn.primary,.world-primary{border-radius:12px!important;box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 8px 20px -10px rgba(63,122,42,.6)!important}
+
+/* Child hero: the same lit stage as the landing */
+.world-hero{background:linear-gradient(165deg,#e9f1dc 0%,#dbe9c9 100%)!important;border:1px solid #d3dfc1!important;border-radius:28px!important;position:relative;overflow:hidden}
+.world-hero .hero-scene{position:relative}
+.world-hero .hero-scene::after{content:"";position:absolute;left:50%;top:52%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,231,150,.8) 0%,rgba(255,231,150,0) 68%);z-index:0;pointer-events:none}
+.world-hero .hero-character{z-index:1}
+.game-art{background:#f3f1e4!important}
+.mode-switch button[aria-pressed="true"],.filter-row [aria-pressed="true"]{background:var(--accent)!important;color:#fff!important;border-color:var(--accent)!important}
+.play-friend{background:linear-gradient(165deg,#e9f1dc,#dbe9c9)!important;border:1px solid #d3dfc1!important}
+
+@media (prefers-reduced-motion:reduce){
+  .tasks .task,.world-card,.nav-item{transition:none!important;transform:none!important}
+}
