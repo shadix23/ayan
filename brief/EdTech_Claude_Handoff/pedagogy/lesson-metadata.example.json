@@ -1,0 +1,38 @@
+{
+  "lessonId": "M01",
+  "lessonVersion": "0.1.0-draft",
+  "status": "draft",
+  "locales": [
+    "ru",
+    "kk"
+  ],
+  "audioLocale": "ru",
+  "curriculum": {
+    "country": "KZ",
+    "subject": null,
+    "grade": null,
+    "schoolProgram": null,
+    "order": null,
+    "appendix": null,
+    "objectiveCode": null,
+    "objectiveText": null,
+    "sourceUrl": null,
+    "verified": false,
+    "verifiedBy": null,
+    "verifiedAt": null
+  },
+  "review": {
+    "pedagogy": "pending",
+    "kazakhLanguage": "pending",
+    "russianLanguage": "pending",
+    "accessibility": "pending"
+  },
+  "video": {
+    "status": "not_generated",
+    "voiceId": null,
+    "model": null,
+    "durationSeconds": null,
+    "renderer": null
+  },
+  "note": "Шаблон. Не публиковать до фактической привязки к программе и проверок. Секреты не добавлять."
+}

@@ -5,7 +5,9 @@
   "description": "Ayan: prototype of a teacher assistant for visual support of lessons (ASD). Demo templates, not clinically validated.",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test tests/*.test.cjs"
+    "test": "node --test tests/*.test.cjs",
+    "test:access": "node tests/access-matrix.mjs",
+    "test:audit": "node tests/audit-repro.mjs"
   },
   "engines": {
     "node": "24.x"

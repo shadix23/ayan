@@ -20,12 +20,13 @@ function render(data){
  const stats=el('div','parent-stats');stats.append(stat(correct,t('дұрыс жауап','верных ответов')),stat(retries,t('қайта талпыныс','повторных попыток')),stat(hints,t('кеңес','подсказок')),stat(pauses,t('үзіліс','перерывов')));out.append(stats);
  const home=el('section','parent-home');home.append(el('h3','',t('Үйде не істеуге болады','Что можно сделать дома')),el('p','',retries||hints?t('Тақырыпқа бірге оралыңыз: баладан таныс мысалды көрсетуін сұраңыз. Көмек қажеттілігін мұғаліммен талқылаңыз.','Вернитесь к теме вместе: попросите ребёнка показать знакомый пример. Потребность в помощи обсудите с учителем.'):t('Баладан сабақтың бір қадамын айтып не көрсетіп беруін сұраңыз.','Попросите ребёнка рассказать или показать один шаг занятия.')));out.append(home);
  if(data.games.length){const g=el('section','parent-games');g.append(el('h3','',t('Өтілген ойындар','Пройденные игры')));const chips=el('div','parent-chips');for(const id of data.games)chips.append(el('span','',GAMES[id]?t(...GAMES[id]):id));g.append(chips);out.append(g);}
+ if(data.videos?.length){const v=el('section','parent-games');v.append(el('h3','',t('Бейне көру','Просмотр видео')),el('p','parent-note',t('Көру - бұл дағдыны меңгеру емес.','Просмотр - это не освоение навыка.')));const chips=el('div','parent-chips');for(const x of data.videos)chips.append(el('span','',x.videoId+': '+(x.completed?t('соңына дейін','до конца'):Math.round(x.seconds)+' '+t('сек','сек'))));v.append(chips);out.append(v);}
  out.append(el('h3','',t('Күндер бойынша сабақтар','Занятия по дням')));
  if(!events.length)out.append(el('p','parent-empty',t('Әзірге әрекет жоқ. Нәтижелер алғашқы сабақтан кейін пайда болады.','Пока нет действий. Результаты появятся после первого занятия.')));
  const days=new Map();for(const e of events.slice(0,80)){const k=dayKey(e.created);if(!days.has(k))days.set(k,[]);days.get(k).push(e);}
  for(const list of days.values()){
   const day=el('section','parent-day'),top=el('div','parent-day-top'),ok=count(list,'answer','correct'),help=count(list,'hint');
-  top.append(el('h4','',dayLabel(list[0].created)),el('span','',list[0].lesson+(ok?t(', дұрыс жауап: ',', верных ответов: ')+ok:'')+(help?t(', кеңес: ',', подсказок: ')+help:'')));day.append(top);
+  top.append(el('h4','',dayLabel(list[0].created)),el('span','',list[0].lesson+(list[0].version>1?t(' ('+list[0].version+'-нұсқа)',' (версия '+list[0].version+')'):'')+(ok?t(', дұрыс жауап: ',', верных ответов: ')+ok:'')+(help?t(', кеңес: ',', подсказок: ')+help:'')));day.append(top);
   const ol=el('ol','parent-timeline');for(const e of list.slice().reverse()){const li=el('li','tone-'+eventTone(e));li.append(el('time','',timeLabel(e.created)),el('span','',eventText(e)));ol.append(li);}
   day.append(ol);out.append(day);
  }

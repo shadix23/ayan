@@ -3,6 +3,12 @@
 (function(root){
  'use strict';
  const T=[
+  {id:'m01',game:'fractions-m01',
+   title:['Тең үлестер: бір ширек (ойын)','Равные доли: одна четверть (игра)'],
+   steps:[['Дөңгелекті тең төрт бөлікке бөлейік.','Разделим круг на четыре равные части.'],
+          ['Осындай бір бөлік - бір ширек.','Одна такая часть - одна четверть.'],
+          ['Егер бөліктер тең болмаса, олардың кез келген біреуі ширек бола бермейді.','Если части не равны, любая одна из них не обязательно четверть.']],
+   question:['',''],answer:['','']},
   {id:'add100',
    title:['100 көлеміндегі қосу: 34 + 25','Сложение в пределах 100: 34 + 25'],
    steps:[['Сандарды бірінің астына бірін жаз: ондықты ондықтың астына, бірлікті бірліктің астына.','Запиши числа друг под другом: десятки под десятками, единицы под единицами.'],
@@ -53,7 +59,7 @@
    question:['Қай сан үлкен: 47 әлде 52?','Какое число больше: 47 или 52?'],answer:['52','52']}
  ];
  // lang: 'kk' or 'ru'
- function get(id,lang){const t=T.find(x=>x.id===id);if(!t)return null;const i=lang==='kk'?0:1;return {id:t.id,title:t.title[i],steps:t.steps.map(s=>s[i]),question:t.question[i],answer:t.answer[i]};}
+ function get(id,lang){const t=T.find(x=>x.id===id);if(!t)return null;const i=lang==='kk'?0:1;return {id:t.id,game:t.game,title:t.title[i],steps:t.steps.map(s=>s[i]),question:t.question[i],answer:t.answer[i]};}
  const list=lang=>T.map(t=>({id:t.id,title:t.title[lang==='kk'?0:1]}));
  const api={get,list,all:T};
  if(typeof module==='object'&&module.exports)module.exports=api;else root.AyanTemplates=api;

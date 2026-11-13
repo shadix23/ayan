@@ -1,0 +1,65 @@
+{
+  "lessonId": "M01",
+  "lessonVersion": "0.1.0-draft",
+  "scriptVersion": "0.1.0",
+  "locale": "ru",
+  "audioLocale": "ru",
+  "captionLocales": [
+    "ru",
+    "kk"
+  ],
+  "status": "review",
+  "review": {
+    "pedagogy": "pending",
+    "russianLanguage": "pending",
+    "kazakhLanguage": "pending",
+    "accessibility": "pending",
+    "reviewer": null,
+    "reviewDate": null
+  },
+  "voice": {
+    "provider": "ElevenLabs",
+    "voiceId": "RD1wW20GjG2W8Fc8vVvm",
+    "voiceName": "El - Calm & Friendly - Character",
+    "model": "eleven_v4",
+    "settings": "connector defaults, one take, direction tags in script.json",
+    "credits": 682,
+    "generatedAt": "2026-11-13"
+  },
+  "audio": {
+    "sha256": "1e741059ab6cb5f4bc1a77dbf2071705a76b4d7dc98b248aaaea08be7b844d2d",
+    "sourceDurationSeconds": 46.6,
+    "note": "one take; lines re-spaced with 0.9 s pauses"
+  },
+  "video": {
+    "file": "lesson.mp4",
+    "sha256": "6a5b1ada76ddf2ca2b9942f82a8af9c0069283c6794df94a7aeae5019264ade1",
+    "bytes": 3453427,
+    "durationSeconds": 54.12,
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "codec": "H.264 + AAC, faststart",
+    "renderer": "Remotion 4.0.484 (video/), mascot frames from Blender 5.3.0 (assets-src/ayan.blend)"
+  },
+  "poster": "poster.jpg",
+  "captions": {
+    "ru": "captions.ru.vtt",
+    "kk": "captions.kk.vtt"
+  },
+  "transcripts": {
+    "ru": "transcript.ru.md",
+    "kk": "transcript.kk.md"
+  },
+  "provenance": {
+    "script": "brief/EdTech_Claude_Handoff/video-lessons/SCRIPTS_RU.md (M01), Kazakh caption text translated by Claude (needs native review)",
+    "font": "Nunito (OFL)",
+    "music": "none",
+    "mascot": "original project model",
+    "childData": "none"
+  },
+  "curriculum": {
+    "verified": false,
+    "note": "No objective code assigned. Not to be published as \"checked against the RK programme\" until a teacher confirms."
+  }
+}

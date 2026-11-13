@@ -8,7 +8,8 @@ import { toNodeHandler, fromNodeHeaders } from 'better-auth/node';
 import { getMigrations } from 'better-auth/db/migration';
 import pg from 'pg';
 import W from './dist/experience-logic.js';
-import Answer from './dist/answer-check.js';
+import * as Progress from './progress.mjs';
+import * as Support from './support.mjs';
 
 const port=Number(process.env.PORT)||4183, origin=process.env.BETTER_AUTH_URL||`http://127.0.0.1:${port}`;
 if(!process.env.DATABASE_URL)fs.mkdirSync('.data',{recursive:true});
@@ -26,33 +27,51 @@ await query('CREATE TABLE IF NOT EXISTS ayan_teacher_state (owner TEXT PRIMARY K
 await query('CREATE TABLE IF NOT EXISTS ayan_lessons (child TEXT PRIMARY KEY, content TEXT NOT NULL)');
 await query('CREATE TABLE IF NOT EXISTS ayan_events (id TEXT PRIMARY KEY, child TEXT NOT NULL, lesson TEXT NOT NULL, kind TEXT NOT NULL, value TEXT NOT NULL, created BIGINT NOT NULL)');
 await query('CREATE TABLE IF NOT EXISTS ayan_parent_links (token TEXT PRIMARY KEY, child TEXT NOT NULL, expires BIGINT NOT NULL)');
+await Progress.migrate(query);
+await Support.migrate(query);
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const send=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
 const redirect=(res,url)=>{res.writeHead(302,{Location:url,'Cache-Control':'no-store'});res.end();};
 async function body(req){let s='';for await(const c of req){s+=c;if(s.length>250000)throw Error('Request too large');}return JSON.parse(s||'{}');}
 async function teacher(req){return (await auth.api.getSession({headers:fromNodeHeaders(req.headers)}))?.user;}
 async function child(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ayan_child='))?.slice(11);if(!token)return null;return (await query('SELECT c.* FROM ayan_children c JOIN ayan_child_sessions s ON c.id=s.child WHERE s.token=? AND s.expires>?',[hash(token),Date.now()]))[0];}
-const staticRoot=path.resolve('dist'),mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.ttf':'font/ttf','.webm':'video/webm','.mp4':'video/mp4'};
+const staticRoot=path.resolve('dist'),mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.ttf':'font/ttf','.webm':'video/webm','.mp4':'video/mp4','.mp3':'audio/mpeg','.vtt':'text/vtt; charset=utf-8','.jpg':'image/jpeg','.md':'text/markdown; charset=utf-8'};
+// Media is served in ranges of at most 2 MB: Safari needs 206 for video, and a Vercel function response is limited to 4.5 MB.
+const MEDIA_CHUNK=2*1024*1024;
 export async function handler(req,res){try{
  const url=new URL(req.url,origin),p=url.pathname;
  if(req.method!=='GET'&&req.method!=='HEAD'&&!p.startsWith('/api/auth/')&&req.headers.origin!==origin)return send(res,403,{error:'Origin rejected'});
  if(p.startsWith('/api/auth/'))return toNodeHandler(auth)(req,res);
- if(p==='/api/parent/report'&&req.method==='POST'){const input=await body(req);const c=(await query('SELECT child FROM ayan_parent_links WHERE token=? AND expires>?',[hash(String(input.code||'')),Date.now()]))[0];if(!c)return send(res,401,{error:'Ссылка недействительна. Попросите учителя создать новую.'});const profile=(await query('SELECT label,state FROM ayan_children WHERE id=?',[c.child]))[0];const lesson=(await query('SELECT content FROM ayan_lessons WHERE child=?',[c.child]))[0];return send(res,200,{label:profile.label,games:W.clean(JSON.parse(profile.state)).completed,lesson:lesson?JSON.parse(lesson.content).title:null,events:await query('SELECT lesson,kind,value,created FROM ayan_events WHERE child=? ORDER BY created DESC',[c.child])});}
+ if(p==='/api/parent/report'&&req.method==='POST'){const input=await body(req);const c=(await query('SELECT child FROM ayan_parent_links WHERE token=? AND expires>?',[hash(String(input.code||'')),Date.now()]))[0];if(!c)return send(res,401,{error:'Ссылка недействительна. Попросите учителя создать новую.'});const profile=(await query('SELECT label,state FROM ayan_children WHERE id=?',[c.child]))[0];const lesson=(await query('SELECT content FROM ayan_lessons WHERE child=?',[c.child]))[0];return send(res,200,{label:profile.label,games:W.clean(JSON.parse(profile.state)).completed,lesson:lesson?JSON.parse(lesson.content).title:null,events:await Progress.reportEvents(query,c.child),videos:await Support.views(query,c.child)});}
  if(p==='/api/parent/invite'&&req.method==='POST'){const u=await teacher(req);if(!u)return send(res,401,{error:'Войдите как учитель'});const input=await body(req),c=(await query('SELECT id FROM ayan_children WHERE id=? AND owner=?',[input.child,u.id]))[0];if(!c)return send(res,404,{error:'Ученик не найден'});const code=crypto.randomBytes(24).toString('base64url');await query('DELETE FROM ayan_parent_links WHERE child=?',[c.id]);await query('INSERT INTO ayan_parent_links (token,child,expires) VALUES (?,?,?)',[hash(code),c.id,Date.now()+30*86400000]);return send(res,200,{url:origin+'/parent#'+code});}
  if(p==='/api/lesson'){
   const role=url.searchParams.get('role')==='child'?'child':'teacher',u=role==='child'?await child(req):await teacher(req);if(!u)return send(res,401,{error:'Войдите в аккаунт'});
   const id=role==='child'?u.id:url.searchParams.get('child');
   if(role==='teacher'&&!(await query('SELECT id FROM ayan_children WHERE id=? AND owner=?',[id,u.id])).length)return send(res,404,{error:'Ученик не найден'});
-  if(req.method==='GET'){const row=(await query('SELECT content FROM ayan_lessons WHERE child=?',[id]))[0];const lesson=row?JSON.parse(row.content):null;
-   if(role==='child'&&lesson){delete lesson.answer;const last=(await query('SELECT value FROM ayan_events WHERE child=? AND lesson=? AND kind=? AND created>=? ORDER BY created DESC LIMIT 1',[id,lesson.title,'step',lesson.approvedAt||0]))[0];const n=Number(last?.value);if(n>1&&n<=lesson.steps.length+1)lesson.resume=n;}
-   return send(res,200,lesson);}
+  if(req.method==='GET'){if(role==='child')return send(res,200,await Progress.childLesson(query,id));const row=(await query('SELECT content FROM ayan_lessons WHERE child=?',[id]))[0];return send(res,200,row?JSON.parse(row.content):null);}
   if(role!=='teacher')return send(res,403,{error:'Только учитель публикует материалы'});
   const input=await body(req);
-  if(!input.title||!Array.isArray(input.steps)||input.steps.length<1||input.steps.length>12||input.steps.some(s=>typeof s!=='string'||!s.trim()||s.length>2000)||!String(input.question||'').trim()||!String(input.answer||'').trim())return send(res,400,{error:'Заполните тему, шаги, вопрос и правильный ответ'});
-  const lesson={id:crypto.randomUUID(),title:String(input.title).slice(0,160),steps:input.steps,question:String(input.question).slice(0,1000),answer:String(input.answer).trim().slice(0,200),approvedAt:Date.now()};
-  await query('INSERT INTO ayan_lessons (child,content) VALUES (?,?) ON CONFLICT(child) DO UPDATE SET content=excluded.content',[id,JSON.stringify(lesson)]);return send(res,200,lesson);
+  if(!Progress.validateLesson(input))return send(res,400,{error:'Заполните тему, шаги, вопрос и правильный ответ'});
+  return send(res,200,await Progress.publish(query,{child:id,owner:u.id,input}));
  }
- if(p==='/api/lesson/event'&&req.method==='POST'){const c=await child(req);if(!c)return send(res,401,{error:'Войдите как ученик'});const input=await body(req);if(!['step','hint','pause','answer'].includes(input.kind))return send(res,400,{error:'Неверное событие'});const row=(await query('SELECT content FROM ayan_lessons WHERE child=?',[c.id]))[0];if(!row)return send(res,404,{error:'Урок не назначен'});const lesson=JSON.parse(row.content);let value=String(input.value||'').slice(0,200);if(input.kind==='answer')value=Answer.matches(value,lesson.answer)?'correct':'retry';await query('INSERT INTO ayan_events (id,child,lesson,kind,value,created) VALUES (?,?,?,?,?,?)',[crypto.randomUUID(),c.id,lesson.title,input.kind,value,Date.now()]);return send(res,200,{value});}
+ if(p==='/api/attempt'||p==='/api/attempt/submit'||p==='/api/lesson/event'){
+  const c=await child(req);if(!c)return send(res,401,{error:'Войдите как ученик'});
+  let r;
+  if(p==='/api/attempt'&&req.method==='GET')r=await Progress.getAttempt(query,c.id,url.searchParams.get('id'));
+  else if(req.method!=='POST')return send(res,405,{error:'Method not allowed'});
+  else{const input=await body(req);r=p==='/api/attempt'?await Progress.startAttempt(query,c.id,input):p==='/api/attempt/submit'?await Progress.submit(query,c.id,input):await Progress.recordEvent(query,c.id,input);}
+  return send(res,r.status,r.data);
+ }
+ if(p==='/api/support'){
+  const role=url.searchParams.get('role')==='child'?'child':'teacher',u=role==='child'?await child(req):await teacher(req);if(!u)return send(res,401,{error:'Войдите в аккаунт'});
+  const id=role==='child'?u.id:String(url.searchParams.get('child')||'');
+  if(role==='teacher'&&!(await query('SELECT id FROM ayan_children WHERE id=? AND owner=?',[id,u.id])).length)return send(res,404,{error:'Ученик не найден'});
+  if(req.method==='GET')return send(res,200,await Support.getProfile(query,id));
+  if(req.method!=='PUT'&&req.method!=='POST')return send(res,405,{error:'Method not allowed'});
+  return send(res,200,await Support.saveProfile(query,id,await body(req),role));
+ }
+ if(p==='/api/video/progress'){const c=await child(req);if(!c)return send(res,401,{error:'Войдите как ученик'});if(req.method==='GET')return send(res,200,await Support.views(query,c.id));if(req.method!=='POST')return send(res,405,{error:'Method not allowed'});const r=await Support.recordView(query,c.id,await body(req));return send(res,r.status,r.data);}
+ if(p==='/api/children/revoke'&&req.method==='POST'){const u=await teacher(req);if(!u)return send(res,401,{error:'Войдите как учитель'});const input=await body(req),c=(await query('SELECT id FROM ayan_children WHERE id=? AND owner=?',[String(input.child||''),u.id]))[0];if(!c)return send(res,404,{error:'Ученик не найден'});await Progress.revokeChild(query,c.id);return send(res,200,{ok:true});}
  if(p==='/api/assistant'&&req.method==='POST'){
   const c=await child(req),u=c?null:await teacher(req);if(!c&&!u)return send(res,401,{error:'Войдите в аккаунт'});
   const input=await body(req);const prompt=String(input.prompt||'').slice(0,2000);if(!prompt.trim())return send(res,400,{error:'Напишите вопрос'});
@@ -91,7 +110,14 @@ export async function handler(req,res){try{
  else if(p==='/app.html')return redirect(res,'/');
  else if(p.startsWith('/api/'))return send(res,404,{error:'Not found'});
  const target=path.resolve(staticRoot,'.'+decodeURIComponent(file));if(!target.startsWith(staticRoot+path.sep))return send(res,400,{error:'Invalid path'});
- const data=await fs.promises.readFile(target).catch(()=>null);if(!data)return send(res,404,{error:'Not found'});res.writeHead(200,{'Content-Type':mime[path.extname(target)]||'application/octet-stream','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin'});res.end(data);
+ const data=await fs.promises.readFile(target).catch(()=>null);if(!data)return send(res,404,{error:'Not found'});
+ const type=mime[path.extname(target)]||'application/octet-stream',media=/^(video|audio)\//.test(type);
+ const headers={'Content-Type':type,'Cache-Control':p.startsWith('/media/')?'public, max-age=86400':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin'};
+ if(media){headers['Accept-Ranges']='bytes';const m=/^bytes=(\d*)-(\d*)$/.exec(req.headers.range||'');
+  if(m&&(m[1]||m[2])){let start=m[1]?Number(m[1]):Math.max(0,data.length-Number(m[2])),end=m[1]&&m[2]?Number(m[2]):data.length-1;
+   if(start>=data.length||start>end){res.writeHead(416,{'Content-Range':'bytes */'+data.length});return res.end();}
+   end=Math.min(end,data.length-1,start+MEDIA_CHUNK-1);res.writeHead(206,{...headers,'Content-Range':'bytes '+start+'-'+end+'/'+data.length,'Content-Length':end-start+1});return res.end(req.method==='HEAD'?undefined:data.subarray(start,end+1));}}
+ res.writeHead(200,{...headers,'Content-Length':data.length});res.end(req.method==='HEAD'?undefined:data);
  }catch(e){console.error(e.message);if(!res.headersSent)send(res,req.url.startsWith('/api/assistant')?503:500,{error:req.url.startsWith('/api/assistant')?'ИИ-помощник временно недоступен. Повторите объяснение учителя или позовите взрослого.':'Не удалось выполнить запрос. Попробуйте ещё раз.'});else res.end();}}
 if(!process.env.VERCEL)http.createServer(handler).listen(port,'127.0.0.1',()=>console.log('Ayan '+origin));
 export default handler;

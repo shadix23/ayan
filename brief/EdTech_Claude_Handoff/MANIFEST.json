@@ -1,0 +1,127 @@
+{
+  "package": "EdTech_Claude_Handoff",
+  "version": "1.0",
+  "date": "2026-11-13",
+  "files": [
+    {
+      "path": "FOLDER_STRUCTURE.md",
+      "bytes": 1216,
+      "sha256": "870789f1494370005e8bfe51aafe7747de792685f06afe162ff49ae30319144e"
+    },
+    {
+      "path": "IMPROVEMENTS.md",
+      "bytes": 3540,
+      "sha256": "2d5ca20a989b53f9f57fb551a0ba1b0535ec14d3081d43ddbc0f6314575152eb"
+    },
+    {
+      "path": "MASTER_PROMPT.md",
+      "bytes": 18230,
+      "sha256": "159145829486ea32953c6e6c85723ccbf3d02a53b074347cb0d2f2bf1945230c"
+    },
+    {
+      "path": "PREVIEW.html",
+      "bytes": 3031,
+      "sha256": "6b30cade7adc229abb24a25cec0d3bcc8570661a057baaa00675f889d9a1d2f3"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5017,
+      "sha256": "280fe8baa0bbf947f386344a3737172192141aae38d07fc57df704cb3407ac46"
+    },
+    {
+      "path": "START_HERE.txt",
+      "bytes": 1530,
+      "sha256": "5406a005ce2d1a17541a5e63ba0ac99fe091ede6bae92a99c105c649d5e74f1c"
+    },
+    {
+      "path": "design-references/ASSET_RIGHTS.md",
+      "bytes": 2246,
+      "sha256": "91a9681ad9d2b85f00be1048c970d75cfcfe9b7feae12208fdcaab6b6f52c30b"
+    },
+    {
+      "path": "design-references/DIRECTION.md",
+      "bytes": 3555,
+      "sha256": "0fcfe471e35b75f7791fd74cb16d1ef18e1b5b9f5691fdfb0b22db3cf3227ab5"
+    },
+    {
+      "path": "design-references/GENERATION_PROMPTS.md",
+      "bytes": 2446,
+      "sha256": "354c8d1a9d38504b5b9f73780b2f9f1a460bd621f069484701769b5ff8c4cd1b"
+    },
+    {
+      "path": "design-references/child-flow.svg",
+      "bytes": 3411,
+      "sha256": "1ba3d9123d01b7307d69253bb2c94b3ec939b568ce702d33c5d79dc59214df6f"
+    },
+    {
+      "path": "design-references/concept-board.png",
+      "bytes": 1890635,
+      "sha256": "d1c58fb657879cfdbb0adf243aa812dd5c05299d37094c11c0b1d30309296ee0"
+    },
+    {
+      "path": "implementation/DATA_CONTRACTS.md",
+      "bytes": 3545,
+      "sha256": "1196fdfa06dfb5389c9d6a8bbad4604c962cf514e9792aedbd9559e8693a1df1"
+    },
+    {
+      "path": "implementation/ROADMAP_AND_ACCEPTANCE.md",
+      "bytes": 6124,
+      "sha256": "ed3c6835f424c01cec4d2a94384f58b082b2eea495118271fd19a7dd427568a9"
+    },
+    {
+      "path": "implementation/SOURCES.md",
+      "bytes": 7085,
+      "sha256": "3557b9041879064533b9ed2f6a623e47a63aa7c0b521a6f3d747e7af2ea90961"
+    },
+    {
+      "path": "mascot/BRIEF.md",
+      "bytes": 4227,
+      "sha256": "cc9ad3cc059ec73aa0fd914554f2a3567d1bf031f6adb2fa2d2984ce4e488d1c"
+    },
+    {
+      "path": "pedagogy/LESSONS_RU_KK.md",
+      "bytes": 15199,
+      "sha256": "d29ea4035f864a43c1d79c055fb1544164d011050e55d97cb46aef2983b6d2dc"
+    },
+    {
+      "path": "pedagogy/lesson-metadata.example.json",
+      "bytes": 906,
+      "sha256": "6d368e25695df76d5c54d0658c3478c80fb430453c6345422c44cffe684dbc2a"
+    },
+    {
+      "path": "security-and-ux/PILOT.md",
+      "bytes": 4116,
+      "sha256": "3106fbc5b1629bb234a5f6e3521830db71b01b982be43a53fee8b506ace95e9c"
+    },
+    {
+      "path": "security-and-ux/PROGRESS_AND_UX.md",
+      "bytes": 3330,
+      "sha256": "79c901e473266b7755ec685e5f6fae6342d4ff3a4269de3d8fdceb1282d038d5"
+    },
+    {
+      "path": "security-and-ux/SECURITY.md",
+      "bytes": 5658,
+      "sha256": "5a6d2fa88057d807f972632bd8fe36f40dc8319ea3bd4115cfa59a8a7d168ed9"
+    },
+    {
+      "path": "video-lessons/M01_STORYBOARD.md",
+      "bytes": 2020,
+      "sha256": "f603219c403fa49e07a84a41af95c6beb23b8e009c97dad63e606c79b09b3ee7"
+    },
+    {
+      "path": "video-lessons/PIPELINE.md",
+      "bytes": 4790,
+      "sha256": "c03e7b6cac07e3f491822ebb225086599d4b16179b2f5f5fd5b4e15d40f0425c"
+    },
+    {
+      "path": "video-lessons/SCRIPTS_RU.md",
+      "bytes": 5098,
+      "sha256": "96832d999b16446a51334dff4f42bb64deef351f351b0ff6ef07ea21c51fa8a8"
+    },
+    {
+      "path": "video-lessons/sample.ru.vtt",
+      "bytes": 545,
+      "sha256": "6b096f08afd32518a3e43c7695145ff4130f348c7016cd5296368fac3450a486"
+    }
+  ]
+}
