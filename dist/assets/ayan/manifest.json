@@ -1,65 +1,216 @@
 {
-  "fps": 24,
-  "duration_seconds": 3,
-  "frame_range": [
-    1,
-    73
-  ],
-  "model": "ayan-animations.glb",
+  "model": "ayan.glb",
+  "fps": 30,
+  "source": "assets-src/ayan.blend (clips: assets-src/ayan_clips.py)",
+  "crossfade_seconds": 0.3,
+  "palette": {
+    "body": "#3f7a2a",
+    "dark": "#17301f",
+    "accent": "#ffd75e",
+    "face": "#f4f0d6",
+    "belly": "#fff1c4"
+  },
+  "logo": {
+    "png": "LogoIdle.png",
+    "svg": "LogoIdle.svg"
+  },
   "clips": [
     {
       "name": "Idle",
       "label": "Ожидание",
-      "use": "Спокойное парение и моргание; базовое состояние.",
-      "loop": true
+      "duration": 4,
+      "loop": true,
+      "intensity": 1,
+      "event": "всегда в покое",
+      "still": "stills/Idle.png",
+      "webp": "webp/Idle.webp"
     },
     {
-      "name": "Wave",
-      "label": "Приветствие",
-      "use": "Приветствие при первом открытии урока.",
-      "loop": true
-    },
-    {
-      "name": "Explain",
-      "label": "Объяснение",
-      "use": "Небольшие жесты для объяснения и озвучки; без фонемного липсинка.",
-      "loop": true
-    },
-    {
-      "name": "Point",
-      "label": "Подсказка",
-      "use": "Указывает вправо на следующий шаг или элемент.",
-      "loop": true
-    },
-    {
-      "name": "Think",
-      "label": "Размышление",
-      "use": "Ожидание результата, пауза перед подсказкой.",
-      "loop": true
-    },
-    {
-      "name": "Celebrate",
-      "label": "Успех",
-      "use": "Мягкая радость после выполненного задания.",
-      "loop": true
-    },
-    {
-      "name": "Encourage",
-      "label": "Поддержка",
-      "use": "Небольшой кивок и приглашающий жест при повторной попытке.",
-      "loop": true
+      "name": "Listen",
+      "label": "Слушает",
+      "duration": 3,
+      "loop": true,
+      "intensity": 1,
+      "event": "ребёнок думает 5+ секунд (wait)",
+      "still": "stills/Listen.png",
+      "webp": "webp/Listen.webp"
     },
     {
       "name": "Rest",
       "label": "Отдых",
-      "use": "Спокойное покачивание с закрытыми глазами для перерыва.",
-      "loop": true
+      "duration": 4,
+      "loop": true,
+      "intensity": 1,
+      "event": "пауза, Перерыв (session:pause)",
+      "still": "stills/Rest.png",
+      "webp": "webp/Rest.webp"
+    },
+    {
+      "name": "Wave",
+      "label": "Приветствие",
+      "duration": 1.6,
+      "loop": false,
+      "intensity": 2,
+      "event": "приветствие (session:start)",
+      "still": "stills/Wave.png",
+      "webp": "webp/Wave.webp"
+    },
+    {
+      "name": "PointLeft",
+      "label": "Показывает влево",
+      "duration": 1.5,
+      "loop": false,
+      "intensity": 2,
+      "event": "подсказка, задание слева (hint:left)",
+      "still": "stills/PointLeft.png",
+      "webp": "webp/PointLeft.webp"
+    },
+    {
+      "name": "PointRight",
+      "label": "Показывает вправо",
+      "duration": 1.5,
+      "loop": false,
+      "intensity": 2,
+      "event": "подсказка, задание справа (hint:show)",
+      "still": "stills/PointRight.png",
+      "webp": "webp/PointRight.webp"
+    },
+    {
+      "name": "Explain",
+      "label": "Объяснение",
+      "duration": 3,
+      "loop": true,
+      "intensity": 2,
+      "event": "показ шага урока (instruction:show)",
+      "still": "stills/Explain.png",
+      "webp": "webp/Explain.webp"
+    },
+    {
+      "name": "Think",
+      "label": "Думаем вместе",
+      "duration": 2,
+      "loop": false,
+      "intensity": 2,
+      "event": "не знаю / вторая подсказка (dont-know)",
+      "still": "stills/Think.png",
+      "webp": "webp/Think.webp"
+    },
+    {
+      "name": "Encourage",
+      "label": "Поддержка",
+      "duration": 1.5,
+      "loop": false,
+      "intensity": 2,
+      "event": "неверный ответ (answer:retry)",
+      "still": "stills/Encourage.png",
+      "webp": "webp/Encourage.webp"
+    },
+    {
+      "name": "Nod",
+      "label": "Кивок",
+      "duration": 1,
+      "loop": false,
+      "intensity": 2,
+      "event": "верный ответ в игре (answer:correct)",
+      "still": "stills/Nod.png",
+      "webp": "webp/Nod.webp"
+    },
+    {
+      "name": "Celebrate",
+      "label": "Успех",
+      "duration": 2.4,
+      "loop": false,
+      "intensity": 3,
+      "event": "игра или урок завершены (session:complete)",
+      "still": "stills/Celebrate.png",
+      "webp": "webp/Celebrate.webp"
+    },
+    {
+      "name": "Plant",
+      "label": "Сажает росток",
+      "duration": 2,
+      "loop": false,
+      "intensity": 2,
+      "event": "посажен цветок (garden:plant)",
+      "still": "stills/Plant.png",
+      "webp": "webp/Plant.webp"
+    },
+    {
+      "name": "TakeOff",
+      "label": "Взлёт",
+      "duration": 0.6,
+      "loop": false,
+      "intensity": 2,
+      "event": "начало перелёта",
+      "still": "stills/TakeOff.png",
+      "webp": "webp/TakeOff.webp"
+    },
+    {
+      "name": "FlyLoop",
+      "label": "Полёт",
+      "duration": 1.2,
+      "loop": true,
+      "intensity": 2,
+      "event": "перелёт, Полетели (fly)",
+      "still": "stills/FlyLoop.png",
+      "webp": "webp/FlyLoop.webp"
+    },
+    {
+      "name": "Land",
+      "label": "Посадка",
+      "duration": 0.6,
+      "loop": false,
+      "intensity": 2,
+      "event": "конец перелёта",
+      "still": "stills/Land.png",
+      "webp": "webp/Land.webp"
+    },
+    {
+      "name": "Spin",
+      "label": "Оборот",
+      "duration": 1.6,
+      "loop": false,
+      "intensity": 3,
+      "event": "лендинг: Покрутись",
+      "still": "stills/Spin.png",
+      "webp": "webp/Spin.webp"
+    },
+    {
+      "name": "Jump",
+      "label": "Прыжок",
+      "duration": 1,
+      "loop": false,
+      "intensity": 3,
+      "event": "лендинг: наведение на демо ребёнка",
+      "still": "stills/Jump.png",
+      "webp": "webp/Jump.webp"
+    },
+    {
+      "name": "Greet",
+      "label": "Выглядывает и машет",
+      "duration": 2.5,
+      "loop": false,
+      "intensity": 3,
+      "event": "лендинг: первый экран, раз за визит",
+      "still": "stills/Greet.png",
+      "webp": "webp/Greet.webp"
+    },
+    {
+      "name": "Assistant",
+      "label": "Помощник",
+      "duration": 3,
+      "loop": true,
+      "intensity": 1,
+      "event": "учитель: Спросить Аяна (ИИ)",
+      "still": "stills/Assistant.png",
+      "webp": "webp/Assistant.webp"
     }
   ],
   "notes": [
-    "Point points to the character right as seen by the viewer.",
-    "Explain has subtle mouth motion, not phoneme-based lip sync.",
-    "Honor prefers-reduced-motion; show still pose when reduced motion is enabled.",
-    "Use 0.25–0.4 second crossfades between 3D clips."
+    "Child screen uses clips with intensity up to 3 only; Spin, Jump and Greet are for the landing.",
+    "Every one-shot clip starts and ends in the Idle rest pose; looping clips hold their pose and are entered with a crossfade.",
+    "No root motion: FlyLoop path is drawn by mascot3d.mjs.",
+    "Belly glow breathing (3.5 s, 5 s in Rest) is done in code via emissiveIntensity.",
+    "Morph targets are not used: blink, smile and brows are driven by Blink L/R, Expression Control and Eyebrow L/R nodes."
   ]
 }
