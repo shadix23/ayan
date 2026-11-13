@@ -321,3 +321,4 @@ body,#world{background:var(--bg)!important}
 .auth-form>.page-lang{position:absolute;top:16px;right:16px}
 .auth-form{position:relative}
 [data-lang][hidden]{display:none!important}
+.lesson-feedback.is-warning{color:#8a4b00}

@@ -25,7 +25,7 @@ function render(data){
  const days=new Map();for(const e of events.slice(0,80)){const k=dayKey(e.created);if(!days.has(k))days.set(k,[]);days.get(k).push(e);}
  for(const list of days.values()){
   const day=el('section','parent-day'),top=el('div','parent-day-top'),ok=count(list,'answer','correct'),help=count(list,'hint');
-  top.append(el('h4','',dayLabel(list[0].created)),el('span','',list[0].lesson+(ok?t(', дұрыс жауап: ',', верных ответов: ')+ok:'')+(help?t(', кеңес: ',', подсказок: ')+help:'')));day.append(top);
+  top.append(el('h4','',dayLabel(list[0].created)),el('span','',list[0].lesson+(list[0].version>1?t(' ('+list[0].version+'-нұсқа)',' (версия '+list[0].version+')'):'')+(ok?t(', дұрыс жауап: ',', верных ответов: ')+ok:'')+(help?t(', кеңес: ',', подсказок: ')+help:'')));day.append(top);
   const ol=el('ol','parent-timeline');for(const e of list.slice().reverse()){const li=el('li','tone-'+eventTone(e));li.append(el('time','',timeLabel(e.created)),el('span','',eventText(e)));ol.append(li);}
   day.append(ol);out.append(day);
  }

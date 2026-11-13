@@ -16,7 +16,7 @@
   fQuestion:['Өзін-өзі тексеруге арналған сұрақ','Вопрос для самостоятельной проверки'],fQuestionPh:['2 + 3 неше болады?','Сколько будет 2 + 3?'],
   fAnswer:['Қысқа дұрыс жауап','Короткий правильный ответ'],fAnswerHint:['Бірнеше дұрыс жауапты нүктелі үтірмен жазыңыз: 5; бес','Несколько верных ответов через точку с запятой: 5; пять'],
   aiDraft:['Түсіндіруге көмек (ЖИ)','Помочь с объяснением (ИИ)'],assign:['Тексерілді - сабақты тағайындау →','Проверено - назначить урок →'],
-  saving:['Сақтап жатырмыз…','Сохраняем…'],assigned:['Сабақ тағайындалды. Бала оны өз бетін жаңартқаннан кейін көреді.','Урок назначен. Ребёнок увидит его после обновления своей страницы.'],
+  saving:['Сақтап жатырмыз…','Сохраняем…'],versionN:['({n}-нұсқа)','(версия {n})'],revoke:['Баланың кіруін жабу','Закрыть доступ ребёнку'],revokeConfirm:['Баланың барлық сессиялары, шақырулары және ата-ана сілтемесі жойылады. Сабақ тарихы сақталады. Жалғастырамыз ба?','Все сессии ребёнка, приглашения и ссылка родителя перестанут работать. История занятий сохранится. Продолжить?'],revoked:['Кіру жабылды. Жаңа кіру үшін жаңа шақыру жасаңыз.','Доступ закрыт. Для нового входа создайте новое приглашение.'],assigned:['Сабақ тағайындалды. Бала оны өз бетін жаңартқаннан кейін көреді.','Урок назначен. Ребёнок увидит его после обновления своей страницы.'],
   needTitle:['Алдымен сабақ тақырыбын жазыңыз','Сначала укажите тему урока'],drafting:['Аян түсіндірме құрастырып жатыр…','Аян составляет объяснение…'],
   draftDone:['ЖИ жобасы. Жарияламас бұрын әр қадамды тексеріңіз.','Черновик ИИ. Проверьте каждый шаг перед публикацией.'],
   aiOff:['ЖИ қазір қолжетімсіз, қадамдарды қолмен толтырыңыз.','ИИ сейчас недоступен, заполните шаги вручную.'],
@@ -30,15 +30,19 @@
   stepOf:['{n}-қадам, барлығы {m}','Шаг {n} из {m}'],rest:['Демалуға болады. Сабақ күтіп тұрады.','Можно отдохнуть. Занятие подождёт.'],
   listen:['Тыңдау','Послушать'],prevStep:['Қадамға оралу','Назад к шагу'],next:['Әрі қарай →','Дальше →'],
   yourAnswer:['Сенің жауабың','Твой ответ'],check:['Тексеру','Проверить'],
-  correct:['Дұрыс. Тапсырма орындалды. Нәтиже сақталды.','Верно. Задание выполнено. Результат сохранён.'],
-  retry:['Тағы бір рет байқап көрейік. Түсіндірмеге оралып, көмек сұрауға болады.','Попробуем ещё раз. Можно вернуться к объяснению и попросить помощь.'],
+  savingAnswer:['Жауапты сақтап жатырмыз…','Сохраняем ответ…'],saveFailed:['Жауап әзірге сақталмады. Тағы байқап көрейік.','Ответ пока не сохранён. Попробуем ещё раз.'],resend:['Қайта жіберу','Отправить ещё раз'],
+  emptyAnswer:['Алдымен жауабыңды жаз.','Сначала напиши ответ.'],correctDone:['Сақталды. Дұрыс! Сабақ аяқталды.','Сохранено. Верно! Урок завершён.'],
+  incorrectSaved:['Сақталды. Әзірге басқаша. Түсіндірмеге оралып, тағы байқап көр.','Сохранено. Пока не так. Можно вернуться к объяснению и попробовать ещё раз.'],
+  finish:['Тапсырмаларыма','К моим заданиям'],alreadyDone:['Бұл сабақ өтілді. Қайталауға болады.','Этот урок уже пройден. Можно повторить.'],again:['Сабақты қайталау','Повторить урок'],
+  lessonChanged:['Мұғалім сабақты жаңартты. Бетті жаңартыңыз.','Учитель обновил урок. Обнови страницу.'],
   askTitle:['Аяннан түсіндіруді сұрау','Попросить Аяна объяснить'],askNote:['ЖИ қателесуі мүмкін. Түсініксіз болса, ересекті шақыр.','ИИ может ошибаться. Если объяснение непонятно, позови взрослого.'],
   teacherHint:['Мұғалімнің түсіндірмесін қайталау','Повторить объяснение учителя'],askWhat:['Нені түсіндіру керек?','Что объяснить?'],askPh:['Осы қадамды қарапайым мысалмен түсіндірші','Объясни этот шаг на простом примере'],
   askBtn:['Аяннан сұрау (ЖИ)','Спросить Аяна (ИИ)'],thinking:['Аян ойланып жатыр…','Аян думает…'],
   resumeTitle:['Біз {n}-қадамда тоқтадық','Мы остановились на шаге {n}'],resumeGo:['{n}-қадамнан жалғастыру','Продолжить с шага {n}'],restart:['Басынан бастау','Начать сначала']
  };
  const t=(k,o)=>{let s=(S[k]||[k,k])[lang()==='kk'?0:1];if(o)for(const x in o)s=s.replaceAll('{'+x+'}',o[x]);return s;};
- const request=async(url,data)=>{if(A.demoRequest)return A.demoRequest(url,data);const r=await fetch(url,data===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const value=await r.json().catch(()=>({}));if(!r.ok){const e=Error(value.error||t('failed'));e.code=value.code;throw e;}return value;};
+ const request=async(url,data)=>{if(A.demoRequest)return A.demoRequest(url,data);let r;try{r=await fetch(url,data===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});}catch(err){const e=Error(t('failed'));e.status=0;throw e;}const value=await r.json().catch(()=>({}));if(!r.ok){const e=Error(value.error||t('failed'));e.code=value.code;e.status=r.status;e.data=value;throw e;}return value;};
+ const uid=()=>crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2,12);
  const aiError=(e,child)=>A.demo?t('aiDemo'):e.code==='ai_unavailable'?t(child?'aiOffChild':'aiOff'):e.message;
  const lessonURL='/api/lesson?role='+A.role+(A.role==='teacher'?'&child='+A.child:'');
  const icon={pause:'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.5" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.5" fill="currentColor"/></svg>',
@@ -48,7 +52,9 @@
  function demoBar(){if(!A.demo)return;let bar=document.querySelector('.demo-bar');if(!bar){bar=document.createElement('aside');bar.className='demo-bar';document.body.prepend(bar);}
   bar.innerHTML=t('demoBar')+' <a href="/demo/child">'+t('student')+'</a><a href="/demo/teacher">'+t('teacher')+'</a><a href="/demo/parent'+(lang()==='kk'?'?lang=kk':'')+'">'+t('parent')+'</a>';}
 
- let lesson=null,index=0,large=false,paused=false,resumeAsked=false;
+ let lesson=null,index=0,large=false,paused=false,resumeAsked=false,attempt=null;
+ // Answer lifecycle: editing -> submitting -> evaluated, or submitting -> save_failed -> retry with the same submissionId.
+ let ans={status:'editing',text:'',submissionId:null,evaluation:null};
  async function ask(prompt,context){return (await request('/api/assistant',{prompt,context})).text;}
 
  // ---------- Teacher ----------
@@ -58,7 +64,7 @@
   const keep=old?Object.fromEntries(new FormData(old.querySelector('#lesson-editor'))):null;
   const el=document.createElement('section');el.className='account-panel';el.id='product-teacher';el.dataset.lang=lang();
   const tpl=(window.AyanTemplates?.list(lang())||[]).map(x=>'<button type="button" class="template-chip" data-template="'+x.id+'">'+esc(x.title)+'</button>').join('');
-  el.innerHTML='<h2>'+t('panelTitle')+'</h2><div class="row"><label for="student-select">'+t('student')+'</label><select id="student-select">'+A.children.map(c=>'<option value="'+c.id+'" '+(c.id===A.child?'selected':'')+'>'+esc(c.label)+'</option>').join('')+'</select><button class="secondary" id="new-student">'+t('addStudent')+'</button><button class="secondary" id="child-invite">'+t('childEntry')+'</button><button class="secondary" id="parent-invite">'+t('parentReport')+'</button></div><p class="invite-result" id="invite-result" role="status"></p><hr>'
+  el.innerHTML='<h2>'+t('panelTitle')+'</h2><div class="row"><label for="student-select">'+t('student')+'</label><select id="student-select">'+A.children.map(c=>'<option value="'+c.id+'" '+(c.id===A.child?'selected':'')+'>'+esc(c.label)+'</option>').join('')+'</select><button class="secondary" id="new-student">'+t('addStudent')+'</button><button class="secondary" id="child-invite">'+t('childEntry')+'</button><button class="secondary" id="parent-invite">'+t('parentReport')+'</button><button class="secondary" id="child-revoke">'+t('revoke')+'</button></div><p class="invite-result" id="invite-result" role="status"></p><hr>'
    +'<h2>'+t('lessonTitle')+'</h2><p>'+t('lessonHint')+'</p>'
    +(tpl?'<div class="templates"><h3>'+t('templates')+'</h3><p class="help-text">'+t('templatesHint')+'</p><div class="template-list">'+tpl+'</div></div>':'')
    +'<form id="lesson-editor"><label for="lesson-title">'+t('fTitle')+'</label><input id="lesson-title" name="title" placeholder="'+esc(t('fTitlePh'))+'" required maxlength="160">'
@@ -69,12 +75,13 @@
   if(old)old.replaceWith(el);else document.querySelector('#app').prepend(el);
   const f=el.querySelector('#lesson-editor'),status=el.querySelector('#lesson-status');
   const fill=l=>{f.elements.title.value=l.title||'';f.elements.steps.value=(Array.isArray(l.steps)?l.steps.join('\n'):l.steps)||'';f.elements.question.value=l.question||'';f.elements.answer.value=l.answer||'';};
-  if(keep)fill(keep);else request(lessonURL).then(l=>{if(l)fill(l);}).catch(()=>{});
+  if(keep)fill(keep);else request(lessonURL).then(l=>{if(l){fill(l);A.lessonVersion=l.id;}}).catch(()=>{});
   el.querySelector('#student-select').onchange=e=>{sessionStorage.setItem('ayan.selected.'+A.me.id,e.target.value);location.reload();};
   el.querySelector('#new-student').onclick=studentDialog;
   for(const [id,url] of [['child-invite','/api/invite'],['parent-invite','/api/parent/invite']])el.querySelector('#'+id).onclick=async()=>{const out=el.querySelector('#invite-result');try{await A.flush();const r=await request(url,{child:A.child});out.replaceChildren();const a=document.createElement('a');a.href=r.url;a.textContent=r.url;a.target='_blank';a.rel='noopener';out.append(t(id==='child-invite'?'childLink':'parentLink'),a);}catch(e){out.textContent=e.message;}};
+  el.querySelector('#child-revoke').onclick=async()=>{const out=el.querySelector('#invite-result');if(!confirm(t('revokeConfirm')))return;try{await request('/api/children/revoke',{child:A.child});out.textContent=t('revoked');}catch(e){out.textContent=e.message;}};
   el.querySelectorAll('[data-template]').forEach(b=>b.onclick=()=>{const l=window.AyanTemplates.get(b.dataset.template,lang());fill(l);el.querySelectorAll('[data-template]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));status.textContent=t('templateIn');});
-  f.onsubmit=async e=>{e.preventDefault();status.textContent=t('saving');try{const data=Object.fromEntries(new FormData(f));data.steps=data.steps.split('\n').filter(x=>x.trim());await request(lessonURL,data);status.textContent=t('assigned');}catch(err){status.textContent=err.message;}};
+  f.onsubmit=async e=>{e.preventDefault();status.textContent=t('saving');try{const data=Object.fromEntries(new FormData(f));data.steps=data.steps.split('\n').filter(x=>x.trim());const published=await request(lessonURL,{...data,locale:lang()});A.lessonVersion=published?.id||A.lessonVersion;status.textContent=t('assigned')+(published?.version?' '+t('versionN',{n:published.version}):'');}catch(err){status.textContent=err.message;}};
   el.querySelector('#ai-draft').onclick=async e=>{if(!f.elements.title.value.trim()){status.textContent=t('needTitle');return;}const b=e.currentTarget;b.disabled=true;status.textContent=t('drafting');
    const prompt=lang()==='kk'?'Тақырыпты 3-5 қарапайым қадамға бөл. Бір жолға бір қадам. Нөмірсіз, тақырыпшасыз, белгілеусіз. Қазақ тілінде жаз. Тақырып: ':'Разбей тему на 3-5 простых шагов. Один шаг на строке. Без нумерации, заголовков и разметки. Тема: ';
    try{f.elements.steps.value=await ask(prompt+f.elements.title.value,f.elements.steps.value);status.textContent=t('draftDone');}catch(err){status.textContent=aiError(err,false);}finally{b.disabled=false;}};
@@ -100,35 +107,46 @@
   el.querySelector('#open-lesson')?.addEventListener('click',openLesson);
  }
  let eventQueue=Promise.resolve();
- const event=(kind,value='')=>{eventQueue=eventQueue.catch(()=>{}).then(()=>request('/api/lesson/event',{kind,value}));return eventQueue.catch(()=>{});};
+ const event=(kind,value='')=>{eventQueue=eventQueue.catch(()=>{}).then(()=>request('/api/lesson/event',{kind,value,attemptId:attempt?.id}));return eventQueue.catch(()=>{});};
+ // Starts (or re-opens) an attempt on the server. Idempotent: the same id can be sent again after a timeout.
+ async function ensureAttempt(){if(!attempt)return null;if(attempt.confirmed)return attempt;try{const view=await request('/api/attempt',{attemptId:attempt.id,lessonVersion:lesson.id,locale:lang()});attempt={...view,confirmed:true};return attempt;}catch(e){if(e.code==='lesson_changed')attempt.changed=true;return null;}}
+ function newAttempt(){attempt={id:uid(),confirmed:false};ans={status:'editing',text:'',submissionId:null,evaluation:null};}
  const total=()=>lesson.steps.length+1;
  function openLesson(){
   document.querySelector('#lesson-dialog')?.remove();
   const d=document.createElement('dialog');d.id='lesson-dialog';d.className='lesson-dialog';document.body.append(d);
-  d.addEventListener('close',()=>{speechSynthesis?.cancel();if(index>0)lesson.resume=index+1;d.remove();});
-  resumeAsked=!(lesson.resume>1);if(resumeAsked){index=0;event('step','1');}
+  d.addEventListener('close',()=>{speechSynthesis?.cancel();if(attempt&&attempt.state!=='completed'){lesson.attemptId=attempt.id;if(index>0)lesson.resume=index+1;}d.remove();});
+  if(lesson.attemptId){attempt={id:lesson.attemptId,confirmed:false};ans={status:'editing',text:'',submissionId:null,evaluation:null};}else newAttempt();
+  resumeAsked=!(lesson.resume>1)&&!(lesson.completedAttempt&&!lesson.attemptId);
+  if(resumeAsked){index=0;ensureAttempt().then(()=>event('step','1'));}
   d.showModal();draw();
  }
  function draw(){
   const d=document.querySelector('#lesson-dialog');if(!d)return;
+  if(!resumeAsked&&lesson.completedAttempt&&!lesson.attemptId){
+   d.innerHTML='<div class="lesson-reader lesson-resume"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button></div><h1>'+esc(lesson.title)+'</h1><p class="lesson-step">'+t('alreadyDone')+'</p><div class="lesson-choice"><button class="primary" id="resume-restart">'+t('again')+'</button></div></div>';
+   d.querySelector('#lesson-close').onclick=()=>d.close();
+   d.querySelector('#resume-restart').onclick=()=>{resumeAsked=true;index=0;newAttempt();lesson.completedAttempt=null;ensureAttempt().then(()=>event('step','1'));draw();};
+   d.querySelector('#resume-restart').focus();return;
+  }
   if(!resumeAsked){
    d.innerHTML='<div class="lesson-reader lesson-resume"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button></div><h1>'+esc(lesson.title)+'</h1><p class="lesson-step">'+t('resumeTitle',{n:lesson.resume})+'</p><div class="lesson-choice"><button class="primary" id="resume-go">'+t('resumeGo',{n:lesson.resume})+'</button><button class="secondary" id="resume-restart">'+t('restart')+'</button></div></div>';
    d.querySelector('#lesson-close').onclick=()=>d.close();
-   d.querySelector('#resume-go').onclick=()=>{resumeAsked=true;index=Math.min(lesson.resume-1,lesson.steps.length);event('step',String(index+1));draw();};
-   d.querySelector('#resume-restart').onclick=()=>{resumeAsked=true;index=0;event('step','1');draw();};
+   d.querySelector('#resume-go').onclick=()=>{resumeAsked=true;index=Math.min(lesson.resume-1,lesson.steps.length);ensureAttempt().then(()=>event('step',String(index+1)));draw();};
+   d.querySelector('#resume-restart').onclick=()=>{resumeAsked=true;index=0;newAttempt();ensureAttempt().then(()=>event('step','1'));draw();};
    d.querySelector('#resume-go').focus();return;
   }
   const question=index>=lesson.steps.length;
   const body=paused?'<div class="lesson-step">'+t('rest')+'</div>'
    :!question?'<div class="lesson-step">'+esc(lesson.steps[index])+'</div>'
-   :'<div class="lesson-step">'+esc(lesson.question)+'</div><form id="answer-form" class="answer-form"><label for="lesson-response">'+t('yourAnswer')+'</label><input id="lesson-response" required maxlength="200" autocomplete="off"></form>';
+   :'<div class="lesson-step">'+esc(lesson.question)+'</div><form id="answer-form" class="answer-form"><label for="lesson-response">'+t('yourAnswer')+'</label><input id="lesson-response" maxlength="200" autocomplete="off" value="'+esc(ans.text)+'" '+(ans.status==='submitting'||ans.evaluation==='correct'?'readonly':'')+'></form>';
   const bar=paused?'<button class="primary lesson-next" id="lesson-pause-end">'+t('resume')+'</button>'
    :'<div class="lesson-bar-row"><button class="secondary" id="speak-step" '+(question?'hidden':'')+'>'+t('listen')+'</button><button class="secondary" id="repeat-step" '+(index===0?'disabled':'')+'>'+t('prevStep')+'</button></div>'
-    +(question?'<button class="primary lesson-next" type="submit" form="answer-form">'+t('check')+'</button>':'<button class="primary lesson-next" id="next-step">'+t('next')+'</button>');
+    +(question?(ans.evaluation==='correct'&&attempt?.state==='completed'?'<button class="primary lesson-next" id="lesson-finish">'+t('finish')+'</button>':'<button class="primary lesson-next" type="submit" form="answer-form" '+(ans.status==='submitting'?'disabled aria-busy="true"':'')+'>'+t(ans.status==='save_failed'?'resend':'check')+'</button>'):'<button class="primary lesson-next" id="next-step">'+t('next')+'</button>');
   d.innerHTML='<div class="lesson-reader'+(large?' is-large':'')+'"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button><span class="lesson-progress">'+t('stepOf',{n:index+1,m:total()})+'</span><div class="lesson-tools">'
    +'<button class="icon-btn" id="lesson-pause" aria-pressed="'+paused+'" aria-label="'+t(paused?'resume':'pause')+'" title="'+t(paused?'resume':'pause')+'">'+(paused?icon.play:icon.pause)+'</button>'
    +'<button class="icon-btn" id="lesson-size" aria-pressed="'+large+'" aria-label="'+t('large')+'" title="'+t('large')+'">'+icon.size+'</button></div></div>'
-   +'<div class="lesson-content"><h1>'+esc(lesson.title)+'</h1>'+body+'<p id="lesson-feedback" class="lesson-feedback" role="status"></p>'
+   +'<div class="lesson-content"><h1>'+esc(lesson.title)+'</h1>'+body+'<p id="lesson-feedback" class="lesson-feedback'+(ans.status==='save_failed'?' is-warning':'')+'" role="status">'+feedbackText()+'</p>'
    +'<details class="lesson-help"><summary>'+t('askTitle')+'</summary><p>'+t('askNote')+'</p><button class="secondary" id="teacher-hint">'+t('teacherHint')+'</button><form id="assistant-form"><label for="assistant-question">'+t('askWhat')+'</label><textarea id="assistant-question" required maxlength="2000" placeholder="'+esc(t('askPh'))+'"></textarea><button class="secondary">'+t('askBtn')+'</button></form><p id="assistant-reply" role="status"></p></details></div>'
    +'<div class="lesson-bar">'+bar+'</div></div>';
   const $=s=>d.querySelector(s);
@@ -140,9 +158,44 @@
   $('#repeat-step')?.addEventListener('click',()=>{index=Math.max(0,index-1);event('hint');draw();});
   $('#speak-step')?.addEventListener('click',()=>{if(!window.speechSynthesis)return;const u=new SpeechSynthesisUtterance(lesson.steps[index]);u.lang=lang()==='kk'?'kk-KZ':'ru-RU';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);});
   $('#teacher-hint').onclick=()=>{event('hint');$('#assistant-reply').textContent=lesson.steps[Math.min(index,lesson.steps.length-1)];};
-  $('#answer-form')?.addEventListener('submit',async e=>{e.preventDefault();const result=await event('answer',$('#lesson-response').value);$('#lesson-feedback').textContent=t(result?.value==='correct'?'correct':'retry');});
+  $('#answer-form')?.addEventListener('submit',e=>{e.preventDefault();submitAnswer($('#lesson-response').value);});
+  $('#lesson-response')?.addEventListener('input',e=>{if(ans.status!=='submitting'){ans.text=e.target.value;}});
+  $('#lesson-finish')?.addEventListener('click',()=>d.close());
   $('#assistant-form').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button'),out=$('#assistant-reply');b.disabled=true;out.textContent=t('thinking');event('hint');try{out.textContent=await ask($('#assistant-question').value);}catch(err){out.textContent=aiError(err,true);}finally{b.disabled=false;}};
   ($('#next-step')||$('#lesson-response')||$('#lesson-pause-end'))?.focus({preventScroll:true});
+ }
+
+ function feedbackText(){
+  if(attempt?.changed)return t('lessonChanged');
+  if(ans.status==='submitting')return t('savingAnswer');
+  if(ans.status==='save_failed')return t('saveFailed');
+  if(ans.status==='empty')return t('emptyAnswer');
+  if(ans.status==='evaluated')return ans.evaluation==='correct'?t('correctDone'):t('incorrectSaved');
+  return '';
+ }
+ async function submitAnswer(raw){
+  const text=String(raw||'').trim();
+  if(ans.status==='submitting')return; // double click
+  if(!text){ans.status='empty';draw();return;} // no answer is not a wrong answer
+  if(!ans.submissionId||ans.status==='evaluated'||text!==ans.sentText)ans.submissionId=uid(); // a new answer gets a new key; a retry of the same text keeps it
+  ans.sentText=text;
+  ans.text=text;ans.status='submitting';draw();
+  try{
+   if(!(await ensureAttempt()))throw Object.assign(Error('attempt'),{status:attempt?.changed?409:0});
+   const r=await request('/api/attempt/submit',{attemptId:attempt.id,taskId:'final',submissionId:ans.submissionId,answer:text});
+   ans.status='evaluated';ans.evaluation=r.evaluation;attempt={...r.attempt,confirmed:true};
+  }catch(e){
+   if(e.code==='completed'&&e.data?.attempt){attempt={...e.data.attempt,confirmed:true};const last=attempt.submissions.filter(s=>s.evaluation==='correct').pop();ans.status='evaluated';ans.evaluation=last?'correct':ans.evaluation;}
+   else if(e.code==='empty')ans.status='empty';
+   else if(e.code==='conflict'){ans.submissionId=null;ans.status='save_failed';}
+   else{ // unknown outcome: ask the server what it has saved before offering a retry
+    const saved=await request('/api/attempt?id='+encodeURIComponent(attempt.id)).catch(()=>null);
+    const mine=saved?.submissions?.find(s=>s.submissionId===ans.submissionId);
+    if(mine){ans.status='evaluated';ans.evaluation=mine.evaluation;attempt={...saved,confirmed:true};}else ans.status='save_failed';
+   }
+  }
+  draw();
+  if(ans.status==='evaluated'&&ans.evaluation==='correct'&&attempt?.state==='completed'){lesson.completedAttempt=attempt.id;lesson.attemptId=null;lesson.resume=null;}
  }
 
  function decorate(){
