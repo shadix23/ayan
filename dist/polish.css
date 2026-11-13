@@ -452,3 +452,9 @@ html[data-text-size="large"] .world-card-copy p{font-size:18px}
 @media (max-width:420px){.fg-parts{grid-template-columns:repeat(2,1fr)}.fg h2{font-size:21px}}
 .fg-2d-preview svg{width:min(200px,38vw);height:auto}
 @media (max-width:420px){.fg-part{min-height:56px;padding:6px}.fg-part svg{width:36px;height:36px}.fg-count-task{margin-top:6px}.fg h2{margin-bottom:6px}}
+#video-transcript{white-space:pre-line}
+.video-dialog .video-after{margin:12px 0;padding:12px 14px;border-radius:14px;background:#eef6e2}
+.video-dialog .video-after .primary{width:auto;margin:8px 0 0;min-height:48px}
+.video-dialog h2{margin:0 0 4px}
+.video-controls{margin:4px 0 8px}
+.video-controls select{min-height:40px;padding:4px 8px;border-radius:8px;border:1px solid #cbd8bf;font:inherit}

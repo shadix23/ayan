@@ -35,7 +35,9 @@ const redirect=(res,url)=>{res.writeHead(302,{Location:url,'Cache-Control':'no-s
 async function body(req){let s='';for await(const c of req){s+=c;if(s.length>250000)throw Error('Request too large');}return JSON.parse(s||'{}');}
 async function teacher(req){return (await auth.api.getSession({headers:fromNodeHeaders(req.headers)}))?.user;}
 async function child(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('ayan_child='))?.slice(11);if(!token)return null;return (await query('SELECT c.* FROM ayan_children c JOIN ayan_child_sessions s ON c.id=s.child WHERE s.token=? AND s.expires>?',[hash(token),Date.now()]))[0];}
-const staticRoot=path.resolve('dist'),mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.ttf':'font/ttf','.webm':'video/webm','.mp4':'video/mp4'};
+const staticRoot=path.resolve('dist'),mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.ttf':'font/ttf','.webm':'video/webm','.mp4':'video/mp4','.mp3':'audio/mpeg','.vtt':'text/vtt; charset=utf-8','.jpg':'image/jpeg','.md':'text/markdown; charset=utf-8'};
+// Media is served in ranges of at most 2 MB: Safari needs 206 for video, and a Vercel function response is limited to 4.5 MB.
+const MEDIA_CHUNK=2*1024*1024;
 export async function handler(req,res){try{
  const url=new URL(req.url,origin),p=url.pathname;
  if(req.method!=='GET'&&req.method!=='HEAD'&&!p.startsWith('/api/auth/')&&req.headers.origin!==origin)return send(res,403,{error:'Origin rejected'});
@@ -108,7 +110,14 @@ export async function handler(req,res){try{
  else if(p==='/app.html')return redirect(res,'/');
  else if(p.startsWith('/api/'))return send(res,404,{error:'Not found'});
  const target=path.resolve(staticRoot,'.'+decodeURIComponent(file));if(!target.startsWith(staticRoot+path.sep))return send(res,400,{error:'Invalid path'});
- const data=await fs.promises.readFile(target).catch(()=>null);if(!data)return send(res,404,{error:'Not found'});res.writeHead(200,{'Content-Type':mime[path.extname(target)]||'application/octet-stream','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin'});res.end(data);
+ const data=await fs.promises.readFile(target).catch(()=>null);if(!data)return send(res,404,{error:'Not found'});
+ const type=mime[path.extname(target)]||'application/octet-stream',media=/^(video|audio)\//.test(type);
+ const headers={'Content-Type':type,'Cache-Control':p.startsWith('/media/')?'public, max-age=86400':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin'};
+ if(media){headers['Accept-Ranges']='bytes';const m=/^bytes=(\d*)-(\d*)$/.exec(req.headers.range||'');
+  if(m&&(m[1]||m[2])){let start=m[1]?Number(m[1]):Math.max(0,data.length-Number(m[2])),end=m[1]&&m[2]?Number(m[2]):data.length-1;
+   if(start>=data.length||start>end){res.writeHead(416,{'Content-Range':'bytes */'+data.length});return res.end();}
+   end=Math.min(end,data.length-1,start+MEDIA_CHUNK-1);res.writeHead(206,{...headers,'Content-Range':'bytes '+start+'-'+end+'/'+data.length,'Content-Length':end-start+1});return res.end(req.method==='HEAD'?undefined:data.subarray(start,end+1));}}
+ res.writeHead(200,{...headers,'Content-Length':data.length});res.end(req.method==='HEAD'?undefined:data);
  }catch(e){console.error(e.message);if(!res.headersSent)send(res,req.url.startsWith('/api/assistant')?503:500,{error:req.url.startsWith('/api/assistant')?'ИИ-помощник временно недоступен. Повторите объяснение учителя или позовите взрослого.':'Не удалось выполнить запрос. Попробуйте ещё раз.'});else res.end();}}
 if(!process.env.VERCEL)http.createServer(handler).listen(port,'127.0.0.1',()=>console.log('Ayan '+origin));
 export default handler;

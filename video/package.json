@@ -1,0 +1,22 @@
+{
+  "name": "ayan-video-lessons",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Video lessons with Ayan. Remotion compositions; mascot frames come from assets-src/ayan.blend.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "timing": "node scripts/timing.mjs",
+    "render:m01": "remotion render src/index.ts M01 out/M01.mp4 --codec h264 --crf 20",
+    "poster:m01": "remotion still src/index.ts M01 out/M01-poster.png --frame 150"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.484",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "remotion": "4.0.484"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "typescript": "6.0.3"
+  }
+}
