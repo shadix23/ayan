@@ -245,3 +245,79 @@ body,#world{background:var(--bg)!important}
 .tools-title{margin:8px 0 16px}
 .tools-title h2{font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0 0 4px}
 .tools-title p{margin:0;color:var(--muted);font-size:16px;max-width:60ch}
+
+/* Game card illustrations (assets/games/<id>.svg), one style for all nine */
+.game-art.task-preview{padding:8px}
+.game-illustration{display:block;height:100%;max-height:132px;width:auto;aspect-ratio:1}
+
+/* Helper text under fields */
+.help-text{font-size:14px;color:var(--muted,#5d6b60);margin:6px 0 12px}
+
+/* Lesson templates: one tap fills the editor */
+.templates{margin:8px 0 16px}
+.templates h3{font-size:16px;margin:0 0 4px}
+.template-list{display:flex;flex-wrap:wrap;gap:8px}
+.template-chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1px solid var(--line,#dce4d6);background:var(--surface,#fff);color:var(--ink,#16261b);font:600 14px/1.2 inherit;cursor:pointer;text-align:left}
+.template-chip:hover{background:#f3f7ec}
+.template-chip[aria-pressed="true"]{background:#e7f2d6;border-color:#9cc36a}
+
+/* Add student dialog (replaces window.prompt) */
+.ayan-dialog{width:min(440px,calc(100% - 32px));border:1px solid var(--line,#dce4d6);border-radius:20px;padding:24px;background:var(--surface,#fff);color:var(--ink,#16261b)}
+.ayan-dialog::backdrop,.lesson-dialog::backdrop{background:rgba(23,48,31,.35)}
+.ayan-dialog h2{margin:0 0 16px;font-size:22px}
+.ayan-dialog label{display:block;font-weight:600;margin-bottom:6px}
+.ayan-dialog input{width:100%;padding:12px;min-height:48px;border:1px solid #cbd8bf;border-radius:10px;font:inherit}
+.ayan-dialog .actions{display:flex;gap:12px;justify-content:flex-end;margin-top:8px}
+.ayan-dialog .actions .primary,.ayan-dialog .actions .secondary{width:auto;margin:0;min-height:48px}
+
+/* Child lesson reader: top row with back and two icon buttons, sticky action bar at the bottom */
+.lesson-dialog{width:min(960px,calc(100% - 24px));max-height:94dvh;border:1px solid #dce5d3;border-radius:20px;padding:0;overflow:hidden}
+.lesson-dialog[open]{display:flex;flex-direction:column}
+.lesson-dialog .lesson-reader{margin:0;padding:0;max-width:none;display:flex;flex-direction:column;min-height:0;flex:1}
+.lesson-top{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #e6ecdf}
+.lesson-top .secondary{min-height:44px;padding:8px 14px;margin:0;width:auto}
+.lesson-progress{flex:1;text-align:center;font-weight:600;color:var(--muted,#5d6b60);font-size:15px}
+.lesson-tools{display:flex;gap:8px}
+.icon-btn{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;border:1px solid #dce4d6;background:#fff;color:var(--ink,#16261b);cursor:pointer}
+.icon-btn[aria-pressed="true"]{background:#e7f2d6;border-color:#9cc36a}
+.lesson-content{overflow:auto;padding:20px 24px;flex:1;min-height:0}
+.lesson-content h1{font-size:28px;margin:0 0 16px}
+.lesson-dialog .lesson-step{margin:0 0 12px;font-size:22px;line-height:1.45}
+.lesson-reader.is-large .lesson-step{font-size:30px}
+.lesson-reader.is-large .lesson-content{font-size:20px}
+.lesson-feedback{min-height:24px;margin:8px 0;font-weight:600}
+.answer-form label{display:block;font-weight:600;margin-bottom:6px}
+.answer-form input{width:100%;padding:14px;min-height:52px;font:inherit;font-size:20px;border:1px solid #cbd8bf;border-radius:12px}
+.lesson-help{margin-top:16px;border:1px solid #e6ecdf;border-radius:14px;padding:12px 16px}
+.lesson-help summary{cursor:pointer;font-weight:600;min-height:28px}
+.lesson-help textarea{width:100%;padding:12px;border:1px solid #cbd8bf;border-radius:12px;min-height:80px;font:inherit}
+.lesson-help .secondary{width:auto;margin:8px 0}
+#assistant-reply{white-space:pre-wrap}
+.lesson-bar{position:sticky;bottom:0;display:grid;gap:8px;padding:12px 20px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e6ecdf;background:var(--surface,#fff)}
+.lesson-bar-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lesson-bar-row .secondary{margin:0;width:100%;min-height:48px;padding:8px 12px}
+.lesson-bar-row [hidden]+.secondary{grid-column:1 / -1}
+.lesson-next{width:100%;margin:0!important;min-height:56px;font-size:18px}
+.lesson-choice{display:grid;gap:12px;padding:0 24px 24px}
+.lesson-choice .primary,.lesson-choice .secondary{margin:0;width:100%}
+.lesson-resume h1,.lesson-resume .lesson-step{margin-left:24px;margin-right:24px}
+.lesson-resume h1{margin-top:20px}
+@media (max-width:640px){
+ .lesson-dialog{width:100%;max-width:100%;height:100dvh;max-height:100dvh;border-radius:0;border:0;margin:0}
+ .lesson-top{padding:10px 12px;gap:8px}
+ .lesson-progress{font-size:14px}
+ .lesson-content{padding:14px 16px}
+ .lesson-content h1{font-size:22px;margin-bottom:10px}
+ .lesson-dialog .lesson-step{padding:18px;font-size:20px}
+ .lesson-reader.is-large .lesson-step{font-size:26px}
+ .lesson-bar{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+}
+.lesson-bar [hidden]{display:none!important}
+
+/* Language switch on standalone pages */
+.page-lang{display:inline-flex;gap:4px;margin-left:auto;padding:3px;border:1px solid var(--line,#dce4d6);border-radius:999px;background:var(--surface,#fff)}
+.page-lang button{min-height:36px;min-width:44px;padding:4px 10px;border:0;border-radius:999px;background:transparent;font:600 14px/1 inherit;color:var(--ink,#16261b);cursor:pointer}
+.page-lang button[aria-pressed="true"]{background:#e7f2d6}
+.auth-form>.page-lang{position:absolute;top:16px;right:16px}
+.auth-form{position:relative}
+[data-lang][hidden]{display:none!important}
