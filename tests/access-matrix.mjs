@@ -113,5 +113,26 @@ await check('step value is validated; answers via the old event endpoint are ref
  assert.equal((await call('/api/lesson/event',{cookie:A.cookie,body:{kind:'step',value:'<b>999</b>'}})).status,400);
  assert.equal((await call('/api/lesson/event',{cookie:A.cookie,body:{kind:'answer',value:'5'}})).status,400);
 });
+// ---- Stage 2: support profile and video viewing ----
+await check('support profile: child changes only the safe part, teacher changes all, other teacher gets 404',async()=>{
+ const put=(c,body,q)=>fetch(B+'/api/support?'+q,{method:'PUT',headers:{...H,cookie:c},body:JSON.stringify(body)}).then(async r=>({status:r.status,data:await r.json()}));
+ const c1=await put(A.cookie,{lang:'kk',textSize:'large',pace:'slow',input:'drag',diagnosis:'x'},'role=child');
+ assert.equal(c1.status,200);assert.equal(c1.data.lang,'kk');assert.equal(c1.data.textSize,'large');assert.equal(c1.data.pace,'normal');assert.equal(c1.data.input,'buttons');assert.equal(c1.data.diagnosis,undefined);
+ const t1=await put(tA,{pace:'slow',repeatInstruction:true,lang:'zz'},'role=teacher&child='+A.id);assert.equal(t1.data.pace,'slow');assert.equal(t1.data.repeatInstruction,true);assert.equal(t1.data.lang,'kk');
+ assert.equal((await call('/api/support?role=teacher&child='+A.id,{cookie:tB})).status,404);
+ assert.equal((await put(tB,{pace:'normal'},'role=admin&child='+A.id)).status,404);
+ assert.equal((await call('/api/support?role=child')).status,401);
+});
+await check('video viewing: seconds only grow, completed is sticky, separate from answers, owner only',async()=>{
+ const v=(c,body)=>call('/api/video/progress',{cookie:c,body});
+ assert.equal((await v(A.cookie,{videoId:'M01',version:'0.1.0-draft',seconds:30,duration:70})).data.seconds,30);
+ assert.equal((await v(A.cookie,{videoId:'M01',version:'0.1.0-draft',seconds:10,duration:70})).data.seconds,30);
+ assert.equal((await v(A.cookie,{videoId:'M01',version:'0.1.0-draft',seconds:70,duration:70,completed:true})).data.completed,true);
+ assert.equal((await v(A.cookie,{videoId:'M01',version:'0.1.0-draft',seconds:5,completed:false})).data.completed,true);
+ assert.equal((await v(A.cookie,{videoId:'../x',version:'1'})).status,400);
+ assert.equal((await call('/api/video/progress',{body:{videoId:'M01',version:'1'}})).status,401);
+ const mine=(await call('/api/video/progress',{cookie:Bc.cookie})).data;assert.ok(!mine.some(x=>x.videoId==='M01'));
+ const rep=(await call('/api/parent/report',{body:{code:A.parent}})).data;assert.equal(rep.videos[0].completed,true);assert.ok(!rep.events.some(e=>e.kind==='video'));
+});
 const failed=results.filter(r=>!r[1]).length;
 console.log(`\n${results.length-failed}/${results.length} passed`);process.exit(failed?1:0);

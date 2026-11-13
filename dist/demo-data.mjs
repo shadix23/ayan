@@ -20,6 +20,10 @@ export async function request(url,data,method){
  if(p==='/api/me')return {id:'demo-'+u.searchParams.get('role'),label:'Саша',name:'Учитель',role:u.searchParams.get('role')};
  if(p==='/api/children'){if(data){const c={id:'demo-'+Date.now(),label:data.label};d.children.push(c);save(d);return c;}return d.children;}
  if(p==='/api/children/revoke')return {ok:true};
+ if(p==='/api/support'){const base={lang:'ru',textSize:'normal',captions:true,sound:true,motion:true,pace:'normal',input:'buttons',repeatInstruction:false};d.support=d.support||{};const who=u.searchParams.get('role')==='child'?'demo-student':(u.searchParams.get('child')||'demo-student');
+  if(data){const allowed=u.searchParams.get('role')==='child'?['lang','textSize','captions','sound','motion']:Object.keys(base);const next={...base,...(d.support[who]||{})};for(const k of allowed)if(data[k]!==undefined&&typeof data[k]===typeof base[k])next[k]=data[k];d.support[who]=next;save(d);}
+  return {...base,...(d.support[who]||{})};}
+ if(p==='/api/video/progress'){d.views=d.views||{};if(!data)return Object.values(d.views);const k=data.videoId+':'+data.version,old=d.views[k]||{seconds:0,completed:false};d.views[k]={videoId:data.videoId,version:data.version,seconds:Math.max(old.seconds,Number(data.seconds)||0),duration:Number(data.duration)||0,completed:old.completed||data.completed===true,updated:Date.now()};save(d);return d.views[k];}
  if(p==='/api/state'){const teacher=u.searchParams.get('role')==='teacher'&&!u.searchParams.has('child');if(data){if(teacher)d.teacher=data;else d.state=data;save(d);}return teacher?d.teacher:d.state;}
  if(p==='/api/lesson'){
   if(data){const prev=d.lesson,answer=String(data.answer).trim();const version=Math.max(...Object.values(d.versions).map(v=>v.version))+1;

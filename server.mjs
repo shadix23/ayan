@@ -9,6 +9,7 @@ import { getMigrations } from 'better-auth/db/migration';
 import pg from 'pg';
 import W from './dist/experience-logic.js';
 import * as Progress from './progress.mjs';
+import * as Support from './support.mjs';
 
 const port=Number(process.env.PORT)||4183, origin=process.env.BETTER_AUTH_URL||`http://127.0.0.1:${port}`;
 if(!process.env.DATABASE_URL)fs.mkdirSync('.data',{recursive:true});
@@ -27,6 +28,7 @@ await query('CREATE TABLE IF NOT EXISTS ayan_lessons (child TEXT PRIMARY KEY, co
 await query('CREATE TABLE IF NOT EXISTS ayan_events (id TEXT PRIMARY KEY, child TEXT NOT NULL, lesson TEXT NOT NULL, kind TEXT NOT NULL, value TEXT NOT NULL, created BIGINT NOT NULL)');
 await query('CREATE TABLE IF NOT EXISTS ayan_parent_links (token TEXT PRIMARY KEY, child TEXT NOT NULL, expires BIGINT NOT NULL)');
 await Progress.migrate(query);
+await Support.migrate(query);
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const send=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
 const redirect=(res,url)=>{res.writeHead(302,{Location:url,'Cache-Control':'no-store'});res.end();};
@@ -38,7 +40,7 @@ export async function handler(req,res){try{
  const url=new URL(req.url,origin),p=url.pathname;
  if(req.method!=='GET'&&req.method!=='HEAD'&&!p.startsWith('/api/auth/')&&req.headers.origin!==origin)return send(res,403,{error:'Origin rejected'});
  if(p.startsWith('/api/auth/'))return toNodeHandler(auth)(req,res);
- if(p==='/api/parent/report'&&req.method==='POST'){const input=await body(req);const c=(await query('SELECT child FROM ayan_parent_links WHERE token=? AND expires>?',[hash(String(input.code||'')),Date.now()]))[0];if(!c)return send(res,401,{error:'Ссылка недействительна. Попросите учителя создать новую.'});const profile=(await query('SELECT label,state FROM ayan_children WHERE id=?',[c.child]))[0];const lesson=(await query('SELECT content FROM ayan_lessons WHERE child=?',[c.child]))[0];return send(res,200,{label:profile.label,games:W.clean(JSON.parse(profile.state)).completed,lesson:lesson?JSON.parse(lesson.content).title:null,events:await Progress.reportEvents(query,c.child)});}
+ if(p==='/api/parent/report'&&req.method==='POST'){const input=await body(req);const c=(await query('SELECT child FROM ayan_parent_links WHERE token=? AND expires>?',[hash(String(input.code||'')),Date.now()]))[0];if(!c)return send(res,401,{error:'Ссылка недействительна. Попросите учителя создать новую.'});const profile=(await query('SELECT label,state FROM ayan_children WHERE id=?',[c.child]))[0];const lesson=(await query('SELECT content FROM ayan_lessons WHERE child=?',[c.child]))[0];return send(res,200,{label:profile.label,games:W.clean(JSON.parse(profile.state)).completed,lesson:lesson?JSON.parse(lesson.content).title:null,events:await Progress.reportEvents(query,c.child),videos:await Support.views(query,c.child)});}
  if(p==='/api/parent/invite'&&req.method==='POST'){const u=await teacher(req);if(!u)return send(res,401,{error:'Войдите как учитель'});const input=await body(req),c=(await query('SELECT id FROM ayan_children WHERE id=? AND owner=?',[input.child,u.id]))[0];if(!c)return send(res,404,{error:'Ученик не найден'});const code=crypto.randomBytes(24).toString('base64url');await query('DELETE FROM ayan_parent_links WHERE child=?',[c.id]);await query('INSERT INTO ayan_parent_links (token,child,expires) VALUES (?,?,?)',[hash(code),c.id,Date.now()+30*86400000]);return send(res,200,{url:origin+'/parent#'+code});}
  if(p==='/api/lesson'){
   const role=url.searchParams.get('role')==='child'?'child':'teacher',u=role==='child'?await child(req):await teacher(req);if(!u)return send(res,401,{error:'Войдите в аккаунт'});
@@ -58,6 +60,15 @@ export async function handler(req,res){try{
   else{const input=await body(req);r=p==='/api/attempt'?await Progress.startAttempt(query,c.id,input):p==='/api/attempt/submit'?await Progress.submit(query,c.id,input):await Progress.recordEvent(query,c.id,input);}
   return send(res,r.status,r.data);
  }
+ if(p==='/api/support'){
+  const role=url.searchParams.get('role')==='child'?'child':'teacher',u=role==='child'?await child(req):await teacher(req);if(!u)return send(res,401,{error:'Войдите в аккаунт'});
+  const id=role==='child'?u.id:String(url.searchParams.get('child')||'');
+  if(role==='teacher'&&!(await query('SELECT id FROM ayan_children WHERE id=? AND owner=?',[id,u.id])).length)return send(res,404,{error:'Ученик не найден'});
+  if(req.method==='GET')return send(res,200,await Support.getProfile(query,id));
+  if(req.method!=='PUT'&&req.method!=='POST')return send(res,405,{error:'Method not allowed'});
+  return send(res,200,await Support.saveProfile(query,id,await body(req),role));
+ }
+ if(p==='/api/video/progress'){const c=await child(req);if(!c)return send(res,401,{error:'Войдите как ученик'});if(req.method==='GET')return send(res,200,await Support.views(query,c.id));if(req.method!=='POST')return send(res,405,{error:'Method not allowed'});const r=await Support.recordView(query,c.id,await body(req));return send(res,r.status,r.data);}
  if(p==='/api/children/revoke'&&req.method==='POST'){const u=await teacher(req);if(!u)return send(res,401,{error:'Войдите как учитель'});const input=await body(req),c=(await query('SELECT id FROM ayan_children WHERE id=? AND owner=?',[String(input.child||''),u.id]))[0];if(!c)return send(res,404,{error:'Ученик не найден'});await Progress.revokeChild(query,c.id);return send(res,200,{ok:true});}
  if(p==='/api/assistant'&&req.method==='POST'){
   const c=await child(req),u=c?null:await teacher(req);if(!c&&!u)return send(res,401,{error:'Войдите в аккаунт'});

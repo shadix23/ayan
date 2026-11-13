@@ -38,6 +38,18 @@
   askTitle:['Аяннан түсіндіруді сұрау','Попросить Аяна объяснить'],askNote:['ЖИ қателесуі мүмкін. Түсініксіз болса, ересекті шақыр.','ИИ может ошибаться. Если объяснение непонятно, позови взрослого.'],
   teacherHint:['Мұғалімнің түсіндірмесін қайталау','Повторить объяснение учителя'],askWhat:['Нені түсіндіру керек?','Что объяснить?'],askPh:['Осы қадамды қарапайым мысалмен түсіндірші','Объясни этот шаг на простом примере'],
   askBtn:['Аяннан сұрау (ЖИ)','Спросить Аяна (ИИ)'],thinking:['Аян ойланып жатыр…','Аян думает…'],
+  loadingLesson:['Сабақты жүктеп жатырмыз…','Загружаем урок…'],repeatExplain:['Түсіндіруді қайталау','Повторить объяснение'],yourLesson:['Сенің сабағың','Твой урок'],stExplain:['Түсіндіру','Объяснение'],stPractice:['Жаттығу','Практика'],stResult:['Нәтиже','Результат'],
+  about:['Шамамен {n} минут. Таймер жоқ.','Примерно {n} минут. Без таймера.'],savedAt:['Сақталды: {n}-қадам, барлығы {m}','Сохранено: шаг {n} из {m}'],
+  startLesson:['Сабақты бастау →','Начать урок →'],continueLesson:['Сабақты жалғастыру →','Продолжить урок →'],lessonPassed:['Сабақ өтілді ✓','Урок пройден ✓'],
+  noLesson:['Мұғалім әлі сабақ тағайындаған жоқ','Учитель пока не назначил урок'],noLessonText:['Әзірге ойнауға немесе бейне көруге болады.','Пока можно поиграть или посмотреть видео.'],openGames:['Ойындарды ашу','Открыть игры'],
+  offline:['Серверге қосылу жоқ','Нет связи с сервером'],offlineText:['Байланыс оралғанда сабақ пайда болады.','Урок появится, когда связь вернётся.'],tryAgain:['Қайта байқау','Попробовать ещё раз'],
+  resultTitle:['Сабақ өтілді','Урок пройден'],resultAnswer:['Жауабың сақталды: «{a}». Дұрыс.','Ответ сохранён: «{a}». Верно.'],nextStep:['Келесі қадам','Следующий шаг'],
+  nextGame:['Ойында бекіт: «{g}»','Закрепи в игре «{g}»'],playGame:['Ойнау: {g}','Играть: {g}'],toDay:['Менің күніме','К моему дню'],
+  settings:['Баптаулар','Настройки'],settingsNote:['Бұл тек ыңғайлылық баптаулары.','Это только настройки удобства.'],language:['Тіл','Язык'],bigText:['Ірі мәтін','Крупный текст'],
+  captionsOpt:['Бейнеде субтитр','Субтитры в видео'],soundOpt:['Дыбыс және оқып беру','Звук и озвучка'],motionOpt:['Қозғалыс және анимация','Движение и анимация'],save:['Сақтау','Сохранить'],saved:['Сақталды','Сохранено'],
+  support:['Қолдау профилі','Профиль поддержки'],supportNote:['Бұл диагноз емес: тек оқушыға ыңғайлы баптаулар. Мазмұнға қол жетімділікті азайтпайды.','Это не диагноз: только удобные ученику настройки. Доступ к содержанию не уменьшают.'],
+  paceOpt:['Нұсқаулық қарқыны','Темп инструкций'],paceNormal:['Қалыпты','Обычный'],paceSlow:['Баяу','Медленный'],inputOpt:['Енгізу тәсілі','Способ ввода'],inputButtons:['Батырмалар','Кнопки'],inputDrag:['Сүйреу','Перетаскивание'],
+  repeatOpt:['Түсіндіруді қайталау батырмасы әрқашан көрінеді','Кнопка повтора объяснения всегда видна'],
   resumeTitle:['Біз {n}-қадамда тоқтадық','Мы остановились на шаге {n}'],resumeGo:['{n}-қадамнан жалғастыру','Продолжить с шага {n}'],restart:['Басынан бастау','Начать сначала']
  };
  const t=(k,o)=>{let s=(S[k]||[k,k])[lang()==='kk'?0:1];if(o)for(const x in o)s=s.replaceAll('{'+x+'}',o[x]);return s;};
@@ -52,7 +64,14 @@
  function demoBar(){if(!A.demo)return;let bar=document.querySelector('.demo-bar');if(!bar){bar=document.createElement('aside');bar.className='demo-bar';document.body.prepend(bar);}
   bar.innerHTML=t('demoBar')+' <a href="/demo/child">'+t('student')+'</a><a href="/demo/teacher">'+t('teacher')+'</a><a href="/demo/parent'+(lang()==='kk'?'?lang=kk':'')+'">'+t('parent')+'</a>';}
 
- let lesson=null,index=0,large=false,paused=false,resumeAsked=false,attempt=null;
+ let lesson=null,lessonState='loading',index=0,large=false,paused=false,resumeAsked=false,attempt=null;
+ // Support profile (support.mjs). Applied everywhere: language, text size, motion, sound, captions, pace.
+ let profile=null;
+ const supportURL='/api/support?role='+A.role+(A.role==='teacher'?'&child='+A.child:'');
+ window.AyanSupport={get:()=>profile};
+ function applyProfile(p){profile=p;if(A.role!=='child')return;large=p.textSize==='large';window.dispatchEvent(new CustomEvent('ayan:profile',{detail:p}));decorate();}
+ window.AyanVideoProgress=data=>request('/api/video/progress',data).catch(()=>{}); // viewing only, not mastery
+ const speak=text=>{if(!window.speechSynthesis||profile?.sound===false)return;const u=new SpeechSynthesisUtterance(text);u.lang=lang()==='kk'?'kk-KZ':'ru-RU';u.rate=profile?.pace==='slow'?.7:.85;speechSynthesis.cancel();speechSynthesis.speak(u);};
  // Answer lifecycle: editing -> submitting -> evaluated, or submitting -> save_failed -> retry with the same submissionId.
  let ans={status:'editing',text:'',submissionId:null,evaluation:null};
  async function ask(prompt,context){return (await request('/api/assistant',{prompt,context})).text;}
@@ -72,7 +91,17 @@
    +'<label for="lesson-question">'+t('fQuestion')+'</label><input id="lesson-question" name="question" placeholder="'+esc(t('fQuestionPh'))+'" required>'
    +'<label for="lesson-answer">'+t('fAnswer')+'</label><input id="lesson-answer" name="answer" placeholder="5" required aria-describedby="answer-hint"><p class="help-text" id="answer-hint">'+t('fAnswerHint')+'</p>'
    +'<div class="actions"><button class="secondary" type="button" id="ai-draft">'+t('aiDraft')+'</button><button class="primary">'+t('assign')+'</button></div><p class="status-line" id="lesson-status" role="status"></p></form>';
+  el.insertAdjacentHTML('beforeend','<hr><h2>'+t('support')+'</h2><p class="help-text">'+t('supportNote')+'</p><form id="support-form" class="support-form"><div class="support-grid">'
+   +'<label>'+t('language')+'<select name="lang"><option value="ru">Русский</option><option value="kk">Қазақша</option></select></label>'
+   +'<label>'+t('paceOpt')+'<select name="pace"><option value="normal">'+t('paceNormal')+'</option><option value="slow">'+t('paceSlow')+'</option></select></label>'
+   +'<label>'+t('inputOpt')+'<select name="input"><option value="buttons">'+t('inputButtons')+'</option><option value="drag">'+t('inputDrag')+'</option></select></label></div>'
+   +['textSize:'+t('bigText'),'captions:'+t('captionsOpt'),'sound:'+t('soundOpt'),'motion:'+t('motionOpt'),'repeatInstruction:'+t('repeatOpt')].map(x=>{const [k,l]=x.split(':');return '<label class="check-row"><input type="checkbox" name="'+k+'"> '+l+'</label>';}).join('')
+   +'<div class="actions"><button class="secondary">'+t('save')+'</button></div><p class="status-line" role="status" id="support-status"></p></form>');
   if(old)old.replaceWith(el);else document.querySelector('#app').prepend(el);
+  const sf=el.querySelector('#support-form');
+  const fillSupport=p=>{sf.lang.value=p.lang;sf.pace.value=p.pace;sf.input.value=p.input;sf.textSize.checked=p.textSize==='large';for(const k of ['captions','sound','motion','repeatInstruction'])sf[k].checked=!!p[k];};
+  request(supportURL).then(p=>{profile=p;fillSupport(p);}).catch(()=>{});
+  sf.onsubmit=async e=>{e.preventDefault();const st=el.querySelector('#support-status');try{profile=await request(supportURL,{lang:sf.lang.value,pace:sf.pace.value,input:sf.input.value,textSize:sf.textSize.checked?'large':'normal',captions:sf.captions.checked,sound:sf.sound.checked,motion:sf.motion.checked,repeatInstruction:sf.repeatInstruction.checked});fillSupport(profile);st.textContent=t('saved');}catch(err){st.textContent=err.message;}};
   const f=el.querySelector('#lesson-editor'),status=el.querySelector('#lesson-status');
   const fill=l=>{f.elements.title.value=l.title||'';f.elements.steps.value=(Array.isArray(l.steps)?l.steps.join('\n'):l.steps)||'';f.elements.question.value=l.question||'';f.elements.answer.value=l.answer||'';};
   if(keep)fill(keep);else request(lessonURL).then(l=>{if(l){fill(l);A.lessonVersion=l.id;}}).catch(()=>{});
@@ -97,15 +126,25 @@
  }
 
  // ---------- Child ----------
+ function nextGame(){try{const st=JSON.parse(localStorage.getItem('ayan.experience.v2')||'{}');const g=(window.AyanWorld?.games||[]).find(x=>(st.enabled||[]).includes(x.id)&&!(st.completed||[]).includes(x.id))||(window.AyanWorld?.games||[])[0];return g||null;}catch{return null;}}
+ function stageOf(){if(!lesson)return 0;if(lesson.completedAttempt&&!lesson.attemptId)return 3;const n=Number(lesson.resume)||1;return n>lesson.steps.length?2:1;}
+ function stages(current,done){return '<ol class="lesson-stages">'+[['stExplain',1],['stPractice',2],['stResult',3]].map(([k,n])=>'<li class="'+(done||n<current?'is-done':n===current?'is-current':'')+'"'+(n===current&&!done?' aria-current="step"':'')+'><span aria-hidden="true">'+(done||n<current?'✓':n)+'</span>'+t(k)+'</li>').join('')+'</ol>';}
+ // "My day": one main call to action; honest loading, empty and offline states.
  function mountChild(){
   const mark=document.querySelector('.world-brand .brand-leaf');if(mark&&!mark.querySelector('img'))mark.innerHTML='<img src="/assets/ayan-mark.svg" width="36" height="36" alt="">';
-  const main=document.querySelector('.world-main');if(!main)return;
-  const old=document.querySelector('#assigned-lesson');if(old&&old.dataset.lang===lang())return;
-  const el=document.createElement('section');el.className='account-panel';el.id='assigned-lesson';el.dataset.lang=lang();
-  el.innerHTML='<span class="eyebrow">'+t('myLesson')+'</span><h2>'+esc(lesson?.title||t('preparing'))+'</h2><p>'+(lesson?t('lessonInvite'):t('lessonLater'))+'</p>'+(lesson?'<button class="primary" id="open-lesson">'+t('start')+'</button>':'');
-  if(old)old.replaceWith(el);else main.prepend(el);
-  el.querySelector('#open-lesson')?.addEventListener('click',openLesson);
+  const slot=document.querySelector('#day-lesson');if(!slot)return;
+  const sig=lang()+'|'+lessonState+'|'+(lesson?.id||'')+'|'+(lesson?.resume||'')+'|'+(lesson?.completedAttempt||'')+'|'+(lesson?.attemptId||'');if(slot.dataset.sig===sig)return;slot.dataset.sig=sig;
+  if(lessonState==='loading'){slot.innerHTML='<div class="day-card is-loading" role="status">'+t('loadingLesson')+'</div>';return;}
+  if(lessonState==='error'){slot.innerHTML='<article class="day-card is-offline" role="alert"><h2>'+t('offline')+'</h2><p>'+t('offlineText')+'</p><button class="primary day-cta" id="lesson-retry">'+t('tryAgain')+'</button></article>';slot.querySelector('#lesson-retry').onclick=loadLesson;return;}
+  if(!lesson){slot.innerHTML='<article class="day-card is-empty"><h2>'+t('noLesson')+'</h2><p>'+t('noLessonText')+'</p><button class="primary day-cta" data-goto-tab="games">'+t('openGames')+'</button></article>';return;}
+  const st=stageOf(),done=st===3;
+  slot.innerHTML='<article class="day-card" aria-labelledby="day-lesson-title"><span class="eyebrow">'+t('yourLesson')+'</span><h2 id="day-lesson-title">'+esc(lesson.title)+'</h2>'+stages(st,done)
+   +'<p class="day-meta">'+t('about',{n:Math.max(3,lesson.steps.length+2)})+'</p>'+(lesson.resume>1&&!done?'<p class="day-saved">'+t('savedAt',{n:lesson.resume,m:lesson.steps.length+1})+'</p>':'')+(done?'<p class="day-saved">'+t('lessonPassed')+'</p>':'')
+   +'<button class="primary day-cta" id="open-lesson">'+(done?t('again'):lesson.resume>1?t('continueLesson'):t('startLesson'))+'</button></article>';
+  slot.querySelector('#open-lesson').addEventListener('click',openLesson);
  }
+ document.addEventListener('click',e=>{const b=e.target.closest('[data-goto-tab]');if(b)window.dispatchEvent(new CustomEvent('ayan:goto',{detail:{tab:b.dataset.gotoTab}}));});
+ async function loadLesson(){lessonState='loading';mountChild();try{lesson=await request(lessonURL);lessonState='ready';}catch(e){lessonState=e.status===0||e.status>=500?'error':'ready';lesson=null;}mountChild();}
  let eventQueue=Promise.resolve();
  const event=(kind,value='')=>{eventQueue=eventQueue.catch(()=>{}).then(()=>request('/api/lesson/event',{kind,value,attemptId:attempt?.id}));return eventQueue.catch(()=>{});};
  // Starts (or re-opens) an attempt on the server. Idempotent: the same id can be sent again after a timeout.
@@ -137,13 +176,14 @@
    d.querySelector('#resume-go').focus();return;
   }
   const question=index>=lesson.steps.length;
+  if(finished()&&!paused)return drawResult(d);
   const body=paused?'<div class="lesson-step">'+t('rest')+'</div>'
    :!question?'<div class="lesson-step">'+esc(lesson.steps[index])+'</div>'
    :'<div class="lesson-step">'+esc(lesson.question)+'</div><form id="answer-form" class="answer-form"><label for="lesson-response">'+t('yourAnswer')+'</label><input id="lesson-response" maxlength="200" autocomplete="off" value="'+esc(ans.text)+'" '+(ans.status==='submitting'||ans.evaluation==='correct'?'readonly':'')+'></form>';
   const bar=paused?'<button class="primary lesson-next" id="lesson-pause-end">'+t('resume')+'</button>'
-   :'<div class="lesson-bar-row"><button class="secondary" id="speak-step" '+(question?'hidden':'')+'>'+t('listen')+'</button><button class="secondary" id="repeat-step" '+(index===0?'disabled':'')+'>'+t('prevStep')+'</button></div>'
+   :'<div class="lesson-bar-row"><button class="secondary" id="speak-step" '+(question||profile?.sound===false?'hidden':'')+'>'+t('listen')+'</button><button class="secondary" id="repeat-step" '+(index===0?'disabled':'')+'>'+t('prevStep')+'</button></div>'+(question&&profile?.repeatInstruction?'<button class="secondary" id="repeat-explain">'+t('repeatExplain')+'</button>':'')
     +(question?(ans.evaluation==='correct'&&attempt?.state==='completed'?'<button class="primary lesson-next" id="lesson-finish">'+t('finish')+'</button>':'<button class="primary lesson-next" type="submit" form="answer-form" '+(ans.status==='submitting'?'disabled aria-busy="true"':'')+'>'+t(ans.status==='save_failed'?'resend':'check')+'</button>'):'<button class="primary lesson-next" id="next-step">'+t('next')+'</button>');
-  d.innerHTML='<div class="lesson-reader'+(large?' is-large':'')+'"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button><span class="lesson-progress">'+t('stepOf',{n:index+1,m:total()})+'</span><div class="lesson-tools">'
+  d.innerHTML='<div class="lesson-reader'+(large?' is-large':'')+'"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button><div class="lesson-head-mid">'+stages(finished()?3:index>=lesson.steps.length?2:1,finished())+'<span class="lesson-progress">'+(index<lesson.steps.length?t('stepOf',{n:index+1,m:lesson.steps.length}):'')+'</span></div><div class="lesson-tools">'
    +'<button class="icon-btn" id="lesson-pause" aria-pressed="'+paused+'" aria-label="'+t(paused?'resume':'pause')+'" title="'+t(paused?'resume':'pause')+'">'+(paused?icon.play:icon.pause)+'</button>'
    +'<button class="icon-btn" id="lesson-size" aria-pressed="'+large+'" aria-label="'+t('large')+'" title="'+t('large')+'">'+icon.size+'</button></div></div>'
    +'<div class="lesson-content"><h1>'+esc(lesson.title)+'</h1>'+body+'<p id="lesson-feedback" class="lesson-feedback'+(ans.status==='save_failed'?' is-warning':'')+'" role="status">'+feedbackText()+'</p>'
@@ -156,7 +196,8 @@
   $('#lesson-size').onclick=()=>{large=!large;draw();};
   $('#next-step')?.addEventListener('click',()=>{index++;event('step',String(index+1));draw();});
   $('#repeat-step')?.addEventListener('click',()=>{index=Math.max(0,index-1);event('hint');draw();});
-  $('#speak-step')?.addEventListener('click',()=>{if(!window.speechSynthesis)return;const u=new SpeechSynthesisUtterance(lesson.steps[index]);u.lang=lang()==='kk'?'kk-KZ':'ru-RU';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);});
+  $('#speak-step')?.addEventListener('click',()=>speak(lesson.steps[index]));
+  $('#repeat-explain')?.addEventListener('click',()=>{event('hint');$('#lesson-feedback').textContent=lesson.steps.join(' ');});
   $('#teacher-hint').onclick=()=>{event('hint');$('#assistant-reply').textContent=lesson.steps[Math.min(index,lesson.steps.length-1)];};
   $('#answer-form')?.addEventListener('submit',e=>{e.preventDefault();submitAnswer($('#lesson-response').value);});
   $('#lesson-response')?.addEventListener('input',e=>{if(ans.status!=='submitting'){ans.text=e.target.value;}});
@@ -164,6 +205,36 @@
   $('#assistant-form').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button'),out=$('#assistant-reply');b.disabled=true;out.textContent=t('thinking');event('hint');try{out.textContent=await ask($('#assistant-question').value);}catch(err){out.textContent=aiError(err,true);}finally{b.disabled=false;}};
   ($('#next-step')||$('#lesson-response')||$('#lesson-pause-end'))?.focus({preventScroll:true});
  }
+
+ const finished=()=>ans.status==='evaluated'&&ans.evaluation==='correct'&&attempt?.state==='completed';
+ // Result -> next step. Shown only after the server confirmed completion.
+ function drawResult(d){
+  const g=nextGame(),gt=g?g.title[lang()==='kk'?1:0]:'';
+  d.innerHTML='<div class="lesson-reader'+(large?' is-large':'')+'"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button><div class="lesson-head-mid">'+stages(3,true)+'</div><div class="lesson-tools"></div></div>'
+   +'<div class="lesson-content lesson-result"><h1 tabindex="-1">'+t('resultTitle')+'</h1><p id="lesson-feedback" class="lesson-feedback" role="status">'+t('correctDone')+'</p><p>'+t('resultAnswer',{a:esc(ans.text)})+'</p>'
+   +(g?'<h2>'+t('nextStep')+'</h2><p>'+t('nextGame',{g:esc(gt)})+'</p>':'')+'</div>'
+   +'<div class="lesson-bar">'+(g?'<button class="primary lesson-next" id="next-game">'+t('playGame',{g:esc(gt)})+'</button>':'')+'<button class="'+(g?'secondary':'primary lesson-next')+'" id="lesson-finish">'+t('toDay')+'</button></div></div>';
+  d.querySelector('#lesson-close').onclick=()=>d.close();
+  d.querySelector('#lesson-finish').onclick=()=>{d.close();window.dispatchEvent(new CustomEvent('ayan:goto',{detail:{tab:'day'}}));};
+  d.querySelector('#next-game')?.addEventListener('click',()=>{d.close();window.dispatchEvent(new CustomEvent('ayan:goto',{detail:{game:g.id}}));});
+  d.querySelector('h1').focus();
+ }
+ // Child settings: only the safe part of the support profile.
+ function settingsDialog(){
+  document.querySelector('#settings-dialog')?.remove();const p=profile||{};
+  const d=document.createElement('dialog');d.id='settings-dialog';d.className='ayan-dialog';d.setAttribute('aria-labelledby','settings-title');
+  const chk=(id,key,label)=>'<label class="check-row"><input type="checkbox" id="'+id+'" '+(p[key]!==false?'checked':'')+'> '+label+'</label>';
+  d.innerHTML='<form method="dialog" class="settings-form"><h2 id="settings-title">'+t('settings')+'</h2><p class="help-text">'+t('settingsNote')+'</p>'
+   +'<fieldset><legend>'+t('language')+'</legend><label class="check-row"><input type="radio" name="lang" value="ru" '+(lang()==='ru'?'checked':'')+'> Русский</label><label class="check-row"><input type="radio" name="lang" value="kk" '+(lang()==='kk'?'checked':'')+'> Қазақша</label></fieldset>'
+   +'<label class="check-row"><input type="checkbox" id="set-large" '+(p.textSize==='large'?'checked':'')+'> '+t('bigText')+'</label>'+chk('set-captions','captions',t('captionsOpt'))+chk('set-sound','sound',t('soundOpt'))+chk('set-motion','motion',t('motionOpt'))
+   +'<p class="status-line" role="status" id="settings-status"></p><div class="actions"><button type="button" class="secondary" id="settings-cancel">'+t('cancel')+'</button><button class="primary">'+t('save')+'</button></div></form>';
+  document.body.append(d);d.addEventListener('close',()=>d.remove());d.showModal();
+  d.querySelector('#settings-cancel').onclick=()=>d.close();
+  d.querySelector('form').onsubmit=async e=>{e.preventDefault();const f=e.target,next={lang:f.lang.value,textSize:f.querySelector('#set-large').checked?'large':'normal',captions:f.querySelector('#set-captions').checked,sound:f.querySelector('#set-sound').checked,motion:f.querySelector('#set-motion').checked};
+   applyProfile({...profile,...next}); // works even offline; saved when the server answers
+   try{applyProfile(await request(supportURL,next));d.close();}catch(err){d.querySelector('#settings-status').textContent=t('saveFailed');}};
+ }
+ window.addEventListener('ayan:support-open',()=>{if(A.role==='child')settingsDialog();});
 
  function feedbackText(){
   if(attempt?.changed)return t('lessonChanged');
@@ -206,7 +277,8 @@
   if(A.role==='teacher'){const view=document.querySelector('#nav [aria-current="page"]')?.dataset.v;if(!view||view==='home')teacherPanel();}
   else{mountChild();if(document.querySelector('#lesson-dialog'))draw();}
  }
- request(lessonURL).then(l=>{lesson=l;document.querySelector('#assigned-lesson')?.remove();decorate();}).catch(()=>decorate());
+ if(A.role==='child')request(supportURL).then(applyProfile).catch(()=>{});
+ loadLesson();
  new MutationObserver(()=>{if(A.role==='child')mountChild();}).observe(document.querySelector('#world'),{childList:true});
  window.addEventListener('ayan:render',decorate);window.addEventListener('ayan:lang',decorate);decorate();
 })();
