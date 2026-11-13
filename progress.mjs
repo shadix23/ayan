@@ -8,6 +8,9 @@
 //  - a blank answer is "no answer" (400), not a wrong answer.
 import crypto from 'node:crypto';
 import Answer from './dist/answer-check.js';
+import Fractions from './dist/games/fractions.js';
+// Lesson games graded on the server. The client only renders and sends the selection.
+const GAMES={[Fractions.id]:Fractions};
 
 const ID=/^[A-Za-z0-9_-]{8,64}$/, TASK=/^[a-z0-9_-]{1,40}$/;
 export const FINAL_TASK='final';
@@ -17,6 +20,7 @@ export async function migrate(query){
  await query('CREATE TABLE IF NOT EXISTS ayan_attempts (id TEXT PRIMARY KEY, child TEXT NOT NULL, lesson_version TEXT NOT NULL, locale TEXT NOT NULL, state TEXT NOT NULL, started BIGINT NOT NULL, completed BIGINT)');
  await query('CREATE TABLE IF NOT EXISTS ayan_submissions (id TEXT PRIMARY KEY, attempt TEXT NOT NULL, child TEXT NOT NULL, task TEXT NOT NULL, submission TEXT NOT NULL, answer TEXT NOT NULL, evaluation TEXT NOT NULL, answer_key_version INTEGER NOT NULL, saved BIGINT NOT NULL)');
  for(const col of ['lesson_version','attempt'])try{await query('ALTER TABLE ayan_events ADD COLUMN '+col+' TEXT');}catch(e){/* column already exists */}
+ try{await query('ALTER TABLE ayan_submissions ADD COLUMN assisted INTEGER');}catch(e){/* column already exists */}
  // Backfill: lessons published before versions existed become version 1 of themselves.
  const old=await query('SELECT l.child,l.content,c.owner FROM ayan_lessons l JOIN ayan_children c ON c.id=l.child');
  for(const row of old){const lesson=JSON.parse(row.content);if(lesson.version)continue;
@@ -26,6 +30,7 @@ export async function migrate(query){
 }
 
 export function validateLesson(input){
+ if(input.game){if(!GAMES[input.game]||!input.title||!Array.isArray(input.steps)||input.steps.length<1||input.steps.length>12||input.steps.some(s=>typeof s!=='string'||!s.trim()||s.length>2000))return false;return true;}
  if(!input.title||!Array.isArray(input.steps)||input.steps.length<1||input.steps.length>12||input.steps.some(s=>typeof s!=='string'||!s.trim()||s.length>2000)||!String(input.question||'').trim()||!String(input.answer||'').trim())return false;
  return true;
 }
@@ -34,9 +39,9 @@ export function validateLesson(input){
 export async function publish(query,{child,owner,input}){
  const prev=(await query('SELECT content FROM ayan_lessons WHERE child=?',[child]))[0];const before=prev?JSON.parse(prev.content):null;
  const max=(await query('SELECT MAX(version) AS v FROM ayan_lesson_versions WHERE child=?',[child]))[0];
- const version=(Number(max?.v)||0)+1,answer=String(input.answer).trim().slice(0,200);
- const answerKeyVersion=before&&before.answer===answer?(before.answerKeyVersion||1):((before?.answerKeyVersion||0)+1);
- const lesson={id:crypto.randomUUID(),version,answerKeyVersion,title:String(input.title).slice(0,160),steps:input.steps.map(s=>String(s).slice(0,2000)),question:String(input.question).slice(0,1000),answer,locale:input.locale==='kk'?'kk':'ru',approvedAt:Date.now()};
+ const version=(Number(max?.v)||0)+1,game=GAMES[input.game]||null,answer=game?null:String(input.answer).trim().slice(0,200);
+ const answerKeyVersion=game?game.lesson.keyVersion:before&&before.answer===answer?(before.answerKeyVersion||1):((before?.answerKeyVersion||0)+1);
+ const lesson={id:crypto.randomUUID(),version,answerKeyVersion,title:String(input.title).slice(0,160),steps:input.steps.map(s=>String(s).slice(0,2000)),question:game?null:String(input.question).slice(0,1000),answer,game:game?game.id:undefined,tasks:game?game.TASKS.map(t=>t.id):undefined,locale:input.locale==='kk'?'kk':'ru',approvedAt:Date.now()};
  await query('INSERT INTO ayan_lesson_versions (id,child,owner,version,content,created) VALUES (?,?,?,?,?,?)',[lesson.id,child,owner,version,JSON.stringify(lesson),lesson.approvedAt]);
  await query('INSERT INTO ayan_lessons (child,content) VALUES (?,?) ON CONFLICT(child) DO UPDATE SET content=excluded.content',[child,JSON.stringify(lesson)]);
  return lesson;
@@ -47,9 +52,9 @@ async function versionContent(query,id){const row=(await query('SELECT content F
 
 async function attemptView(query,child,id){
  const a=(await query('SELECT id,lesson_version,locale,state,started,completed FROM ayan_attempts WHERE id=? AND child=?',[id,child]))[0];if(!a)return null;
- const subs=await query('SELECT task,submission,answer,evaluation,saved FROM ayan_submissions WHERE attempt=? AND child=? ORDER BY saved',[id,child]);
+ const subs=await query('SELECT task,submission,answer,evaluation,saved,assisted FROM ayan_submissions WHERE attempt=? AND child=? ORDER BY saved',[id,child]);
  return {id:a.id,lessonVersion:a.lesson_version,locale:a.locale,state:a.state,startedAt:Number(a.started),completedAt:a.completed?Number(a.completed):null,
-  submissions:subs.map(s=>({taskId:s.task,submissionId:s.submission,answer:s.answer,evaluation:s.evaluation,savedAt:Number(s.saved)}))};
+  submissions:subs.map(s=>({taskId:s.task,submissionId:s.submission,answer:s.answer,evaluation:s.evaluation,savedAt:Number(s.saved),assisted:Number(s.assisted)===1}))};
 }
 
 // Lesson as the child sees it: no answer key, plus where to continue.
@@ -77,26 +82,33 @@ export async function startAttempt(query,child,input){
 export async function getAttempt(query,child,id){const view=ID.test(String(id||''))?await attemptView(query,child,String(id)):null;return view?{status:200,data:view}:{status:404,data:{code:'not_found'}};}
 
 export async function submit(query,child,input){
- const attemptId=String(input.attemptId||''),taskId=String(input.taskId||FINAL_TASK),submissionId=String(input.submissionId||''),answer=String(input.answer??'').trim().slice(0,200);
+ const attemptId=String(input.attemptId||''),taskId=String(input.taskId||FINAL_TASK),submissionId=String(input.submissionId||''),assisted=input.assisted===true?1:0;let answer=String(input.answer??'').trim().slice(0,200);
  if(!ID.test(attemptId)||!ID.test(submissionId)||!TASK.test(taskId))return {status:400,data:{code:'bad_request'}};
  if(!answer)return {status:400,data:{code:'empty',error:'Нет ответа'}};
  const attempt=(await query('SELECT id,lesson_version,state FROM ayan_attempts WHERE id=? AND child=?',[attemptId,child]))[0];
  if(!attempt)return {status:404,data:{code:'not_found'}};
  const key=[child,attemptId,taskId,submissionId].join(':');
+ {const l0=await versionContent(query,attempt.lesson_version);const g0=l0?.game?GAMES[l0.game]:null;if(g0){const n=g0.normalize(taskId,answer);if(n!==null)answer=n;}}
  const stored=async()=>(await query('SELECT answer,evaluation,saved FROM ayan_submissions WHERE id=?',[key]))[0];
  const result=async(row,replay)=>({status:200,data:{saved:true,replay,submissionId,taskId,evaluation:row.evaluation,savedAt:Number(row.saved),attempt:await attemptView(query,child,attemptId)}});
  let row=await stored();
- if(row)return row.answer===answer?result(row,true):{status:409,data:{code:'conflict',error:'Под этим ключом уже сохранён другой ответ'}};
+ if(row){if(row.answer!==answer)return {status:409,data:{code:'conflict',error:'Под этим ключом уже сохранён другой ответ'}};const out=await result(row,true);const l1=await versionContent(query,attempt.lesson_version);if(l1?.game&&row.evaluation!=='correct')out.data.reason=GAMES[l1.game].evaluate(taskId,row.answer).reason;return out;}
  if(attempt.state==='completed')return {status:409,data:{code:'completed',attempt:await attemptView(query,child,attemptId)}};
  const lesson=await versionContent(query,attempt.lesson_version);if(!lesson)return {status:409,data:{code:'lesson_missing'}};
- const evaluation=Answer.matches(answer,lesson.answer)?'correct':'incorrect',now=Date.now();
- await query('INSERT INTO ayan_submissions (id,attempt,child,task,submission,answer,evaluation,answer_key_version,saved) VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING',[key,attemptId,child,taskId,submissionId,answer,evaluation,lesson.answerKeyVersion||1,now]);
+ const game=lesson.game?GAMES[lesson.game]:null;let evaluation,reason=null;
+ if(game){const norm=game.normalize(taskId,answer);if(norm===null)return {status:400,data:{code:'invalid',error:'Неверный формат ответа'}};const r=game.evaluate(taskId,norm);evaluation=r.correct?'correct':'incorrect';reason=r.reason;}
+ else{if(taskId!==FINAL_TASK)return {status:400,data:{code:'bad_request'}};evaluation=Answer.matches(answer,lesson.answer)?'correct':'incorrect';}
+ const now=Date.now();
+ await query('INSERT INTO ayan_submissions (id,attempt,child,task,submission,answer,evaluation,answer_key_version,saved,assisted) VALUES (?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING',[key,attemptId,child,taskId,submissionId,answer,evaluation,lesson.answerKeyVersion||1,now,assisted]);
  row=await stored();
  if(row.answer!==answer)return {status:409,data:{code:'conflict'}}; // a parallel request won with different content
- if(row.evaluation==='correct')await query('UPDATE ayan_attempts SET state=?,completed=? WHERE id=? AND child=? AND state<>?',['completed',now,attemptId,child,'completed']);
+ // Completion: question lessons - one correct answer; game lessons - every task has a correct answer.
+ let complete=row.evaluation==='correct';
+ if(complete&&game){const ok=new Set((await query('SELECT task FROM ayan_submissions WHERE attempt=? AND child=? AND evaluation=?',[attemptId,child,'correct'])).map(r=>r.task));complete=game.TASKS.every(t=>ok.has(t.id));}
+ if(complete)await query('UPDATE ayan_attempts SET state=?,completed=? WHERE id=? AND child=? AND state<>?',['completed',now,attemptId,child,'completed']);
  // Timeline event for the parent report. Deterministic id, so a replay or a race never adds a second one.
  await query('INSERT INTO ayan_events (id,child,lesson,kind,value,created,lesson_version,attempt) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING',['sub:'+key,child,lesson.title,'answer',row.evaluation==='correct'?'correct':'retry',Number(row.saved),lesson.id,attemptId]);
- return result(row,false);
+ const out=await result(row,false);if(reason&&row.evaluation!=='correct')out.data.reason=reason;return out;
 }
 
 // Step / hint / pause. Validated and tied to the lesson version and attempt.

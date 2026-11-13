@@ -134,5 +134,24 @@ await check('video viewing: seconds only grow, completed is sticky, separate fro
  const mine=(await call('/api/video/progress',{cookie:Bc.cookie})).data;assert.ok(!mine.some(x=>x.videoId==='M01'));
  const rep=(await call('/api/parent/report',{body:{code:A.parent}})).data;assert.equal(rep.videos[0].completed,true);assert.ok(!rep.events.some(e=>e.kind==='video'));
 });
+// ---- Stage 3: lesson game M01 graded on the server ----
+await check('game M01: server grading, invalid format 400, completion only after all 3 tasks, assisted stored, canonical replay',async()=>{
+ const kid=(await call('/api/children',{cookie:tA,body:{label:'G'}})).data;
+ const pub=await call('/api/lesson?role=teacher&child='+kid.id,{cookie:tA,body:{title:'Равные доли',steps:['Шаг'],game:'fractions-m01'}});
+ assert.equal(pub.status,200);assert.equal(pub.data.game,'fractions-m01');assert.equal(pub.data.answer,null);
+ assert.equal((await call('/api/lesson?role=teacher&child='+kid.id,{cookie:tA,body:{title:'x',steps:['y'],game:'unknown'}})).status,400);
+ const inv=(await call('/api/invite',{cookie:tA,body:{child:kid.id}})).data;const e=await fetch(B+'/api/child/enter',{method:'POST',headers:H,body:JSON.stringify({code:inv.code})});const G={cookie:jar(e),lesson:pub.data};
+ const a=await startAttempt(G);const sub=(task,answer,extra={})=>call('/api/attempt/submit',{cookie:G.cookie,body:{attemptId:a.id,taskId:task,submissionId:uid(),answer,...extra}});
+ assert.equal((await sub('m01-t1','0,0')).data.code,'invalid');assert.equal((await sub('m01-t1','5')).status,400);assert.equal((await sub('final','5')).status,400);
+ const w=await sub('m01-t1','0,1');assert.equal(w.data.evaluation,'incorrect');assert.equal(w.data.reason,'needOne');
+ assert.equal((await sub('m01-t1','2',{assisted:true,score:100})).data.attempt.state,'in_progress');
+ const same=uid();const r1=await call('/api/attempt/submit',{cookie:G.cookie,body:{attemptId:a.id,taskId:'m01-t2',submissionId:same,answer:'3,1'}});
+ const r2=await call('/api/attempt/submit',{cookie:G.cookie,body:{attemptId:a.id,taskId:'m01-t2',submissionId:same,answer:'1,3'}});
+ assert.equal(r1.data.evaluation,'correct');assert.equal(r2.data.replay,true,'1,3 and 3,1 are the same answer');
+ assert.equal(r2.data.attempt.state,'in_progress','two of three tasks do not complete the lesson');
+ assert.equal((await sub('m01-t3','unequal')).data.reason,'unequal');
+ const fin=await sub('m01-t3','equal');assert.equal(fin.data.attempt.state,'completed');
+ const v=fin.data.attempt.submissions;assert.equal(v.find(x=>x.taskId==='m01-t1'&&x.evaluation==='correct').assisted,true);
+});
 const failed=results.filter(r=>!r[1]).length;
 console.log(`\n${results.length-failed}/${results.length} passed`);process.exit(failed?1:0);

@@ -38,6 +38,7 @@
   askTitle:['Аяннан түсіндіруді сұрау','Попросить Аяна объяснить'],askNote:['ЖИ қателесуі мүмкін. Түсініксіз болса, ересекті шақыр.','ИИ может ошибаться. Если объяснение непонятно, позови взрослого.'],
   teacherHint:['Мұғалімнің түсіндірмесін қайталау','Повторить объяснение учителя'],askWhat:['Нені түсіндіру керек?','Что объяснить?'],askPh:['Осы қадамды қарапайым мысалмен түсіндірші','Объясни этот шаг на простом примере'],
   askBtn:['Аяннан сұрау (ЖИ)','Спросить Аяна (ИИ)'],thinking:['Аян ойланып жатыр…','Аян думает…'],
+  gameDone:['Барлық тапсырма орындалды: 3/3. Өз бетімен: {n}.','Все задания выполнены: 3 из 3. Самостоятельно: {n}.'],gameNote:['Жаттығу: «Үлесті жина» ойыны (3 тапсырма, серверде тексеріледі).','Практика: игра «Собери долю» (3 задания, проверяет сервер).'],gameLoadFail:['Ойын жүктелмеді. Бетті жаңартыңыз.','Игра не загрузилась. Обновите страницу.'],
   loadingLesson:['Сабақты жүктеп жатырмыз…','Загружаем урок…'],repeatExplain:['Түсіндіруді қайталау','Повторить объяснение'],yourLesson:['Сенің сабағың','Твой урок'],stExplain:['Түсіндіру','Объяснение'],stPractice:['Жаттығу','Практика'],stResult:['Нәтиже','Результат'],
   about:['Шамамен {n} минут. Таймер жоқ.','Примерно {n} минут. Без таймера.'],savedAt:['Сақталды: {n}-қадам, барлығы {m}','Сохранено: шаг {n} из {m}'],
   startLesson:['Сабақты бастау →','Начать урок →'],continueLesson:['Сабақты жалғастыру →','Продолжить урок →'],lessonPassed:['Сабақ өтілді ✓','Урок пройден ✓'],
@@ -64,6 +65,7 @@
  function demoBar(){if(!A.demo)return;let bar=document.querySelector('.demo-bar');if(!bar){bar=document.createElement('aside');bar.className='demo-bar';document.body.prepend(bar);}
   bar.innerHTML=t('demoBar')+' <a href="/demo/child">'+t('student')+'</a><a href="/demo/teacher">'+t('teacher')+'</a><a href="/demo/parent'+(lang()==='kk'?'?lang=kk':'')+'">'+t('parent')+'</a>';}
 
+ let gameState={},gameInstance=null,keyboardUsed=false;document.addEventListener('keydown',e=>{if(e.key==='Tab'||e.key===' '||e.key==='Enter')keyboardUsed=true;});document.addEventListener('pointerdown',()=>{keyboardUsed=false;});
  let lesson=null,lessonState='loading',index=0,large=false,paused=false,resumeAsked=false,attempt=null;
  // Support profile (support.mjs). Applied everywhere: language, text size, motion, sound, captions, pace.
  let profile=null;
@@ -89,7 +91,7 @@
    +'<form id="lesson-editor"><label for="lesson-title">'+t('fTitle')+'</label><input id="lesson-title" name="title" placeholder="'+esc(t('fTitlePh'))+'" required maxlength="160">'
    +'<label for="lesson-steps">'+t('fSteps')+'</label><textarea id="lesson-steps" name="steps" rows="5" required placeholder="'+esc(t('fStepsPh'))+'"></textarea>'
    +'<label for="lesson-question">'+t('fQuestion')+'</label><input id="lesson-question" name="question" placeholder="'+esc(t('fQuestionPh'))+'" required>'
-   +'<label for="lesson-answer">'+t('fAnswer')+'</label><input id="lesson-answer" name="answer" placeholder="5" required aria-describedby="answer-hint"><p class="help-text" id="answer-hint">'+t('fAnswerHint')+'</p>'
+   +'<label for="lesson-answer">'+t('fAnswer')+'</label><input id="lesson-answer" name="answer" placeholder="5" required aria-describedby="answer-hint"><p class="help-text" id="answer-hint">'+t('fAnswerHint')+'</p><p class="help-text game-note" id="game-note" hidden>'+t('gameNote')+'</p>'
    +'<div class="actions"><button class="secondary" type="button" id="ai-draft">'+t('aiDraft')+'</button><button class="primary">'+t('assign')+'</button></div><p class="status-line" id="lesson-status" role="status"></p></form>';
   el.insertAdjacentHTML('beforeend','<hr><h2>'+t('support')+'</h2><p class="help-text">'+t('supportNote')+'</p><form id="support-form" class="support-form"><div class="support-grid">'
    +'<label>'+t('language')+'<select name="lang"><option value="ru">Русский</option><option value="kk">Қазақша</option></select></label>'
@@ -103,14 +105,14 @@
   request(supportURL).then(p=>{profile=p;fillSupport(p);}).catch(()=>{});
   sf.onsubmit=async e=>{e.preventDefault();const st=el.querySelector('#support-status');try{profile=await request(supportURL,{lang:sf.lang.value,pace:sf.pace.value,input:sf.input.value,textSize:sf.textSize.checked?'large':'normal',captions:sf.captions.checked,sound:sf.sound.checked,motion:sf.motion.checked,repeatInstruction:sf.repeatInstruction.checked});fillSupport(profile);st.textContent=t('saved');}catch(err){st.textContent=err.message;}};
   const f=el.querySelector('#lesson-editor'),status=el.querySelector('#lesson-status');
-  const fill=l=>{f.elements.title.value=l.title||'';f.elements.steps.value=(Array.isArray(l.steps)?l.steps.join('\n'):l.steps)||'';f.elements.question.value=l.question||'';f.elements.answer.value=l.answer||'';};
+  const fill=l=>{f.dataset.game=l.game||'';for(const n of ['question','answer']){f.elements[n].required=!l.game;f.elements[n].closest('label')?.toggleAttribute('hidden',!!l.game);f.elements[n].hidden=!!l.game;el.querySelector('label[for="lesson-'+n+'"]').hidden=!!l.game;}el.querySelector('#answer-hint').hidden=!!l.game;el.querySelector('#game-note').hidden=!l.game;f.elements.title.value=l.title||'';f.elements.steps.value=(Array.isArray(l.steps)?l.steps.join('\n'):l.steps)||'';f.elements.question.value=l.question||'';f.elements.answer.value=l.answer||'';};
   if(keep)fill(keep);else request(lessonURL).then(l=>{if(l){fill(l);A.lessonVersion=l.id;}}).catch(()=>{});
   el.querySelector('#student-select').onchange=e=>{sessionStorage.setItem('ayan.selected.'+A.me.id,e.target.value);location.reload();};
   el.querySelector('#new-student').onclick=studentDialog;
   for(const [id,url] of [['child-invite','/api/invite'],['parent-invite','/api/parent/invite']])el.querySelector('#'+id).onclick=async()=>{const out=el.querySelector('#invite-result');try{await A.flush();const r=await request(url,{child:A.child});out.replaceChildren();const a=document.createElement('a');a.href=r.url;a.textContent=r.url;a.target='_blank';a.rel='noopener';out.append(t(id==='child-invite'?'childLink':'parentLink'),a);}catch(e){out.textContent=e.message;}};
   el.querySelector('#child-revoke').onclick=async()=>{const out=el.querySelector('#invite-result');if(!confirm(t('revokeConfirm')))return;try{await request('/api/children/revoke',{child:A.child});out.textContent=t('revoked');}catch(e){out.textContent=e.message;}};
   el.querySelectorAll('[data-template]').forEach(b=>b.onclick=()=>{const l=window.AyanTemplates.get(b.dataset.template,lang());fill(l);el.querySelectorAll('[data-template]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));status.textContent=t('templateIn');});
-  f.onsubmit=async e=>{e.preventDefault();status.textContent=t('saving');try{const data=Object.fromEntries(new FormData(f));data.steps=data.steps.split('\n').filter(x=>x.trim());const published=await request(lessonURL,{...data,locale:lang()});A.lessonVersion=published?.id||A.lessonVersion;status.textContent=t('assigned')+(published?.version?' '+t('versionN',{n:published.version}):'');}catch(err){status.textContent=err.message;}};
+  f.onsubmit=async e=>{e.preventDefault();status.textContent=t('saving');try{const data=Object.fromEntries(new FormData(f));data.steps=data.steps.split('\n').filter(x=>x.trim());if(f.dataset.game){data.game=f.dataset.game;delete data.question;delete data.answer;}const published=await request(lessonURL,{...data,locale:lang()});A.lessonVersion=published?.id||A.lessonVersion;status.textContent=t('assigned')+(published?.version?' '+t('versionN',{n:published.version}):'');}catch(err){status.textContent=err.message;}};
   el.querySelector('#ai-draft').onclick=async e=>{if(!f.elements.title.value.trim()){status.textContent=t('needTitle');return;}const b=e.currentTarget;b.disabled=true;status.textContent=t('drafting');
    const prompt=lang()==='kk'?'Тақырыпты 3-5 қарапайым қадамға бөл. Бір жолға бір қадам. Нөмірсіз, тақырыпшасыз, белгілеусіз. Қазақ тілінде жаз. Тақырып: ':'Разбей тему на 3-5 простых шагов. Один шаг на строке. Без нумерации, заголовков и разметки. Тема: ';
    try{f.elements.steps.value=await ask(prompt+f.elements.title.value,f.elements.steps.value);status.textContent=t('draftDone');}catch(err){status.textContent=aiError(err,false);}finally{b.disabled=false;}};
@@ -148,13 +150,15 @@
  let eventQueue=Promise.resolve();
  const event=(kind,value='')=>{eventQueue=eventQueue.catch(()=>{}).then(()=>request('/api/lesson/event',{kind,value,attemptId:attempt?.id}));return eventQueue.catch(()=>{});};
  // Starts (or re-opens) an attempt on the server. Idempotent: the same id can be sent again after a timeout.
- async function ensureAttempt(){if(!attempt)return null;if(attempt.confirmed)return attempt;try{const view=await request('/api/attempt',{attemptId:attempt.id,lessonVersion:lesson.id,locale:lang()});attempt={...view,confirmed:true};return attempt;}catch(e){if(e.code==='lesson_changed')attempt.changed=true;return null;}}
- function newAttempt(){attempt={id:uid(),confirmed:false};ans={status:'editing',text:'',submissionId:null,evaluation:null};}
+ async function ensureAttempt(){if(!attempt)return null;if(attempt.confirmed)return attempt;try{const view=await request('/api/attempt',{attemptId:attempt.id,lessonVersion:lesson.id,locale:lang()});attempt={...view,confirmed:true};restoreGame();return attempt;}catch(e){if(e.code==='lesson_changed')attempt.changed=true;return null;}}
+ function newAttempt(){attempt={id:uid(),confirmed:false};ans={status:'editing',text:'',submissionId:null,evaluation:null};gameState={};}
+ // Game answers restored from the server attempt (resume after reload keeps solved tasks and selections).
+ function restoreGame(){if(!lesson?.game||!attempt?.submissions)return;for(const sub of attempt.submissions){gameState.sel??={};gameState.choice??={};gameState.solved??={};const tk=window.AyanFractions?.TASKS.find(x=>x.id===sub.taskId);if(!tk)continue;if(tk.kind==='select')gameState.sel[tk.id]=sub.answer.split(',').map(Number);else gameState.choice[tk.id]=sub.answer;if(sub.evaluation==='correct')gameState.solved[tk.id]=true;}const first=(window.AyanFractions?.TASKS||[]).findIndex(x=>!gameState.solved?.[x.id]);gameState.index=first<0?2:first;}
  const total=()=>lesson.steps.length+1;
  function openLesson(){
   document.querySelector('#lesson-dialog')?.remove();
   const d=document.createElement('dialog');d.id='lesson-dialog';d.className='lesson-dialog';document.body.append(d);
-  d.addEventListener('close',()=>{speechSynthesis?.cancel();if(attempt&&attempt.state!=='completed'){lesson.attemptId=attempt.id;if(index>0)lesson.resume=index+1;}d.remove();});
+  d.addEventListener('close',()=>{speechSynthesis?.cancel();gameInstance?.destroy();gameInstance=null;if(attempt&&attempt.state!=='completed'){lesson.attemptId=attempt.id;if(index>0)lesson.resume=index+1;}d.remove();});
   if(lesson.attemptId){attempt={id:lesson.attemptId,confirmed:false};ans={status:'editing',text:'',submissionId:null,evaluation:null};}else newAttempt();
   resumeAsked=!(lesson.resume>1)&&!(lesson.completedAttempt&&!lesson.attemptId);
   if(resumeAsked){index=0;ensureAttempt().then(()=>event('step','1'));}
@@ -175,14 +179,17 @@
    d.querySelector('#resume-restart').onclick=()=>{resumeAsked=true;index=0;newAttempt();ensureAttempt().then(()=>event('step','1'));draw();};
    d.querySelector('#resume-go').focus();return;
   }
+  gameInstance?.destroy();gameInstance=null;
   const question=index>=lesson.steps.length;
   if(finished()&&!paused)return drawResult(d);
+  const isGame=question&&!!lesson.game;
   const body=paused?'<div class="lesson-step">'+t('rest')+'</div>'
    :!question?'<div class="lesson-step">'+esc(lesson.steps[index])+'</div>'
+   :isGame?'<div id="game-host" class="game-host"></div>'
    :'<div class="lesson-step">'+esc(lesson.question)+'</div><form id="answer-form" class="answer-form"><label for="lesson-response">'+t('yourAnswer')+'</label><input id="lesson-response" maxlength="200" autocomplete="off" value="'+esc(ans.text)+'" '+(ans.status==='submitting'||ans.evaluation==='correct'?'readonly':'')+'></form>';
   const bar=paused?'<button class="primary lesson-next" id="lesson-pause-end">'+t('resume')+'</button>'
    :'<div class="lesson-bar-row"><button class="secondary" id="speak-step" '+(question||profile?.sound===false?'hidden':'')+'>'+t('listen')+'</button><button class="secondary" id="repeat-step" '+(index===0?'disabled':'')+'>'+t('prevStep')+'</button></div>'+(question&&profile?.repeatInstruction?'<button class="secondary" id="repeat-explain">'+t('repeatExplain')+'</button>':'')
-    +(question?(ans.evaluation==='correct'&&attempt?.state==='completed'?'<button class="primary lesson-next" id="lesson-finish">'+t('finish')+'</button>':'<button class="primary lesson-next" type="submit" form="answer-form" '+(ans.status==='submitting'?'disabled aria-busy="true"':'')+'>'+t(ans.status==='save_failed'?'resend':'check')+'</button>'):'<button class="primary lesson-next" id="next-step">'+t('next')+'</button>');
+    +(isGame?'':question?(ans.evaluation==='correct'&&attempt?.state==='completed'?'<button class="primary lesson-next" id="lesson-finish">'+t('finish')+'</button>':'<button class="primary lesson-next" type="submit" form="answer-form" '+(ans.status==='submitting'?'disabled aria-busy="true"':'')+'>'+t(ans.status==='save_failed'?'resend':'check')+'</button>'):'<button class="primary lesson-next" id="next-step">'+t('next')+'</button>');
   d.innerHTML='<div class="lesson-reader'+(large?' is-large':'')+'"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button><div class="lesson-head-mid">'+stages(finished()?3:index>=lesson.steps.length?2:1,finished())+'<span class="lesson-progress">'+(index<lesson.steps.length?t('stepOf',{n:index+1,m:lesson.steps.length}):'')+'</span></div><div class="lesson-tools">'
    +'<button class="icon-btn" id="lesson-pause" aria-pressed="'+paused+'" aria-label="'+t(paused?'resume':'pause')+'" title="'+t(paused?'resume':'pause')+'">'+(paused?icon.play:icon.pause)+'</button>'
    +'<button class="icon-btn" id="lesson-size" aria-pressed="'+large+'" aria-label="'+t('large')+'" title="'+t('large')+'">'+icon.size+'</button></div></div>'
@@ -203,15 +210,20 @@
   $('#lesson-response')?.addEventListener('input',e=>{if(ans.status!=='submitting'){ans.text=e.target.value;}});
   $('#lesson-finish')?.addEventListener('click',()=>d.close());
   $('#assistant-form').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button'),out=$('#assistant-reply');b.disabled=true;out.textContent=t('thinking');event('hint');try{out.textContent=await ask($('#assistant-question').value);}catch(err){out.textContent=aiError(err,true);}finally{b.disabled=false;}};
+  if(isGame&&!paused){const host=$('#game-host');ensureAttempt();
+   import('/games/fraction-game.mjs').then(m=>{if(!host.isConnected)return;let pref='3d';try{pref=localStorage.getItem('ayan.game.mode')||'3d';}catch{}
+    gameInstance=m.mount(host,{lang:lang(),state:gameState,preferMode:pref,motion:profile?.motion!==false,keyboard:()=>keyboardUsed,submit:gameSubmit,onHint:()=>event('hint'),onMode:mode=>{try{localStorage.setItem('ayan.game.mode',mode);}catch{}},onDone:()=>draw()});
+    window.AyanGame=gameInstance;})
+    .catch(()=>{host.textContent=t('gameLoadFail');});}
   ($('#next-step')||$('#lesson-response')||$('#lesson-pause-end'))?.focus({preventScroll:true});
  }
 
- const finished=()=>ans.status==='evaluated'&&ans.evaluation==='correct'&&attempt?.state==='completed';
+ const finished=()=>lesson?.game?(attempt?.confirmed&&attempt?.state==='completed'):(ans.status==='evaluated'&&ans.evaluation==='correct'&&attempt?.state==='completed');
  // Result -> next step. Shown only after the server confirmed completion.
  function drawResult(d){
   const g=nextGame(),gt=g?g.title[lang()==='kk'?1:0]:'';
   d.innerHTML='<div class="lesson-reader'+(large?' is-large':'')+'"><div class="lesson-top"><button class="secondary" id="lesson-close">← '+t('back')+'</button><div class="lesson-head-mid">'+stages(3,true)+'</div><div class="lesson-tools"></div></div>'
-   +'<div class="lesson-content lesson-result"><h1 tabindex="-1">'+t('resultTitle')+'</h1><p id="lesson-feedback" class="lesson-feedback" role="status">'+t('correctDone')+'</p><p>'+t('resultAnswer',{a:esc(ans.text)})+'</p>'
+   +'<div class="lesson-content lesson-result"><h1 tabindex="-1">'+t('resultTitle')+'</h1><p id="lesson-feedback" class="lesson-feedback" role="status">'+t('correctDone')+'</p><p>'+(lesson.game?t('gameDone',{n:new Set((attempt?.submissions||[]).filter(x=>x.evaluation==='correct'&&!x.assisted).map(x=>x.taskId)).size}):t('resultAnswer',{a:esc(ans.text)}))+'</p>'
    +(g?'<h2>'+t('nextStep')+'</h2><p>'+t('nextGame',{g:esc(gt)})+'</p>':'')+'</div>'
    +'<div class="lesson-bar">'+(g?'<button class="primary lesson-next" id="next-game">'+t('playGame',{g:esc(gt)})+'</button>':'')+'<button class="'+(g?'secondary':'primary lesson-next')+'" id="lesson-finish">'+t('toDay')+'</button></div></div>';
   d.querySelector('#lesson-close').onclick=()=>d.close();
@@ -243,6 +255,22 @@
   if(ans.status==='empty')return t('emptyAnswer');
   if(ans.status==='evaluated')return ans.evaluation==='correct'?t('correctDone'):t('incorrectSaved');
   return '';
+ }
+ // One task answer of the lesson game. Same rules: stable key per content, ask the server before retrying.
+ async function gameSubmit(taskId,answer,assisted){
+  gameState.sent??={};const prev=gameState.sent[taskId];
+  const sub=prev&&prev.answer===answer&&!prev.evaluated?prev.id:uid();gameState.sent[taskId]={answer,id:sub,evaluated:false};
+  const done=r=>{gameState.sent[taskId].evaluated=true;return {status:'evaluated',evaluation:r.evaluation,reason:r.reason,completed:attempt?.state==='completed'};};
+  try{if(!(await ensureAttempt()))throw Object.assign(Error('attempt'),{status:0});
+   const r=await request('/api/attempt/submit',{attemptId:attempt.id,taskId,submissionId:sub,answer,assisted});attempt={...r.attempt,confirmed:true};return done(r);}
+  catch(e){
+   if(e.code==='completed'&&e.data?.attempt){attempt={...e.data.attempt,confirmed:true};return {status:'evaluated',evaluation:'correct',completed:true};}
+   if(e.code==='conflict'){gameState.sent[taskId]=null;return {status:'save_failed'};}
+   const saved=await request('/api/attempt?id='+encodeURIComponent(attempt.id)).catch(()=>null);
+   const mine=saved?.submissions?.find(x=>x.submissionId===sub);
+   if(mine){attempt={...saved,confirmed:true};return done({evaluation:mine.evaluation,reason:mine.evaluation==='correct'?null:window.AyanFractions?.evaluate(taskId,mine.answer).reason});}
+   return {status:'save_failed'};
+  }
  }
  async function submitAnswer(raw){
   const text=String(raw||'').trim();

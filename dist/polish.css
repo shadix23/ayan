@@ -419,3 +419,36 @@ html[data-text-size="large"] .world-card-copy p{font-size:18px}
 }
 .day-friend .hero-character{inset:auto!important;transform:none!important;margin:0 auto}
 @media (max-width:820px){body .world-header>[data-logout]{order:3!important}}
+
+/* ===== Stage 3: lesson game "Collect a share" ===== */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fg-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.fg-tasks{display:flex;gap:8px;list-style:none;margin:0;padding:0}
+.fg-tasks li{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#f1f3ec;border:1px solid #cfd9c4;color:#3d4c40}
+.fg-tasks li.is-current{background:#e7f2d6;box-shadow:inset 0 0 0 2px #7fae5a;color:#1f3d15}
+.fg-tasks li.is-done{background:#3f7a2a;border-color:#3f7a2a;color:#fff}
+.fg-mode{width:auto!important;margin:0!important;min-height:44px}
+.fg-count-task{margin:12px 0 0;color:var(--muted,#5d6b60);font-weight:600}
+.fg h2{font-size:24px;margin:4px 0 12px}
+.fg-stage{position:relative}
+.fg-3d{position:relative;height:clamp(220px,42vh,380px);border-radius:16px;background:#eef3e4;overflow:hidden}
+.fg-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:manipulation}
+.fg-loading{position:absolute;inset:0;display:grid;place-items:center;margin:0;color:#3d4c40;font-weight:600}
+.fg-fallback{padding:12px 14px;border-radius:12px;background:#fff6dd;color:#5a4a1e;margin:0 0 8px}
+.fg-fallback .secondary{width:auto;margin:8px 0 0;min-height:44px}
+.fg-controls{margin-top:12px}
+.fg-2d-preview{display:flex;justify-content:center}
+.fg-parts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.fg-part,.fg-option{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:64px;padding:8px;border-radius:14px;border:2px solid #dce4d6;background:#fff;font:700 15px/1.2 inherit;color:#16261b;cursor:pointer}
+.fg-part[aria-pressed="true"],.fg-option[aria-pressed="true"]{border-color:#c46b2c;background:#fff1e6;box-shadow:inset 0 0 0 2px #c46b2c}
+.fg-part[aria-pressed="true"] span::before,.fg-option[aria-pressed="true"] span::before{content:"✓ "}
+.fg-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg-count{font-weight:700;margin:12px 0 0;min-height:24px}
+.fg-msg{min-height:24px;margin:6px 0 0}
+.fg-msg.is-warning{color:#8a4b00}
+.fg-actions{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:12px}
+.fg-actions .primary,.fg-actions .secondary{width:100%;margin:0!important;min-height:52px}
+.fg :is(button):focus-visible{outline:3px solid #1d5f9e;outline-offset:2px}
+@media (max-width:420px){.fg-parts{grid-template-columns:repeat(2,1fr)}.fg h2{font-size:21px}}
+.fg-2d-preview svg{width:min(200px,38vw);height:auto}
+@media (max-width:420px){.fg-part{min-height:56px;padding:6px}.fg-part svg{width:36px;height:36px}.fg-count-task{margin-top:6px}.fg h2{margin-bottom:6px}}
