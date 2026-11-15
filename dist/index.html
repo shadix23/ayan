@@ -171,6 +171,21 @@
   </div>
 </section>
 
+<section class="film" id="film" aria-labelledby="film-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="film-title" data-kk="Аян 40 секундта">Аян за 40 секунд</h2>
+    </div>
+    <div class="film-frame">
+      <video id="film-video" muted loop playsinline controls preload="metadata" poster="/assets/landing/ayan-site-poster.webp" aria-label="Ролик: как ребёнок проходит урок в Аяне и как учитель видит, кому нужна помощь">
+        <source src="/assets/landing/ayan-site.webm" type="video/webm">
+        <source src="/assets/landing/ayan-site.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+  <script>(function(){var v=document.getElementById('film-video');if(!v||matchMedia('(prefers-reduced-motion: reduce)').matches)return;var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){v.play().catch(function(){});}else{v.pause();}});},{threshold:.4});io.observe(v);})();</script>
+</section>
+
 <section class="how" id="how" aria-labelledby="how-title">
   <div class="flies flies-dark" data-flies="12" aria-hidden="true"></div>
   <div class="wrap">
