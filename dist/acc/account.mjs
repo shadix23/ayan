@@ -1,6 +1,6 @@
 // Аккаунт: профиль, язык, подписка, платежи, возврат 14 дней, данные, выход и удаление (устройство как у goprep, палитра Аяна).
 // API: /api/account/profile, /api/billing/subscription|payments|cancel|resume, /api/account/password|sessions/revoke|delete, /api/support.
-import {t,$,$$,topBar,api,esc,I,money,fmtDate,roleName,methodName,setError,clearErrors,busy,toast,onLang,errText,CONTACT} from './acc.js';
+import {t,$,$$,topBar,api,esc,I,money,fmtDate,roleName,methodName,setError,clearErrors,busy,toast,onLang,errText,CONTACT} from './acc.mjs';
 topBar({current:'account',cta:false});
 let pr=null,pays=[],open=true,editing=null;
 const dlg=$('#dlg');

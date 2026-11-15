@@ -1,6 +1,6 @@
 // Вход: учитель, родитель и школа по почте (/login, /teacher/login), ученик по коду приглашения (/child/login).
 // The ids (#login-form, #fields, #email, #password, #code, #submit, #error) are kept for the older tests.
-import {t,$,$$,topBar,api,setError,clearErrors,focusFirstError,emailOk,busy,eyeToggle,mascot,onLang,esc,EYE} from '/acc/acc.js';
+import {t,$,$$,topBar,api,setError,clearErrors,focusFirstError,emailOk,busy,eyeToggle,mascot,onLang,esc,EYE} from '/acc/acc.mjs';
 const isChild=location.pathname.startsWith('/child');
 topBar({current:'login',cta:false});
 for(const el of $$('[data-mascot]'))if(el.offsetParent)mascot(el,el.dataset.mascot);

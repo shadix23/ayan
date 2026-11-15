@@ -1,4 +1,4 @@
-import {t,$,$$,topBar,api,setError,clearErrors,focusFirstError,emailOk,busy,eyeToggle,mascot,onLang,errText} from './acc.js';
+import {t,$,$$,topBar,api,setError,clearErrors,focusFirstError,emailOk,busy,eyeToggle,mascot,onLang,errText} from './acc.mjs';
 topBar({current:'signup'});
 for(const el of $$('[data-mascot]'))if(el.offsetParent)mascot(el,el.dataset.mascot);
 eyeToggle();

@@ -1,7 +1,7 @@
 // Онбординг после регистрации: 5 коротких вопросов, по одному на экране (как у goprep, в спокойной палитре Аяна).
 // Ответы: POST /api/account/onboarding {answers,done} (ключи grade, subjects, lessonLang, needs, goal; hackathon/api-accounts.md).
 // The progress is five lights that fill with honey; the mascot greets once and celebrates once at the end.
-import {t,$,$$,api,setError,clearErrors,mascot,onLang,esc,I,plan,planName,money,loadPlans,still} from './acc.js';
+import {t,$,$$,api,setError,clearErrors,mascot,onLang,esc,I,plan,planName,money,loadPlans,still} from './acc.mjs';
 const q=new URLSearchParams(location.search);
 const planQ=/^[a-z]+$/.test(q.get('plan')||'')?q.get('plan'):'',periodQ=q.get('period')==='year'?'year':'month';
 let role='teacher',answers={},step=0,next='/teacher',finished=false,fly=null,greeted=false;

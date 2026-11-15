@@ -1,6 +1,6 @@
 // Оформление: тариф -> счёт (Kaspi или на организацию) -> подтверждение -> готово.
 // Платёжные данные карты не запрашиваются никогда: оплата = подтверждение выставленного счёта (POST /api/billing/checkout, /confirm).
-import {t,$,$$,topBar,api,esc,I,money,planName,methodName,loadPlans,fmtDate,setError,clearErrors,busy,mascot,onLang,errText} from './acc.js';
+import {t,$,$$,topBar,api,esc,I,money,planName,methodName,loadPlans,fmtDate,setError,clearErrors,busy,mascot,onLang,errText} from './acc.mjs';
 topBar({current:'pricing'});
 const url=new URL(location.href);
 let planId=url.searchParams.get('plan')||'max',period=url.searchParams.get('period')==='year'?'year':'month',method='kaspi',seats=5;

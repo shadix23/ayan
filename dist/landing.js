@@ -4,7 +4,7 @@
 // 3) the hero "teacher screen" card that changes its example every 4.2 s;
 // 4) the product demo in #how: 4 steps with a cursor, plays by itself while in view, has a pause button
 //    and step buttons; under prefers-reduced-motion or the page "pause motion" button every step is a still poster.
-// The footer is the shared partial dist/site-footer.js (loaded by index.html).
+// The footer is the shared partial dist/site-footer.mjs (loaded by index.html).
 const root=document.documentElement;
 const RM=matchMedia('(prefers-reduced-motion: reduce)');
 const MKEY='ayan.landing.motion';

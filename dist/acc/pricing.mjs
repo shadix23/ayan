@@ -1,5 +1,5 @@
 // Тарифы: суммы из GET /api/billing/plans (с НДС, целые тенге), тексты на двух языках из acc.js.
-import {t,$,$$,topBar,api,esc,I,money,planName,loadPlans,onLang} from './acc.js';
+import {t,$,$$,topBar,api,esc,I,money,planName,loadPlans,onLang} from './acc.mjs';
 topBar({current:'pricing'});
 const url=new URL(location.href);let period=url.searchParams.get('period')==='year'?'year':'month',data=null,current=null,signedIn=false;
 

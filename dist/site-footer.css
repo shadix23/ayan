@@ -1,4 +1,4 @@
-/* Аян: общий подвал сайта (dist/site-footer.js). Самодостаточный: свои переменные, классы sf-*.
+/* Аян: общий подвал сайта (dist/site-footer.mjs). Самодостаточный: свои переменные, классы sf-*.
    Фон чуть холоднее и светлее основного #FBFAF6; заголовки колонок прописными с разрядкой; на телефоне колонки по две. */
 .sf{--sf-bg:#F4F7F6;--sf-text:#1F2A2E;--sf-muted:#4F5F63;--sf-line:#DCE4E1;--sf-focus:#0369A1;--sf-gut:20px;
   background:var(--sf-bg);color:var(--sf-muted);border-top:1px solid var(--sf-line);font:450 15px/1.45 Nunito,system-ui,sans-serif;padding:52px 0 32px;-webkit-font-smoothing:antialiased}

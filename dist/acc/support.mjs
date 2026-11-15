@@ -1,5 +1,5 @@
 // Поддержка: частые вопросы и форма «Написать нам» (POST /api/support {email,message}, обращение сохраняется на сервере).
-import {t,$,topBar,api,setError,clearErrors,focusFirstError,emailOk,busy,errText} from './acc.js';
+import {t,$,topBar,api,setError,clearErrors,focusFirstError,emailOk,busy,errText} from './acc.mjs';
 topBar({current:'support'});
 const f=$('#sup'),em=$('#s-email'),msg=$('#s-msg'),res=$('#s-res');
 api.session().then(s=>{if(s?.user?.email&&!em.value)em.value=s.user.email;}).catch(()=>{});

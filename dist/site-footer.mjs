@@ -1,5 +1,5 @@
 // Аян: общий подвал сайта (лендинг и страницы аккаунта). ES-модуль без зависимостей.
-// Подключение:  <script type="module" src="/site-footer.js"></script> (стили /site-footer.css скрипт добавит сам, если их нет;
+// Подключение:  <script type="module" src="/site-footer.mjs"></script> (стили /site-footer.css скрипт добавит сам, если их нет;
 //               можно и подключить <link rel="stylesheet" href="/site-footer.css"> заранее)
 //               и в разметке  <div data-site-footer></div>  (подвал вставляется внутрь, можно несколько мест).
 // Язык: window.AyanPage.lang() (page-i18n.js), иначе <html lang="kk|ru">, иначе localStorage 'ayan.page.lang'
