@@ -8,8 +8,8 @@ async function call(path,{cookie,method,body}={}){const r=await fetch(B+path,{me
 const out=[];const report=(id,confirmed,detail)=>{out.push([id,confirmed,detail]);console.log((confirmed?'CONFIRMED     ':'NOT REPRODUCED')+'  '+id+': '+detail);};
 
 const s=Date.now();
-const su=await fetch(B+'/api/auth/sign-up/email',{method:'POST',headers:json,body:JSON.stringify({email:`audit${s}@t.test`,password:'audit-pass-123',name:'Audit'})});const teacher=jar(su);
-const kid=(await call('/api/children',{cookie:teacher,body:{label:'Audit child'}})).data;
+const su=await fetch(B+'/api/account/register',{method:'POST',headers:json,body:JSON.stringify({email:`audit${s}@t.test`,password:'audit-pass-123',name:'Audit',role:'teacher',consent:{terms:true,privacy:true}})});const teacher=jar(su);
+const kid=(await call('/api/children',{cookie:teacher,body:{label:'Audit child',consent:{confirmed:true,basis:'guardian_consent'}}})).data;
 const L=(answer,title='Тема аудита')=>({title,steps:['Шаг 1','Шаг 2'],question:'Сколько?',answer});
 await call('/api/lesson?role=teacher&child='+kid.id,{cookie:teacher,body:L('5')});
 const inv=(await call('/api/invite',{cookie:teacher,body:{child:kid.id}})).data;
@@ -47,7 +47,7 @@ const still=await call('/api/lesson?role=child',{cookie:child});
 report('A6 no access revocation',del.status!==200&&still.status===200,`DELETE /api/children -> HTTP ${del.status}; child session still reads the lesson (HTTP ${still.status})`);
 
 // A7: role spoofing (fixed in 54cad12): another teacher with role=admin
-const su2=await fetch(B+'/api/auth/sign-up/email',{method:'POST',headers:json,body:JSON.stringify({email:`audit2${s}@t.test`,password:'audit-pass-123',name:'Other'})});const other=jar(su2);
+const su2=await fetch(B+'/api/account/register',{method:'POST',headers:json,body:JSON.stringify({email:`audit2${s}@t.test`,password:'audit-pass-123',name:'Other',role:'teacher',consent:{terms:true,privacy:true}})});const other=jar(su2);
 const spoof=await call(`/api/lesson?role=admin&child=${kid.id}`,{cookie:other});const spoof2=await call(`/api/state?role=x&child=${kid.id}`,{cookie:other});
 report('A7 role spoofing (regression)',spoof.status===200||spoof2.status===200,`other teacher with role=admin/x -> lesson HTTP ${spoof.status}, state HTTP ${spoof2.status}`);
 

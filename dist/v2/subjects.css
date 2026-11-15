@@ -1,0 +1,27 @@
+/* Главная ребёнка: «Менің пәндерім / Мои предметы». Без движения, кроме смены фона при наведении (как у плиток). */
+.subj-card{margin-top:24px}
+.subj-card h2{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.subj-card .subj-note{font-size:.9375rem;font-weight:600;color:var(--muted)}
+.subj-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:16px 0 0;padding:0;list-style:none}
+.subj-grid>li{min-width:0;display:flex}
+.subj{flex:1;display:flex;align-items:center;gap:14px;min-width:0;min-height:100px;padding:14px 16px 14px 12px;border-radius:20px;background:var(--surface);box-shadow:var(--ring);color:var(--text);text-decoration:none}
+.subj img{width:68px;height:68px;border-radius:50%;flex:none;display:block}
+.subj-txt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.subj-name{font-weight:800;font-size:1.0625rem;line-height:1.2;overflow-wrap:break-word}
+.subj-st{display:inline-flex;align-items:center;gap:4px;align-self:flex-start;min-height:26px;padding:0 10px;border-radius:999px;font-size:.8125rem;font-weight:800;white-space:nowrap}
+.subj[data-state=open] .subj-st{background:var(--primary);color:#fff}
+.subj[data-state=open] .subj-st svg{width:14px;height:14px}
+.subj[data-state=teacher] .subj-st{background:var(--primary-soft);color:var(--primary-hover)}
+.subj[data-state=soon] .subj-st{background:var(--surface-2,#F3F1EA);color:var(--muted)}
+.subj[data-state=soon]{background:var(--bg,#FBFAF6)}
+a.subj:hover{background:var(--primary-soft)}
+a.subj:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+html:not([data-motion=off]) a.subj{transition:background-color var(--t,160ms) var(--ease,ease)}
+@media (max-width:1100px){.subj-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){
+ .subj-card{padding:18px 16px}
+ .subj-grid{gap:10px}
+ .subj{flex-direction:column;align-items:flex-start;gap:8px;min-height:0;padding:12px 10px}
+ .subj img{width:56px;height:56px}
+ .subj-name{font-size:.9375rem}
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аян · ученик и учитель</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/ayan-mark.svg">
+<link rel="stylesheet" href="/v2/tokens.css">
+<link rel="stylesheet" href="/v2/lights.css">
+<style>
+ html,body{height:100%;overflow:hidden}
+ .split-bar{height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;background:var(--surface);border-bottom:1px solid var(--border);font-size:.9375rem;font-weight:800}
+ .split-bar .sp{margin-right:auto;color:var(--muted)}
+ .split-bar a,.split-bar button{display:inline-flex;align-items:center;font:inherit;font-weight:800;color:var(--focus);background:none;border:0;cursor:pointer;min-height:40px;padding:0 6px;text-decoration:underline;text-underline-offset:3px}
+ .panes{display:grid;grid-template-columns:var(--child-w,600px) minmax(0,1fr);height:calc(100% - 44px)}
+ .pane{display:flex;flex-direction:column;min-width:0;border-right:1px solid var(--border)}
+ .pane h2{font-size:.875rem;font-weight:850;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:6px 14px;background:var(--bg);border-bottom:1px solid var(--border)}
+ .pane iframe{flex:1;width:100%;border:0;background:var(--bg)}
+ @media (max-width:1100px){.panes{grid-template-columns:1fr;grid-template-rows:1fr 1fr}.pane{border-right:0;border-bottom:1px solid var(--border)}}
+</style>
+</head>
+<body>
+<div class="split-bar"><span class="sp" data-t="title"></span><button type="button" data-w="430" data-t="narrow"></button><button type="button" data-w="600" data-t="tablet"></button><button type="button" id="reset" data-t="reset"></button><a href="/demo" data-t="back"></a><span class="status-line" id="st" role="status" style="min-height:0"></span></div>
+<div class="panes">
+ <section class="pane" aria-labelledby="c-h"><h2 id="c-h" data-t="child"></h2><iframe src="/child" title="Ученик" id="fc"></iframe></section>
+ <section class="pane" aria-labelledby="t-h"><h2 id="t-h" data-t="teacher"></h2><iframe src="/teacher#/now" title="Учитель" id="ft"></iframe></section>
+</div>
+<script type="module">
+// Local demo only: the child (left) and the teacher (right) in one window. Both are signed in by /demo before opening this page.
+const T={title:['Аян: ученик и учитель, демо-данные','Аян: оқушы мен мұғалім, демо-деректер'],narrow:['Телефон','Телефон'],tablet:['Планшет','Планшет'],reset:['Сбросить демо','Демоны қалпына келтіру'],back:['К выбору','Таңдауға'],
+ child:['Ученик 01','01 оқушы'],teacher:['Учитель A · Класс сейчас','A мұғалімі · Сынып қазір'],done:['Сброшено','Қалпына келтірілді']};
+const L=(()=>{try{return localStorage.getItem('ayan.v2.lang')==='kk'?1:0;}catch{return 0;}})();document.documentElement.lang=L?'kk':'ru';
+document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=T[el.dataset.t][L];});
+document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.w){document.documentElement.style.setProperty('--child-w',b.dataset.w+'px');return;}
+ if(b.id==='reset'){await fetch('/api/demo/reset',{method:'POST'});for(const as of ['teacher-a','student-01'])await fetch('/api/demo/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({as})});
+  try{for(const k of Object.keys(localStorage))if(/^ayan\.v2\.(child|outbox)/.test(k))localStorage.removeItem(k);sessionStorage.removeItem('ayan.v2.acked');}catch{}
+  for(const f of document.querySelectorAll('iframe'))f.src=f.getAttribute('src');
+  document.getElementById('st').textContent=T.done[L];}
+});
+</script>
+</body>
+</html>

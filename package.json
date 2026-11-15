@@ -7,7 +7,21 @@
     "start": "node server.mjs",
     "test": "node --test tests/*.test.cjs",
     "test:access": "node tests/access-matrix.mjs",
-    "test:audit": "node tests/audit-repro.mjs"
+    "test:audit": "node tests/audit-repro.mjs",
+    "demo": "AYAN_DEMO=1 PORT=4300 node server.mjs",
+    "test:v2": "node tests/v2-api.mjs",
+    "test:e2e": "node tests/v2-e2e.cjs",
+    "mascot:build": "/Applications/Blender.app/Contents/MacOS/Blender -b -P assets-src/firefly_build.py && python3 assets-src/crop_stills.py",
+    "kk:review": "node scripts/kk-review.cjs && node scripts/kk-review-v2.cjs",
+    "test:guard": "node tests/demo-guard.mjs",
+    "test:regress": "node tests/v2-e2e-regressions.cjs",
+    "test:pg": "node tests/v2-pg-smoke.mjs",
+    "test:consent": "node tests/v2-e2e-consent.cjs",
+    "test:edupitch": "node tests/v2-edupitch-api.mjs && node tests/v2-e2e-edupitch.cjs && node tests/v2-e2e-teacher-fixes.cjs && node tests/v2-e2e-features-teacher.cjs && node tests/v2-e2e-fix1.cjs",
+    "test:mascot": "node tests/v2-e2e-mascot.cjs && node tests/mascot-perf.cjs",
+    "seed:jury": "node scripts/seed-jury.mjs",
+    "account:purge": "node scripts/purge-accounts.mjs",
+    "test:accounts": "node tests/v2-accounts-api.mjs"
   },
   "engines": {
     "node": "24.x"

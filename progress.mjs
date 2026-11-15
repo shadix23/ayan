@@ -7,6 +7,7 @@
 //    different content under the same key is rejected; completion cannot be undone by a late answer;
 //  - a blank answer is "no answer" (400), not a wrong answer.
 import crypto from 'node:crypto';
+import {addColumn} from './db-util.mjs';
 import Answer from './dist/answer-check.js';
 import Fractions from './dist/games/fractions.js';
 // Lesson games graded on the server. The client only renders and sends the selection.
@@ -19,8 +20,8 @@ export async function migrate(query){
  await query('CREATE TABLE IF NOT EXISTS ayan_lesson_versions (id TEXT PRIMARY KEY, child TEXT NOT NULL, owner TEXT NOT NULL, version INTEGER NOT NULL, content TEXT NOT NULL, created BIGINT NOT NULL)');
  await query('CREATE TABLE IF NOT EXISTS ayan_attempts (id TEXT PRIMARY KEY, child TEXT NOT NULL, lesson_version TEXT NOT NULL, locale TEXT NOT NULL, state TEXT NOT NULL, started BIGINT NOT NULL, completed BIGINT)');
  await query('CREATE TABLE IF NOT EXISTS ayan_submissions (id TEXT PRIMARY KEY, attempt TEXT NOT NULL, child TEXT NOT NULL, task TEXT NOT NULL, submission TEXT NOT NULL, answer TEXT NOT NULL, evaluation TEXT NOT NULL, answer_key_version INTEGER NOT NULL, saved BIGINT NOT NULL)');
- for(const col of ['lesson_version','attempt'])try{await query('ALTER TABLE ayan_events ADD COLUMN '+col+' TEXT');}catch(e){/* column already exists */}
- try{await query('ALTER TABLE ayan_submissions ADD COLUMN assisted INTEGER');}catch(e){/* column already exists */}
+ for(const col of ['lesson_version','attempt'])await addColumn(query,'ayan_events',col,'TEXT');
+ await addColumn(query,'ayan_submissions','assisted','INTEGER');
  // Backfill: lessons published before versions existed become version 1 of themselves.
  const old=await query('SELECT l.child,l.content,c.owner FROM ayan_lessons l JOIN ayan_children c ON c.id=l.child');
  for(const row of old){const lesson=JSON.parse(row.content);if(lesson.version)continue;
@@ -88,7 +89,8 @@ export async function submit(query,child,input){
  const attempt=(await query('SELECT id,lesson_version,state FROM ayan_attempts WHERE id=? AND child=?',[attemptId,child]))[0];
  if(!attempt)return {status:404,data:{code:'not_found'}};
  const key=[child,attemptId,taskId,submissionId].join(':');
- {const l0=await versionContent(query,attempt.lesson_version);const g0=l0?.game?GAMES[l0.game]:null;if(g0){const n=g0.normalize(taskId,answer);if(n!==null)answer=n;}}
+ // V2 lessons are graded only by /api/v2/child/submit (own evaluator and storage). A V2 attempt sent here would be stored as a made-up "incorrect".
+ {const l0=await versionContent(query,attempt.lesson_version);if(l0?.v2)return {status:409,data:{code:'wrong_contract',error:'Этот урок проверяется другим способом'}};const g0=l0?.game?GAMES[l0.game]:null;if(g0){const n=g0.normalize(taskId,answer);if(n!==null)answer=n;}}
  const stored=async()=>(await query('SELECT answer,evaluation,saved FROM ayan_submissions WHERE id=?',[key]))[0];
  const result=async(row,replay)=>({status:200,data:{saved:true,replay,submissionId,taskId,evaluation:row.evaluation,savedAt:Number(row.saved),attempt:await attemptView(query,child,attemptId)}});
  let row=await stored();

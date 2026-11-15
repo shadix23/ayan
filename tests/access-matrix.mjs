@@ -9,9 +9,9 @@ async function call(path,{cookie,method,body}={}){const r=await fetch(B+path,{me
 const results=[];async function check(name,fn){try{await fn();results.push([name,true]);console.log('PASS  '+name);}catch(e){results.push([name,false]);console.log('FAIL  '+name+'\n      '+e.message.split('\n')[0]);}}
 const uid=()=>crypto.randomUUID();
 const s=Date.now();
-async function signup(n){const r=await fetch(B+'/api/auth/sign-up/email',{method:'POST',headers:H,body:JSON.stringify({email:`matrix${n}${s}@t.test`,password:'matrix-pass-123',name:'T'+n})});assert.equal(r.status,200);return jar(r);}
+async function signup(n){const r=await fetch(B+'/api/account/register',{method:'POST',headers:H,body:JSON.stringify({email:`matrix${n}${s}@t.test`,password:'matrix-pass-123',name:'T'+n,role:'teacher',consent:{terms:true,privacy:true}})});assert.equal(r.status,200);return jar(r);}
 async function childOf(teacher,label,answer='5'){
- const kid=(await call('/api/children',{cookie:teacher,body:{label}})).data;
+ const kid=(await call('/api/children',{cookie:teacher,body:{label,consent:{confirmed:true,basis:'guardian_consent'}}})).data;
  const lesson=(await call('/api/lesson?role=teacher&child='+kid.id,{cookie:teacher,body:{title:'Доли '+label,steps:['Шаг 1','Шаг 2'],question:'Сколько?',answer}})).data;
  const inv=(await call('/api/invite',{cookie:teacher,body:{child:kid.id}})).data;
  const e=await fetch(B+'/api/child/enter',{method:'POST',headers:H,body:JSON.stringify({code:inv.code})});
@@ -136,7 +136,7 @@ await check('video viewing: seconds only grow, completed is sticky, separate fro
 });
 // ---- Stage 3: lesson game M01 graded on the server ----
 await check('game M01: server grading, invalid format 400, completion only after all 3 tasks, assisted stored, canonical replay',async()=>{
- const kid=(await call('/api/children',{cookie:tA,body:{label:'G'}})).data;
+ const kid=(await call('/api/children',{cookie:tA,body:{label:'G',consent:{confirmed:true,basis:'guardian_consent'}}})).data;
  const pub=await call('/api/lesson?role=teacher&child='+kid.id,{cookie:tA,body:{title:'Равные доли',steps:['Шаг'],game:'fractions-m01'}});
  assert.equal(pub.status,200);assert.equal(pub.data.game,'fractions-m01');assert.equal(pub.data.answer,null);
  assert.equal((await call('/api/lesson?role=teacher&child='+kid.id,{cookie:tA,body:{title:'x',steps:['y'],game:'unknown'}})).status,400);

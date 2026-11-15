@@ -1,11 +1,31 @@
+// Outside the demo a student is created only with a confirmed consent of the parents (POST /api/children needs consent,
+// hackathon/api-accounts.md п.5), so the cabinet asks for the first student instead of creating one silently.
+function firstChild(api){return new Promise(resolve=>{
+ const kk=(()=>{try{return localStorage.getItem('ayan.page.lang')==='kk';}catch(e){return false;}})(),t=(a,b)=>kk?a:b;
+ const box=document.createElement('div');box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-labelledby','fc-h');
+ box.style.cssText='position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px;background:rgba(31,42,46,.42);font-family:Nunito,system-ui,sans-serif';
+ box.innerHTML='<form style="background:#fff;color:#1F2A2E;border-radius:24px;padding:24px;max-width:480px;width:100%;display:grid;gap:14px;box-shadow:0 24px 64px -24px rgba(31,42,46,.45)" novalidate>'+
+  '<h2 id="fc-h" style="margin:0;font-size:1.375rem">'+t('Бірінші оқушыны қосыңыз','Добавьте первого ученика')+'</h2>'+
+  '<p style="margin:0;color:#4F5F63">'+t('Аты немесе бүркеншік ат жеткілікті. Диагноз керек емес.','Достаточно имени или псевдонима. Диагноз не нужен.')+'</p>'+
+  '<label for="fc-name" style="font-weight:800">'+t('Оқушының аты','Имя ученика')+'</label><input id="fc-name" maxlength="40" required style="min-height:52px;border:1px solid #6B807C;border-radius:14px;padding:12px 16px;font:inherit">'+
+  '<label style="display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;cursor:pointer"><input id="fc-ok" type="checkbox" style="width:22px;height:22px;margin:2px 0 0;accent-color:#0F766E" aria-describedby="fc-err"><span>'+t('Оқушының ата-анасы (заңды өкілі) оның дербес деректерін өңдеуге келісім берді. <a href="/legal/parental-consent?lang=kk" target="_blank">Келісім туралы</a>','У меня есть согласие родителей (законных представителей) ученика на обработку его персональных данных. <a href="/legal/parental-consent" target="_blank">О согласии</a>')+'</span></label>'+
+  '<p id="fc-err" role="alert" style="margin:0;color:#A33442;font-weight:750"></p>'+
+  '<button style="min-height:56px;border:0;border-radius:16px;background:#0F766E;color:#fff;font:inherit;font-weight:800;cursor:pointer">'+t('Оқушыны қосу','Добавить ученика')+'</button></form>';
+ document.body.append(box);const f=box.querySelector('form'),name=box.querySelector('#fc-name'),ok=box.querySelector('#fc-ok'),err=box.querySelector('#fc-err');name.focus();
+ f.onsubmit=async e=>{e.preventDefault();err.textContent='';name.removeAttribute('aria-invalid');ok.removeAttribute('aria-invalid');
+  if(!name.value.trim()){name.setAttribute('aria-invalid','true');name.setAttribute('aria-describedby','fc-err');err.textContent=t('Оқушының атын жазыңыз','Напишите имя ученика');name.focus();return;}
+  if(!ok.checked){ok.setAttribute('aria-invalid','true');err.textContent=t('Ата-ананың келісімін растаңыз','Подтвердите согласие родителей');ok.focus();return;}
+  try{const c=await api('/api/children',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({label:name.value.trim(),consent:{confirmed:true,basis:'guardian_consent'}})});box.remove();resolve(c);}
+  catch(e2){err.textContent=t('Сақталмады. Қайталап көріңіз.','Не удалось сохранить. Попробуйте ещё раз.');}};
+});}
 (async()=>{
  const demo=location.pathname.startsWith('/demo/');
  const demoRequest=demo?(await import('/demo-data.mjs')).request:null;
- const role=location.pathname.endsWith('/child')?'child':'teacher';
+ const role=/\/child(\/|$)/.test(location.pathname)?'child':'teacher';
  const api=async(url,opts)=>{if(demoRequest)return demoRequest(url,opts?.body?JSON.parse(opts.body):undefined,opts?.method);const r=await fetch(url,opts);if(!r.ok)throw Error('Не удалось сохранить данные');return r.json();};
  const me=await api('/api/me?role='+role).catch(()=>null);if(!me)return location.replace('/'+role+'/login');
  window.AyanAccount={role,me,api,child:null,demo,demoRequest};
- if(role==='teacher'){let children=await api('/api/children');if(!children.length)children=[await api('/api/children',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({label:'Ученик 1'})})];window.AyanAccount.children=children;window.AyanAccount.child=sessionStorage.getItem('ayan.selected.'+me.id);if(!children.some(c=>c.id===window.AyanAccount.child))window.AyanAccount.child=children[0].id;}
+ if(role==='teacher'){let children=await api('/api/children');if(!children.length)children=[demo?await api('/api/children',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({label:'Ученик 1'})}):await firstChild(api)];window.AyanAccount.children=children;window.AyanAccount.child=sessionStorage.getItem('ayan.selected.'+me.id);if(!children.some(c=>c.id===window.AyanAccount.child))window.AyanAccount.child=children[0].id;}
  const stateURL='/api/state?role='+role+(role==='teacher'?'&child='+window.AyanAccount.child:'');
  const prefix='ayan.account.'+me.id+'.',nativeGet=Storage.prototype.getItem,nativeSet=Storage.prototype.setItem;
  const mapped=k=>['ayan.state.v1','ayan.experience.v2','ayan.session.v2'].includes(k)?prefix+k:k;

@@ -1,1 +1,47 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Вход - Ayan</title><meta name="title-kk" content="Кіру - Ayan"><link rel="icon" href="/assets/ayan-mark.svg"><link rel="stylesheet" href="/platform.css"><link rel="stylesheet" href="/theme-fix.css"><link rel="stylesheet" href="/polish.css"><script src="/page-i18n.js"></script></head><body><main class="auth-layout"><aside class="auth-side"><a class="platform-brand" href="/"><img src="/assets/ayan-mark.svg" width="44" height="44" alt="">ayan</a><div><h2 data-kk="Әркімнің өз жолы бар.<br>Аян қасыңда.">У каждого свой путь.<br>Аян рядом.</h2><p data-kk="Қысқа қадамдар, түсінікті мысалдар және байқап көруге уақыт.">Короткие шаги, понятные примеры и время попробовать.</p></div><img class="illustration" src="/assets/ayan/stills/Wave.png" width="300" height="300" alt="Аян машет рукой" data-kk-alt="Аян қол бұлғап тұр"></aside><section class="auth-form"><a href="/" data-kk="← Басты бетке">← На главную</a><h1 id="title"></h1><p id="description"></p><form id="login-form"><div id="fields"></div><p class="error" id="error" role="alert"></p><button class="primary" id="submit"></button></form><button class="text-link" id="register"></button><p class="auth-note"><a href="/privacy" id="privacy-link" data-kk="Ayan қандай деректерді сақтайды">Какие данные хранит Ayan</a></p></section></main><script src="/login.js"></script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Вход - Аян</title>
+<meta name="title-kk" content="Кіру - Аян">
+<meta name="theme-color" content="#FBFAF6">
+<link rel="icon" href="/assets/ayan-mark.svg">
+<link rel="stylesheet" href="/acc/acc.css">
+<link rel="stylesheet" href="/site-footer.css">
+<script src="/page-i18n.js"></script>
+<script src="/cookie-consent.js" defer></script>
+<script type="module" src="/login.js"></script>
+<script type="module" src="/site-footer.js"></script>
+</head>
+<body>
+<a class="skip" href="#main" data-kk="Негізгі мазмұнға өту">Перейти к содержанию</a>
+<header data-acc-top></header>
+<main id="main" class="auth">
+ <aside class="auth-side">
+  <div class="say">
+   <h2 id="side-title" data-kk="Қайта қош келдіңіз.<br>Сынып сізді күтіп тұр.">С возвращением.<br>Класс уже ждёт.</h2>
+   <p id="side-text" data-kk="Сабақтар, оқушылар және олардың нәтижелері - сіздің кабинетіңізде.">Уроки, ученики и их результаты - в вашем кабинете.</p>
+  </div>
+  <div class="big" data-mascot="Greeting"></div>
+  <p class="muted" style="font-size:.9375rem;max-width:420px"><a href="/legal/privacy" id="privacy-side" data-kk="Аян қандай деректерді сақтайды">Какие данные хранит Аян</a></p>
+ </aside>
+ <div class="auth-main">
+  <div class="auth-card">
+   <div class="auth-head">
+    <div class="mini" data-mascot="Idle"></div>
+    <div><h1 id="title">Вход</h1><p id="description"></p></div>
+   </div>
+   <form id="login-form" novalidate>
+    <div id="fields"></div>
+    <p class="alert err" id="error" role="alert" style="margin-top:18px"></p>
+    <div class="form-actions" style="margin-top:20px"><button class="b primary block" id="submit" type="submit">Войти</button></div>
+   </form>
+   <p class="auth-foot" id="register-line"><span id="register-q"></span> <a href="/signup" id="register"></a></p>
+   <p class="auth-foot"><a href="/legal/privacy" id="privacy-link" data-kk="Аян қандай деректерді сақтайды">Какие данные хранит Аян</a></p>
+  </div>
+ </div>
+</main>
+<div data-site-footer></div>
+</body>
+</html>

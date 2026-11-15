@@ -1,0 +1,342 @@
+/* Аян "Огоньки" (EduPitch): lesson focus mode, path of lights, days with light, answer sheet, push button, embers,
+   break screen, summary scene, teacher pulse. Only tokens from tokens.css plus the two reward colours below.
+   Motion rules: only transform and opacity animate; html[data-motion=off] (Тихо) and prefers-reduced-motion stop everything. */
+:root{
+ --light:#FFE38A;--light-soft:#FFF6D6;--honey-edge:#C98A12;--edge:#0B4F4A;--track:#E3EBE7;
+ --spring:cubic-bezier(.34,1.45,.64,1);--ease-out:cubic-bezier(.23,1,.32,1);
+}
+@supports (transition-timing-function:linear(0,1)){:root{--spring:linear(0, .068, .227, .421, .612, .776, .905, .994, 1.049, 1.077, 1.083, 1.077, 1.063, 1.047, 1.031, 1.018, 1.007, 1, .996, .994, .993, .994, .995, .998, 1)}}
+
+/* ---------- thin demo strip (JAZ S3: honest, but not a card) ---------- */
+.demo-strip{background:var(--sand);border-bottom:1px solid var(--sand-edge);color:var(--honey-deep);font-size:.8125rem;font-weight:800;padding:4px 16px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;min-height:28px}
+.demo-strip a{color:var(--honey-deep);font-weight:800}
+.main>.demo-strip{margin:-32px calc(-1 * var(--pad)) 20px}
+
+/* ---------- push button: a face over a fixed edge, the face moves (transform only) ---------- */
+.btn.push{padding:0;border:0;background:var(--edge);border-radius:var(--r-btn);margin-top:4px;min-height:0;align-items:stretch;color:#fff}
+.btn.push:hover,.btn.push:active{background:var(--edge)}
+.btn.push>.face{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:var(--btn-h);padding:0 28px;border-radius:inherit;background:var(--primary);color:#fff;
+ transform:translateY(-4px);transition:transform 180ms var(--spring),background-color 120ms linear;white-space:nowrap}
+.btn.push:hover>.face{background:var(--primary-hover)}
+.btn.push:active:not(:disabled):not([aria-disabled=true])>.face{transform:translateY(-1px);transition-duration:80ms;transition-timing-function:ease-out}
+.btn.push.wide>.face{justify-content:center}
+.btn.push:disabled,.btn.push[aria-disabled=true]{background:#CFCDD8}
+.btn.push:disabled>.face,.btn.push[aria-disabled=true]>.face{background:var(--disabled-bg);color:var(--disabled-text);transform:translateY(-2px)}
+.btn.push:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.btn.push>.face svg{width:22px;height:22px}
+html:not([data-motion=off]) .btn:active:not(:disabled).push{transform:none}
+
+/* ---------- lantern icon ---------- */
+.lantern-ico{display:block;overflow:visible}
+.lantern-ico .glass{fill:#fff;stroke:var(--control);stroke-width:2}
+.lantern-ico .cap{fill:var(--control)}
+.lantern-ico .flame{fill:var(--honey);opacity:0}
+.lantern-ico .halo{fill:var(--light);opacity:0}
+.lantern-ico.lit .glass{fill:var(--light-soft);stroke:var(--honey-edge)}
+.lantern-ico.lit .cap{fill:var(--honey-edge)}
+.lantern-ico.lit .flame{opacity:1}.lantern-ico.lit .halo{opacity:.55}
+
+/* ---------- child home: "Сейчас" card, path of lights, days with light ---------- */
+.home-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
+.home-col{display:flex;flex-direction:column;gap:24px;min-width:0}
+.now-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:16px;align-items:center;padding:28px 24px 28px 28px;min-height:280px}
+.now-card .kicker{font-size:.9375rem;font-weight:800;color:var(--primary);letter-spacing:.02em}
+.now-card h2{font-size:2rem;line-height:1.2;margin-top:6px;letter-spacing:-.02em;font-weight:800}
+.now-card .meta{margin-top:10px;color:var(--muted);font-size:1.0625rem}
+.now-card .btn{margin-top:22px;align-self:flex-start;min-width:250px}
+.now-card .who{height:220px;border-radius:50%;background:radial-gradient(circle at 50% 58%,rgba(255,227,138,.5),rgba(255,227,138,0) 62%)}
+/* a small static scale: where this lesson is on the path (goprep-like "до цели"), no motion */
+.now-scale{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0 0}
+.now-scale>span{width:26px;height:32px;display:grid;place-items:center}
+.now-scale>span .lantern-ico{width:20px;height:25px}
+.now-scale>span.now{border-radius:10px;box-shadow:0 0 0 2px var(--primary)}
+.now-scale .cap{width:auto;height:auto;margin-left:6px;font-size:.9375rem;font-weight:800;color:var(--muted)}
+.path-card h2,.days-card h2{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ember-total{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:999px;background:var(--light-soft);color:var(--honey-deep);font-size:1rem;font-weight:900;font-variant-numeric:tabular-nums}
+.ember-total .lantern-ico{width:18px;height:22px}
+.path{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:22px;position:relative}
+.path::before{content:'';position:absolute;left:37px;top:30px;bottom:30px;border-left:3px dotted var(--track)}
+.stop{position:relative;display:grid;grid-template-columns:76px minmax(0,1fr);gap:16px;align-items:center}
+.stop .lamp{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid #C9D6D0;position:relative;z-index:1}
+.stop .lamp .lantern-ico{width:34px;height:42px}
+.stop[data-stop=done] .lamp{background:var(--light-soft);border-color:var(--honey)}
+.stop[data-stop=now] .lamp{border:3px solid var(--primary);box-shadow:0 0 0 6px var(--primary-soft)}
+.stop b{display:block;font-size:1.125rem;line-height:1.3}
+.stop .st{display:block;font-size:.9375rem;color:var(--muted);font-weight:700;margin-top:2px}
+.stop[data-stop=now] .st{color:var(--primary)}
+.stop .mini{display:flex;gap:4px;margin-top:8px}
+.stop .mini i{width:10px;height:10px;border-radius:50%;background:var(--track)}
+.stop .mini i.on{background:var(--honey)}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;list-style:none;margin:16px 0 0;padding:0}
+.day{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.875rem;color:var(--muted);font-weight:800;padding:8px 0;border-radius:14px}
+.day .lantern-ico{width:30px;height:38px}
+.day.today{background:var(--primary-soft);color:var(--primary)}
+.days-note{margin-top:12px;color:var(--muted);font-size:1rem}
+.home-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.home-tiles .tile{min-height:150px}
+.home-tiles .tile .btn{min-width:0}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+/* two breaths (4.8 s) and still: nothing on a child screen runs longer than 5 s without a pause button (a11y В4) */
+html[data-motion=full] .stop[data-stop=now] .lamp{animation:breathe 2.4s ease-in-out 2}
+
+/* ---------- lesson focus mode ---------- */
+html.is-focus{scroll-padding-top:96px;scroll-padding-bottom:var(--foot-h,150px)}
+html.is-focus body{background:var(--bg)}
+.focus{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.lesson-top{position:sticky;top:0;z-index:12;background:var(--bg);border-bottom:1px solid var(--border)}
+.lesson-top .in{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px}
+.x-btn{width:48px;height:48px;flex:none;border-radius:14px;display:grid;place-items:center;color:var(--muted);text-decoration:none;border:1px solid transparent}
+.x-btn:hover{background:var(--primary-soft);color:var(--text)}
+.x-btn svg{width:24px;height:24px}
+.trail-wrap{flex:1;min-width:0}
+.trail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;list-style:none;margin:0;padding:0 12px 0 0}
+.trail-seg{position:relative;height:12px;border-radius:999px;background:var(--track)}
+.trail-seg .fill{position:absolute;inset:0;border-radius:inherit;background:var(--primary);transform-origin:left center;transform:scaleX(var(--p,0))}
+html:not([data-motion=off]) .trail-seg .fill{transition:transform 300ms var(--ease-out)}
+.trail-seg .node{position:absolute;right:-11px;top:50%;width:24px;height:24px;margin-top:-12px;border-radius:50%;background:var(--surface);border:2px solid #C9D6D0;display:grid;place-items:center;z-index:1}
+.trail-seg .node .lantern-ico{width:12px;height:15px}
+.trail-seg.done .node{background:var(--light-soft);border-color:var(--honey)}
+.trail-seg.now .node{border-color:var(--primary)}
+.trail-cap{font-size:.875rem;font-weight:800;color:var(--muted);margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-mini{display:flex;align-items:center;gap:8px;flex:none}
+.top-mini .tool{min-height:48px;min-width:48px}
+.top-tools .tool{min-height:48px}
+.lesson-stage{flex:1;width:100%;max-width:880px;margin:0 auto;padding:24px 20px 28px;display:flex;flex-direction:column;gap:20px}
+.lcard{background:var(--surface);border:1px solid transparent;box-shadow:var(--ring);border-radius:var(--r-card);padding:28px;min-width:0}
+.lcard.soft{background:var(--mint)}
+.lcard.task-card{min-height:0;display:flex;flex-direction:column;gap:14px}
+.lcard .label{font-size:.9375rem;font-weight:800;color:var(--muted)}
+.lcard h2{font-size:1.625rem;line-height:1.3;margin-top:4px}
+.goal-grid{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:20px;align-items:center}
+.goal-text{font-size:var(--fs-instr);margin-top:14px;max-width:36ch}
+.plan{display:flex;gap:10px;flex-wrap:wrap;list-style:none;margin:22px 0 0;padding:0}
+.plan li{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 12px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-weight:750;font-size:.9375rem}
+.plan li .n{color:var(--primary);font-variant-numeric:tabular-nums}
+.task-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start}
+.task-mascot{width:96px;height:96px}
+.task-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+.link-btn{background:none;border:0;padding:0 4px;min-height:44px;color:var(--focus);font-weight:750;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:3px}
+.link-btn svg{width:18px;height:18px}
+.link-btn:disabled{color:var(--disabled-text);cursor:not-allowed;text-decoration:none}
+.other-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);font-weight:750;cursor:pointer;color:var(--text)}
+.other-btn svg{width:18px;height:18px}
+.other-btn[aria-expanded=true]{background:var(--primary-soft);border-color:var(--primary);color:var(--primary)}
+.other-ways{border:1px dashed #C9D6D0;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.other-ways .cap{font-size:.9375rem;font-weight:800;color:var(--muted)}
+[data-task].no-ways [data-view],[data-task].no-ways [data-mode]{display:none}
+[data-task].no-ways .modes{display:none}
+.lesson-foot{position:sticky;bottom:0;z-index:12;background:var(--surface);border-top:1px solid var(--border);box-shadow:0 -10px 30px -24px rgba(36,51,66,.35)}
+.foot-row{max-width:1040px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
+.foot-support{display:flex;gap:8px;margin-right:auto;flex-wrap:wrap}
+.quiet-btn{min-height:48px;padding:0 14px;border-radius:14px;border:1px solid var(--border);background:var(--surface);font-weight:750;font-size:.9375rem;display:inline-flex;gap:8px;align-items:center;justify-content:center;color:var(--text);cursor:pointer;text-decoration:none;white-space:nowrap}
+.quiet-btn:hover{border-color:var(--control)}
+.quiet-btn svg{width:20px;height:20px;color:var(--primary);flex:none}
+.quiet-btn:disabled{color:var(--disabled-text);cursor:not-allowed}
+.foot-main{display:flex;gap:12px;align-items:center}
+.foot-main .btn.push{min-width:220px}
+.foot-main .quiet-btn.back{min-width:0}
+/* answer sheet: rises from the footer; ok = mint, try = sand (never red, never shaking) */
+.sheet{max-width:1040px;margin:0 auto;padding:16px 20px 4px;display:flex;gap:14px;align-items:flex-start}
+.sheet-wrap{border-bottom:1px solid var(--border)}
+.sheet-wrap[data-kind=ok]{background:var(--success-soft);border-color:#C6E2D4}
+.sheet-wrap[data-kind=try]{background:#FFF7E6;border-color:var(--sand-edge)}
+.sheet-wrap[data-kind=info],.sheet-wrap[data-kind=warn]{background:var(--primary-soft)}
+.sheet-wrap[data-kind=warn]{background:var(--error-soft)}
+.sheet-icon{width:48px;height:48px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--surface)}
+.sheet-icon .lantern-ico{width:24px;height:30px}
+.sheet-icon svg{width:24px;height:24px}
+.sheet-title{display:block;font-size:1.25rem;font-weight:850;line-height:1.3}
+.sheet-wrap[data-kind=ok] .sheet-title{color:var(--success)}
+.sheet-wrap[data-kind=try] .sheet-title{color:#6B4A00}
+.sheet .feedback{background:transparent;padding:4px 0 8px;font-weight:700}
+.sheet .feedback>svg{display:none}
+.sheet .feedback.info{flex-wrap:wrap}
+.sheet-task{display:none;font-size:.9375rem;color:var(--text);font-weight:700;margin:0 0 2px}
+.sheet .edit-btn{min-height:44px;margin:0 0 6px -4px}
+/* the help request stays visible: "Учитель знает, скоро подойдёт" until the teacher answers or 10 minutes pass (a11y В6) */
+.help-state{display:flex;align-items:center;gap:8px;font-size:.9375rem;font-weight:800;color:var(--primary-hover);margin:0}
+.help-state[hidden]{display:none}
+.help-state svg{width:18px;height:18px;flex:none}
+.foot-support .help-state{flex-basis:100%}
+
+
+/* ---------- embers (the brand move) ---------- */
+.ember{position:fixed;left:0;top:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;pointer-events:none;z-index:70;opacity:0;
+ background:radial-gradient(circle,#FFFBEA 0 22%,#FFE38A 42%,rgba(244,183,64,.55) 60%,rgba(244,183,64,0) 72%)}
+.ember.big{width:26px;height:26px;margin:-13px 0 0 -13px}
+.ember-count{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;background:var(--light-soft);color:var(--honey-deep);font-weight:900;font-variant-numeric:tabular-nums}
+.ember-count .lantern-ico{width:16px;height:20px}
+
+/* ---------- summary scene ---------- */
+.summary{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:36px 24px 32px;overflow:hidden}
+.summary h2{font-size:2rem}
+.big-lantern{width:150px;height:186px;position:relative}
+.big-lantern .lantern-ico{width:100%;height:100%}
+.big-lantern .lantern-ico .flame,.big-lantern .lantern-ico .halo{transition:none}
+.earned{display:flex;align-items:baseline;gap:10px;justify-content:center}
+.earned b{font-size:3rem;line-height:1;font-weight:900;color:var(--honey-deep);font-variant-numeric:tabular-nums}
+.earned span{font-weight:800;color:var(--muted)}
+.summary .left{font-size:1.125rem;color:var(--text);max-width:40ch}
+.summary .row{justify-content:center;margin-top:8px}
+.summary-hero{display:flex;align-items:flex-end;justify-content:center;gap:4px;margin-left:110px}
+.summary-hero .who{width:110px;height:110px}
+
+/* ---------- break screen: 12 lights around a circle, breathing set by the child ---------- */
+.break-layer{position:fixed;inset:0;background:rgba(251,250,246,.98);z-index:40;display:grid;place-items:center;padding:20px;overflow:auto}
+.break-card{max-width:640px;width:100%;padding:32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.break-card h2{font-size:2rem}
+.breath{position:relative;width:220px;height:220px;margin:6px auto}
+.breath .dot{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--honey);opacity:.22;transform:rotate(calc(var(--i) * 30deg)) translateY(-92px)}
+.breath .word{position:absolute;inset:0;display:grid;place-items:center;font-size:1.5rem;font-weight:850;color:var(--primary)}
+.break-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+
+/* ---------- teacher: live class pulse ---------- */
+.pulse-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.pulse-sum{display:flex;gap:10px;flex-wrap:wrap}
+.pulse-sum .pill{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-weight:800;font-size:.9375rem}
+.pulse-sum .pill b{font-variant-numeric:tabular-nums}
+.pulse-sum .pill.help{background:var(--sand);border-color:var(--sand-edge);color:var(--honey-deep)}
+.live{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:.9375rem;font-weight:700}
+.live i{width:10px;height:10px;border-radius:50%;background:var(--success)}
+.pulse-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;list-style:none;margin:0;padding:0}
+.pcard{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.pcard.attn{border:2px solid var(--honey);background:#FFFCF2;padding:19px}
+.pcard .who-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.pcard h3{font-size:1.25rem}
+.pcard .status{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 10px;border-radius:999px;font-size:.875rem;font-weight:850;background:#EEF2F0;color:var(--muted);white-space:nowrap}
+.pcard .status svg{width:16px;height:16px}
+.pcard[data-status=help] .status,.pcard[data-status=break] .status{background:var(--sand);color:var(--honey-deep)}
+.pcard[data-status=working] .status{background:var(--primary-soft);color:var(--primary-hover)}
+.pcard[data-status=done] .status{background:var(--success-soft);color:var(--success)}
+.pcard .what{font-weight:750}
+.pcard .step{color:var(--muted);font-size:.9375rem}
+.pbar{height:8px;border-radius:999px;background:var(--track);overflow:hidden}
+.pbar>i{display:block;height:100%;background:var(--primary);transform-origin:left center;transform:scaleX(var(--p,0))}
+.pcard .flag{display:inline-flex;align-items:center;gap:6px;font-size:.9375rem;font-weight:750;color:var(--honey-deep)}
+.pcard .flag svg{width:18px;height:18px}
+.pcard .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.pcard .since{font-size:.875rem;color:var(--muted)}
+.pcard .ring{position:absolute;inset:-7px;border-radius:30px;border:2px solid var(--honey);opacity:0;pointer-events:none}
+.rec-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+.draft-steps{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.draft-steps li{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;padding:12px 14px;border-radius:14px;background:#F6F9F7}
+.draft-steps li b{color:var(--primary)}
+
+/* ---------- demo chooser and split screen ---------- */
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.role{display:flex;flex-direction:column;gap:12px;align-items:flex-start;text-align:left;font:inherit;color:inherit;cursor:pointer;min-height:230px}
+.role .ico{width:64px;height:64px;border-radius:18px;background:var(--mint);display:grid;place-items:center;color:var(--primary)}
+.role .ico svg{width:30px;height:30px}
+.role b{font-size:1.375rem}
+.role .btn{margin-top:auto}
+
+/* tool icons in the page header, task stage sized to fit one screen in focus mode */
+.tool svg{width:20px;height:20px;flex:none}
+.lesson-stage .stage{min-height:250px}
+.lesson-stage .stage-3d{height:300px}
+.lesson-stage .fw-2d svg{max-width:300px;height:auto}
+
+/* ---------- responsive ---------- */
+@media (max-width:1199px){
+ .top{flex-wrap:wrap}.top>div:first-child{flex:1 1 380px}.top-tools{flex-wrap:wrap}
+ .home-grid{grid-template-columns:minmax(0,1fr)}
+ .roles{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:767px){
+ .now-card{display:block;position:relative;padding:20px;min-height:0}
+ /* the mascot sits in the top right corner: every line of text keeps clear of it (D3) */
+ .now-card .kicker,.now-card h2,.now-card .meta,.now-card .now-scale{padding-right:100px}
+ .now-card h2{font-size:1.5rem}.now-card .who{position:absolute;right:10px;top:10px;width:96px;height:118px}
+ .now-card .btn{width:100%;min-width:0}
+ .demo-strip a{display:none}
+ .main>.demo-strip{margin:-20px calc(-1 * var(--pad)) 16px}
+ .home-tiles{grid-template-columns:minmax(0,1fr)}
+ .goal-grid{grid-template-columns:minmax(0,1fr) 110px}
+ .goal-grid .who{height:120px}
+ .lesson-top .in{padding:8px 12px;gap:8px}
+ .top-mini .tool .lbl{display:none}
+ .top-mini .tool{padding:0 10px}
+ .trail{gap:6px;padding-right:8px}
+ .trail-seg{height:10px}.trail-seg .node{width:20px;height:20px;margin-top:-10px;right:-9px}
+ .lesson-stage{padding:12px 12px 20px;gap:12px}
+ .trail-cap .cap-stage{display:none}
+ /* a task fits one phone screen: smaller figure, the answer buttons stay above the footer (В7, UT7) */
+ .lesson-stage .stage{min-height:0}
+ .lesson-stage .fw-2d svg{max-width:160px}
+ .lesson-stage .stage-3d{height:220px}
+ .lcard.task-card{gap:10px}
+ .task-card .task-tools{margin-top:0}
+ .sheet-task{display:block}
+ .lcard{padding:16px}
+ .lcard h2{font-size:1.375rem}
+ .task-mascot{width:64px;height:64px}
+ .foot-row{flex-direction:column;align-items:stretch;padding:10px 12px;gap:10px}
+ .foot-main{order:-1}
+ .foot-main .btn.push{flex:1;min-width:0}
+ .foot-support{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
+ .foot-support .quiet-btn{min-height:44px;padding:0 8px;font-size:.875rem}
+ .foot-support .quiet-btn .long{display:none}
+ .sheet{padding:12px 14px 2px}
+ .sheet-icon{width:40px;height:40px}
+ .summary h2{font-size:1.625rem}
+ .summary-hero{margin-left:0}.summary-hero .who{display:none}
+ .pulse-grid{grid-template-columns:minmax(0,1fr)}
+ .rec-card{grid-template-columns:minmax(0,1fr)}
+ .draft-steps li{grid-template-columns:minmax(0,1fr)}
+ .breath{width:180px;height:180px}.breath .dot{transform:rotate(calc(var(--i) * 30deg)) translateY(-74px)}
+}
+@media (max-width:767px){.top-tools{flex-wrap:wrap;gap:8px}.top-tools .badge{white-space:normal}.top>div:first-child{flex:none}}
+@media (min-width:768px){.foot-support .quiet-btn .short{display:none}}
+@media (max-width:767px){.foot-support .quiet-btn .short{display:inline}}
+
+.h-ico{width:24px;height:24px;display:inline-block;vertical-align:-4px;color:var(--primary)}
+
+/* 320 px: the main button and the caption fit (a11y У8) */
+@media (max-width:359px){.btn.push>.face{padding:0 14px;gap:6px}.foot-main .btn.push{min-width:0}.foot-main .quiet-btn{padding:0 10px}.lesson-top .in{padding:6px 8px;gap:6px}.trail{gap:4px}.ember-count{padding:0 8px}}
+
+/* ---------- child home, warmer (hackathon/ref-beside.md, plan steps 1-6): a static mint-to-sand wash at the top, ring cards,
+   heavy round headings. No gradients move, no glow pulses; "Тихо" stays without animation. ---------- */
+#app .main:has(.home-grid){background:linear-gradient(180deg,var(--mint) 0,rgba(255,243,214,.55) 150px,var(--bg) 280px) no-repeat}
+#app .main:has(.home-grid) #page-h{font-weight:850;letter-spacing:-.02em}
+.home-grid .card h2{font-weight:800}
+.stop .lamp{box-shadow:var(--ring);border-color:transparent}
+.stop[data-stop=done] .lamp{background:var(--light-soft);box-shadow:0 0 0 2px var(--honey)}
+.stop[data-stop=now] .lamp{border:3px solid var(--primary);box-shadow:0 0 0 6px var(--primary-soft)}
+.day{transition:none}
+.home-tiles .tile{box-shadow:var(--ring)}
+.support{box-shadow:var(--ring)}
+
+/* phones: the trail gets its own full-width row under exit / embers / tools, so the five steps stay readable next to 48 px buttons */
+@media (max-width:559px){
+ .lesson-top .in{flex-wrap:wrap;row-gap:4px}
+ .lesson-top .trail-wrap{order:5;flex-basis:100%}
+ .lesson-top .ember-count{margin-left:auto}
+ .trail-cap{margin-top:6px}
+ .trail-cap .cap-stage{display:inline}
+}
+
+/* ---------- F2 "Скоро заканчиваем": a calm sand note in the page flow, static bar of the time left ---------- */
+.notice{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:var(--sand);box-shadow:0 0 0 1px var(--sand-edge);color:var(--text)}
+.notice-ico{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--honey-deep)}
+.notice-ico svg{width:22px;height:22px}
+.notice-body{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center}
+.notice-body b{grid-column:1/-1;font-size:1.0625rem;line-height:1.35}
+.notice-bar{height:8px;border-radius:999px;background:rgba(138,90,0,.14);overflow:hidden}
+.notice-bar i{display:block;height:100%;background:var(--honey-deep);transform-origin:left center}
+.notice-left{font-size:.875rem;font-weight:800;color:var(--honey-deep)}
+.notice .quiet-btn{flex:none}
+@media (max-width:559px){.notice{padding:8px 10px;gap:8px;border-radius:14px}.notice-ico{display:none}.notice-body{gap:4px 10px}.notice-body b{font-size:.9375rem;line-height:1.3}.notice .quiet-btn{min-height:44px;padding:0 10px}}
+
+/* ---------- F3 "Сначала - потом" ---------- */
+.then-pick{margin-top:20px;padding-top:18px;border-top:1px dashed #C9D6D0}
+.then-pick h3{font-size:1.125rem}
+.then-pick .muted{font-size:.9375rem;margin-top:2px}
+.then-opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.then-opt{min-height:48px;background:var(--surface)}
+.then-opt svg{width:20px;height:20px;color:var(--primary)}
+.then-opt[aria-pressed=true]{background:var(--primary-soft);box-shadow:0 0 0 2px var(--primary);border-color:transparent;color:var(--primary-hover)}
+.then-line{display:flex;align-items:center;gap:8px;margin:0;padding:8px 14px;border-radius:999px;background:var(--surface);box-shadow:var(--ring);font-weight:800;font-size:.9375rem;color:var(--muted);align-self:flex-start;max-width:100%}
+.then-line svg{width:18px;height:18px;flex:none;color:var(--primary)}
+.then-line span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.then-go{min-height:56px}
+@media (max-width:559px){.then-opts{display:grid;grid-template-columns:1fr 1fr}.then-line{font-size:.875rem;padding:6px 12px}.foot-main:has(.then-go){flex-wrap:wrap}.foot-main .then-go{flex:1 1 100%;order:2}}

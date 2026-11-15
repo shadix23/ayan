@@ -6,3 +6,10 @@ node_modules/
 
 .vercel
 .env*
+*.blend1
+
+.env.jury.local
+
+# EduPitch working materials (local only)
+hackathon/
+docs/briefs/*/design-references/
