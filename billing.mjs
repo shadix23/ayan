@@ -253,6 +253,7 @@ export function createBilling({query,auth,fromNodeHeaders,send,body,origin,DEMO,
   if(p==='/api/account/register'&&m==='POST')return register(req,res);
   const user=await session(req);if(!user)return send(res,401,{code:'unauthorized',error:'Войдите в аккаунт'});
   const ok=(r)=>send(res,r[0],r[1]);
+  if(user.email==='jury@ayan-edu.test'&&m!=='GET'&&/^\/api\/(account\/(password|delete|sessions\/revoke)|billing\/cancel)/.test(p))return send(res,403,{code:'jury_readonly',error:'Это общий аккаунт для жюри: пароль, удаление и отмену подписки здесь менять нельзя.'});
   if(p==='/api/account/profile'){
    if(m==='GET')return send(res,200,await fullProfile(user));
    if(m==='PATCH'||m==='POST'){const i=await body(req),name=i.name===undefined?user.name:String(i.name||'').trim().slice(0,80);if(!name)return send(res,400,{code:'bad_request',field:'name',error:'Укажите имя'});
