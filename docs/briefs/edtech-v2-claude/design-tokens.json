@@ -1,0 +1,75 @@
+{
+  "version": "1.1",
+  "colors": {
+    "background": "#F7FAF8",
+    "surface": "#FFFFFF",
+    "text": "#243342",
+    "textMuted": "#526475",
+    "primary": "#0F766E",
+    "primaryHover": "#115E59",
+    "primaryPressed": "#134E4A",
+    "primarySoft": "#E7F2ED",
+    "mintSoft": "#E7F2ED",
+    "sandSoft": "#FFF3D6",
+    "border": "#DFE7E2",
+    "controlBorder": "#879A96",
+    "success": "#256956",
+    "error": "#A33442",
+    "focus": "#0369A1",
+    "honey": "#F4B740"
+  },
+  "spacingPx": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64
+  ],
+  "radiusPx": {
+    "card": 24,
+    "button": 16,
+    "chip": 12
+  },
+  "layout": {
+    "desktopViewport": [
+      1440,
+      1024
+    ],
+    "mobileViewport": [
+      390,
+      844
+    ],
+    "sidebarPx": 248,
+    "contentX": 288,
+    "contentRightPaddingPx": 40,
+    "cardPaddingPx": 24,
+    "buttonHeightPx": 56,
+    "touchTargetMinPx": 48
+  },
+  "typography": {
+    "font": "Local font with Cyrillic and Kazakh; Arial/sans-serif in SVG reference",
+    "h1Px": 32,
+    "h2Px": 24,
+    "bodyPx": 18,
+    "instructionPx": 22,
+    "secondaryPx": 16,
+    "lineHeight": 1.5
+  },
+  "motion": {
+    "transitionMs": 160,
+    "reducedMotionMs": 0,
+    "autoplay": false,
+    "soundEffectsDefault": false,
+    "musicDefault": false
+  },
+  "focus": {
+    "widthPx": 3,
+    "offsetPx": 3,
+    "color": "#0369A1"
+  }
+}

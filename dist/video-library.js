@@ -9,7 +9,7 @@
  const LANGS=[['all','Любой язык','Кез келген тіл'],['ru','Русский','Орысша'],['kk','Қазақша','Қазақша']];
  // Catalog. Explanations are the draft lesson texts from brief/EdTech_Claude_Handoff/pedagogy/LESSONS_RU_KK.md.
  const CATALOG=[
-  {id:'M01',topic:'math',lesson:'M01',version:'0.1.0',status:'review',src:'/media/M01/0.1.0/lesson.mp4',poster:'/media/M01/0.1.0/poster.jpg',captions:{ru:'/media/M01/0.1.0/captions.ru.vtt',kk:'/media/M01/0.1.0/captions.kk.vtt'},durationSec:54,audio:['ru'],
+  {id:'M01',topic:'math',lesson:'M01',version:'0.2.0',status:'review',src:'/media/M01/0.2.0/lesson.mp4',poster:'/media/M01/0.2.0/poster.jpg',captions:{ru:'/media/M01/0.2.0/captions.ru.vtt',kk:'/media/M01/0.2.0/captions.kk.vtt'},durationSec:54,audio:['ru'],
    title:['Ширек деген не','Что такое четверть'],level:['Бастауыш','Начальный'],
    text:['Дөңгелекті тең төрт бөлікке бөлейік. Осындай бір бөлік - бір ширек. Егер бөліктер тең болмаса, олардың кез келген біреуі ширек бола бермейді.','Разделим круг на четыре равные части. Одна такая часть - одна четверть. Если части не равны, любая одна из них не обязательно четверть.'],
    action:['Бүтінде неше тең бөлік бар?','Сколько равных частей в целом?']},

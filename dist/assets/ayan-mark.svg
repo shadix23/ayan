@@ -1,15 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Аян">
-  <path d="M46 49 C44 36 38 26 28 21" fill="none" stroke="#3f7a2a" stroke-width="5" stroke-linecap="round"/>
-  <path d="M82 49 C84 36 90 26 100 21" fill="none" stroke="#3f7a2a" stroke-width="5" stroke-linecap="round"/>
-  <ellipse cx="26" cy="20" rx="8" ry="5.5" fill="#ffd75e"/>
-  <ellipse cx="102" cy="20" rx="8" ry="5.5" fill="#ffd75e"/>
-  <circle cx="64" cy="86" r="41" fill="#3f7a2a"/>
-  <path d="M27 92 C27 74 34 64 46 64 C54 64 58 69 64 69 C70 69 74 64 82 64 C94 64 101 74 101 92 C101 108 85 121 64 121 C43 121 27 108 27 92 Z" fill="#fbf6dc"/>
-  <ellipse cx="48" cy="85" rx="5" ry="6.5" fill="#17301f"/>
-  <ellipse cx="80" cy="85" rx="5" ry="6.5" fill="#17301f"/>
-  <circle cx="49.6" cy="82.6" r="1.6" fill="#fff"/>
-  <circle cx="81.6" cy="82.6" r="1.6" fill="#fff"/>
-  <path d="M43 69 Q48 66 53 69" fill="none" stroke="#17301f" stroke-width="2" stroke-linecap="round"/>
-  <path d="M75 69 Q80 66 85 69" fill="none" stroke="#17301f" stroke-width="2" stroke-linecap="round"/>
-  <path d="M54 95 Q64 103 74 95" fill="none" stroke="#17301f" stroke-width="2.6" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="56 14 128 128" role="img" aria-label="Аян"><defs><radialGradient id="ayan-h" cx=".46" cy=".16" r=".95"><stop offset="0" stop-color="#4DB3A4"/><stop offset=".38" stop-color="#2E9C8E"/><stop offset="1" stop-color="#17786D"/></radialGradient></defs><g><path fill="#23897C" d="M82 29.5C95 29 104 40 107.5 56L100 58C98.5 45.5 92 37.5 81 36ZM89 28A9 9 0 1 1 71 28A9 9 0 1 1 89 28Z"/></g><g><g transform="matrix(-1 0 0 1 240 0)"><path fill="#23897C" d="M82 29.5C95 29 104 40 107.5 56L100 58C98.5 45.5 92 37.5 81 36ZM89 28A9 9 0 1 1 71 28A9 9 0 1 1 89 28Z"/></g></g><ellipse fill="url(#ayan-h)" cx="120" cy="96" rx="54" ry="45"/><g><path fill="#A9E6D8" d="M87.1,73.3A12.5 12.5 0 0 1 106.3,72.6A2.5 2.5 0 0 1 102.6,76A7.5 7.5 0 0 0 91.1,76.4A2.5 2.5 0 0 1 87.1,73.3ZM133.7,72.6A12.5 12.5 0 0 1 152.9,73.3A2.5 2.5 0 0 1 148.9,76.4A7.5 7.5 0 0 0 137.4,76A2.5 2.5 0 0 1 133.7,72.6Z"/><g><ellipse fill="#fff" cx="99" cy="99" rx="16.5" ry="19.5"/><path fill="#163A37" fill-rule="evenodd" d="M114 101A11.5 13.5 0 1 0 91 101A11.5 13.5 0 1 0 114 101ZM110.8 95A3.8 3.8 0 1 0 103.2 95A3.8 3.8 0 1 0 110.8 95Z"/></g><g><ellipse fill="#fff" cx="141" cy="99" rx="16.5" ry="19.5"/><path fill="#163A37" fill-rule="evenodd" d="M156 101A11.5 13.5 0 1 0 133 101A11.5 13.5 0 1 0 156 101ZM152.8 95A3.8 3.8 0 1 0 145.2 95A3.8 3.8 0 1 0 152.8 95Z"/></g><g><path fill="#62252B" d="M112.5 119.5C116 120.5 126 120.5 129.5 119.5C129 127 125.5 131.5 121 131.5C116.5 131.5 113 127 112.5 119.5Z"/><path fill="#F49482" d="M115.5 127.6C117.5 124.8 124.5 124.8 126.5 127.6C124.8 130.6 117.2 130.6 115.5 127.6Z"/></g></g></svg>

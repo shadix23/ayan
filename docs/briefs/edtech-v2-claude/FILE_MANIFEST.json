@@ -1,0 +1,343 @@
+{
+  "package": "EdTech V2.1 Claude Code",
+  "version": "1.1",
+  "date": "2026-11-13",
+  "excludesSelf": true,
+  "files": [
+    {
+      "path": "DESIGN_SYSTEM.md",
+      "bytes": 18837,
+      "sha256": "3857aa3e488c3dfa4954c85091877523d12e49395e0e1a18b876c12c76c3d119"
+    },
+    {
+      "path": "GALLERY.html",
+      "bytes": 8613,
+      "sha256": "6f16af4ae39f2534f1c21b68d4d8c89b5bad015e37b2b383076e4c6e690b4eda"
+    },
+    {
+      "path": "MASTER_PROMPT.md",
+      "bytes": 62835,
+      "sha256": "42d1ae6d28bccffbd315c7f68ada2899db3d870c05f0b7c1c90ccb6f36855e13"
+    },
+    {
+      "path": "PACKAGE_CHECK.md",
+      "bytes": 3576,
+      "sha256": "b66e09b1a0b90412cf2c2c925b4019415b79c53a1112e63ece31b8ce1107b125"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10175,
+      "sha256": "6e8a11700b9625182c5d2ddaf120f2d5e3b57140d9a4813e0c1de8f55a631257"
+    },
+    {
+      "path": "START_HERE.txt",
+      "bytes": 2807,
+      "sha256": "52ad66ee4fe47a88262ac73e6c252745b48651033c1bf53dc2731db831470e53"
+    },
+    {
+      "path": "UDL_ACCESSIBILITY.md",
+      "bytes": 10227,
+      "sha256": "905e4db9854005e8291f431201f21c82730efd62ff3913a5e2fd71a5a800c0ce"
+    },
+    {
+      "path": "UI_REFERENCE_MAP.md",
+      "bytes": 6192,
+      "sha256": "27d3ba251f85da297dc40cd2b1a7a293308087a603d844afe45040964d21b8d2"
+    },
+    {
+      "path": "design-references/DRIBBBLE_OVERVIEW.png",
+      "bytes": 513399,
+      "sha256": "e761003bc04a7ad018ce0ae1af2fc981ef1a98e96b140403bc42938d8ff10e59"
+    },
+    {
+      "path": "design-references/PROVIDED_OVERVIEW.png",
+      "bytes": 385457,
+      "sha256": "e47b88998952f154d465e3706885b1000433b9f33457d3858ce4b28f8684344c"
+    },
+    {
+      "path": "design-references/dribbble/01-alagalms.png",
+      "bytes": 228776,
+      "sha256": "2ba7110add6002b3b479c57ebfa69748665d3135f41a455cb62f63be823b920a"
+    },
+    {
+      "path": "design-references/dribbble/02-robot.png",
+      "bytes": 174316,
+      "sha256": "9379cf774786337a582e67777cbfe4b1cb8da4833a1fada9c202d06ac8e654c9"
+    },
+    {
+      "path": "design-references/dribbble/03-accessibility.png",
+      "bytes": 794971,
+      "sha256": "8ba68bf67a67b249a24f74774255b1404b9de222d5289e6b2cdf771a0bb4ccd7"
+    },
+    {
+      "path": "design-references/dribbble/04-math.png",
+      "bytes": 1458256,
+      "sha256": "35b2af0798355804d695142e4587797802f75f9b63681944e9ce4048a9dfb4ba"
+    },
+    {
+      "path": "design-references/dribbble/05-video.png",
+      "bytes": 744571,
+      "sha256": "c60f35cf946552922dcb8057ece6388af31679bd56c5030b3c61d13de405a2a6"
+    },
+    {
+      "path": "design-references/dribbble/06-teacher.png",
+      "bytes": 713014,
+      "sha256": "10628c40f6be9fc10f3f346971eaedfa5e1c78bcf22a8fcac6732dc80303649a"
+    },
+    {
+      "path": "design-references/dribbble/SOURCES.md",
+      "bytes": 5211,
+      "sha256": "78d2f7b196cb5d4a2f2aa75cec4f49634e03705ae4bbfa0617965c69ec136dc4"
+    },
+    {
+      "path": "design-references/duolingo/01-layout-original.png",
+      "bytes": 850500,
+      "sha256": "4b1b070ab0f14d7a15c5e05ee9249ba3a6fe99ed430997dceb3fed5b828d5c71"
+    },
+    {
+      "path": "design-references/duolingo/02-illustration-original.png",
+      "bytes": 995556,
+      "sha256": "fe7273b290cd1e60dd5dbf63b13f5fb1fd688cf36e6b90c00284d143bd274c66"
+    },
+    {
+      "path": "design-references/duolingo/README.md",
+      "bytes": 1057,
+      "sha256": "9300301336c0acb920a158565023b488684df0b3ed6ed8e39a6f3d8e14c98cb6"
+    },
+    {
+      "path": "design-references/mascot-concept/01-firefly-blender-reference.png",
+      "bytes": 1718156,
+      "sha256": "87d6fd036e8598d976f03b86107fc1087840f17ce7526b8538ead3776302b0d4"
+    },
+    {
+      "path": "design-references/mascot-concept/PROMPT.txt",
+      "bytes": 1313,
+      "sha256": "bfe74005c7a637a973925000fe86f6a1cc5d27321c2718ec054aa39851fc38f4"
+    },
+    {
+      "path": "design-references/mascot-concept/README.md",
+      "bytes": 1322,
+      "sha256": "a7ee31f04d8e560dbb548133789c97aad0dbabca5dab6b615bede7d61ae0156b"
+    },
+    {
+      "path": "design-references/provided/01-alagalms-child-dashboard.png",
+      "bytes": 1059584,
+      "sha256": "3e9f2d7fa18ddf755919591378b50d0cea19a6d0cffdd2c9c36be09c56084058"
+    },
+    {
+      "path": "design-references/provided/02-robot-mascot.png",
+      "bytes": 1182411,
+      "sha256": "64c11010b5430d9d9cb4334889569de1e81e65180c78fe29fbbcf80bc8412bee"
+    },
+    {
+      "path": "design-references/provided/03-sensory-personalization.png",
+      "bytes": 466763,
+      "sha256": "5f6ed4075b2f257de16909f8e438e0df90e9c8c2f306c4424579ef3d6d08cd77"
+    },
+    {
+      "path": "design-references/provided/04-math-game.png",
+      "bytes": 878849,
+      "sha256": "f2e8ad855b605a56909e0a90af7e8f3588cf7bcdea90597ea1d4dda9e11da21f"
+    },
+    {
+      "path": "design-references/provided/05-communication-board.png",
+      "bytes": 381253,
+      "sha256": "1653645917d46c82ec783773cd0ad7e05e67ce7f7a30e5fc6c62ca9398ec04fd"
+    },
+    {
+      "path": "design-references/provided/06-teacher-analytics.png",
+      "bytes": 1130309,
+      "sha256": "c40740f69e898bfe13b1a2d2ca8cda38675986fcb08241c32abe971f9b03cfd0"
+    },
+    {
+      "path": "design-references/provided/07-multiple-formats-mobile.png",
+      "bytes": 1128493,
+      "sha256": "8b52d7f699d2a27bbaf5245a473fdcfd402f87f01502a4c696c60cb074f5c105"
+    },
+    {
+      "path": "design-references/provided/manifest.json",
+      "bytes": 2282,
+      "sha256": "f3e089c286c3393ec749b2937fa870ac20b1c55dc6d18a5eb570b30423e95f58"
+    },
+    {
+      "path": "design-tokens.json",
+      "bytes": 1384,
+      "sha256": "ef1ce1403b0974795ede157df73b040dcf1ef29e28efa0c9c2e9599375fe0817"
+    },
+    {
+      "path": "requirements/ACCEPTANCE_TESTS.md",
+      "bytes": 16504,
+      "sha256": "04f9e42c77b38ffdbcb8eb106bf2c906b2d73b4e000cf465de23b5bf1c47fee2"
+    },
+    {
+      "path": "requirements/DATA_AND_SECURITY.md",
+      "bytes": 17836,
+      "sha256": "f41b386a40a5a4086d1caf8b14da98b734601ff25c47bfed49c50377b337f21b"
+    },
+    {
+      "path": "requirements/IMPLEMENTATION_SPEC.md",
+      "bytes": 21629,
+      "sha256": "b819374eef7684e68c895db08628c62660278acb2c50f4718cb0596c75021ed4"
+    },
+    {
+      "path": "requirements/MASCOT_REDESIGN_AND_UI.md",
+      "bytes": 10955,
+      "sha256": "f5beae50c585bb3c2318dadef134bb6410688c5bbe3c54185d2e8e091bc47258"
+    },
+    {
+      "path": "requirements/MEDIA_PIPELINE.md",
+      "bytes": 9873,
+      "sha256": "05dcb11c5eecd9cb1516885b12d22419e02850755ab634049bdea2a8e713690d"
+    },
+    {
+      "path": "requirements/SOURCE_TZ_V2.md",
+      "bytes": 28666,
+      "sha256": "18bccdfd25b44f6e4f0a6dde429bdea4a3f401a78871ac0d19d6c7c6bbcfb975"
+    },
+    {
+      "path": "requirements/UDL_THREE_DAY_EXTENSION.md",
+      "bytes": 15553,
+      "sha256": "d9a6c4942fdaa6d7cfbc7970c92f602f5a8aa33809cee78b2eb5bd36ea105102"
+    },
+    {
+      "path": "ui-mockups/01-child-home.png",
+      "bytes": 146001,
+      "sha256": "aa621709729eb2b8ca6681f6ec37ebcd18b625e07045e4f624356bbebd7d5260"
+    },
+    {
+      "path": "ui-mockups/02-learning-path.png",
+      "bytes": 139062,
+      "sha256": "b20700528d8625b3a5887126e325a71d876d3b3e5cb9405cfcbf45b99434d2e7"
+    },
+    {
+      "path": "ui-mockups/03-fraction-3d.png",
+      "bytes": 143481,
+      "sha256": "8c4c4d04ce2e6d0227fcc7b62c0dd50746ea54af2a6b0ed028676417da1b858f"
+    },
+    {
+      "path": "ui-mockups/04-fraction-2d.png",
+      "bytes": 145520,
+      "sha256": "ea02e87e7e1ec7ab856b01295eef452a157fdc6ec3466e4b6208935d050c53a9"
+    },
+    {
+      "path": "ui-mockups/05-fraction-simple.png",
+      "bytes": 145476,
+      "sha256": "8d87b8cf9b55ebfe0b3cb3456c41e1e483977a6d1f5a37acb8fc613c711a4ca1"
+    },
+    {
+      "path": "ui-mockups/06-mascot.png",
+      "bytes": 145228,
+      "sha256": "9a57ceac473cc19748caf63d3091a885a76d9bd863c3fea1f4a70f611f642e0d"
+    },
+    {
+      "path": "ui-mockups/07-sensory.png",
+      "bytes": 124311,
+      "sha256": "e0416c6ac29aa0b8a2764093a25e907ffc86c45e6356a105add61b5174c4f266"
+    },
+    {
+      "path": "ui-mockups/08-video.png",
+      "bytes": 146407,
+      "sha256": "d7039419dceded0c23e38301da19747fe8d023c9c6063dc4546ec7320e31e761"
+    },
+    {
+      "path": "ui-mockups/09-communication.png",
+      "bytes": 106279,
+      "sha256": "ada3b15759a32baef681542475d6a9e508fdad46071b09bbb7f13a0a854d79aa"
+    },
+    {
+      "path": "ui-mockups/10-explanation-modes.png",
+      "bytes": 120540,
+      "sha256": "5d54b61a91d25830572c3377fd870b20eecfb4cb0daab06e533102b4c48cf0c0"
+    },
+    {
+      "path": "ui-mockups/11-teacher-dashboard.png",
+      "bytes": 137802,
+      "sha256": "190c6e455b0987407c2ad4f4cb4f58a94afa41dfab051f263d26c2ef853b7acd"
+    },
+    {
+      "path": "ui-mockups/12-support-profile.png",
+      "bytes": 132721,
+      "sha256": "32f4d82daf40664bacee542d76610cbdc8d69e1f94fe4b4cd61908bdaeadaefd"
+    },
+    {
+      "path": "ui-mockups/13-child-mobile.png",
+      "bytes": 48557,
+      "sha256": "0d236521f0a567ce2792cdc58b02c3192574e071c12608d7bf75ba0f22155cf8"
+    },
+    {
+      "path": "ui-mockups/OVERVIEW.png",
+      "bytes": 361830,
+      "sha256": "096507ce9f77ff9076bb82362889100f81d7782fe8f61163a64e7d6e7909b202"
+    },
+    {
+      "path": "ui-mockups/manifest.json",
+      "bytes": 2622,
+      "sha256": "432a4b9a52ad05af1ea7faf1c644d350a05bcdd36f9f20b3070462442579bb0a"
+    },
+    {
+      "path": "ui-mockups/source/01-child-home.svg",
+      "bytes": 9910,
+      "sha256": "7d01efbeff652e04aac65a49894f1a4b3ecde712a6511163ad9617e2a5cae64a"
+    },
+    {
+      "path": "ui-mockups/source/02-learning-path.svg",
+      "bytes": 10481,
+      "sha256": "ea1822812b223ab5ed361a63211774727b1bc15574f2ca9ea1d3cda7f7004b30"
+    },
+    {
+      "path": "ui-mockups/source/03-fraction-3d.svg",
+      "bytes": 10899,
+      "sha256": "9d5fca1940eb2d8de431be129c7dcfa1e82068e94ef76ac5993d6dafed5149f8"
+    },
+    {
+      "path": "ui-mockups/source/04-fraction-2d.svg",
+      "bytes": 10828,
+      "sha256": "711217a72655026c0d70e5b5aa6611eabbf8fa7021c7eb80621efaaf19cd5762"
+    },
+    {
+      "path": "ui-mockups/source/05-fraction-simple.svg",
+      "bytes": 13329,
+      "sha256": "55a30b777b7ac678b7deaed4dceb5a6add905d44a4e9f9ee08f2192ccd0f2279"
+    },
+    {
+      "path": "ui-mockups/source/06-mascot.svg",
+      "bytes": 9067,
+      "sha256": "90eec3fa4d3febabc3da616dd588f09ab2a7bb8df5045e40d0fd7896fec3af4f"
+    },
+    {
+      "path": "ui-mockups/source/07-sensory.svg",
+      "bytes": 8693,
+      "sha256": "88a293324f3de50929f46667e1209aaeae5b5a18aec866d345611547cd259791"
+    },
+    {
+      "path": "ui-mockups/source/08-video.svg",
+      "bytes": 10540,
+      "sha256": "6769ab54ebcc568e940309cf60443c5b7c2a6e1e1026d6a28bf02c76ddae55fa"
+    },
+    {
+      "path": "ui-mockups/source/09-communication.svg",
+      "bytes": 8745,
+      "sha256": "99cb3cafdfdeb1cb7ab72196250540e48639a1f11d628dd83832704d17db9086"
+    },
+    {
+      "path": "ui-mockups/source/10-explanation-modes.svg",
+      "bytes": 8416,
+      "sha256": "c20bd0c9ca2313938d0309ffd6773768052092803e57b2993d5006aad6ff6b3e"
+    },
+    {
+      "path": "ui-mockups/source/11-teacher-dashboard.svg",
+      "bytes": 9160,
+      "sha256": "40f635fdcd955a2bb386ee55287686ed8eee88aa78e4011314a267814fe8c7da"
+    },
+    {
+      "path": "ui-mockups/source/12-support-profile.svg",
+      "bytes": 7025,
+      "sha256": "6d65960fb22c494fbf404f77dcbbe3a105b8726dbbd13b24785c8cad60755df0"
+    },
+    {
+      "path": "ui-mockups/source/13-child-mobile.svg",
+      "bytes": 3963,
+      "sha256": "6f8327dbe575d59e37446e220e4e0e42fc63de3e1f054a22e38132abc7db1c95"
+    }
+  ]
+}

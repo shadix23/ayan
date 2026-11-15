@@ -1,0 +1,12 @@
+/* V2.1 palette for the pages that still use the earlier stylesheets (landing, login, parent report, privacy, classic cabinet).
+   Only the color variables are remapped to the tokens of dist/v2/tokens.css; layouts stay as they were. */
+:root,:root body{
+ --bg:#FBFAF6!important;--surface:#FFFFFF!important;--surface2:#F3F1EA!important;--card:#FFFFFF!important;
+ --ink:#1F2A2E!important;--text:#1F2A2E!important;--muted:#4F5F63!important;--line:#E6E3DA!important;--line-strong:#6B807C!important;--rail:#FFFFFF!important;
+ --accent:#0F766E!important;--accent-hover:#115E59!important;--accent-ink:#0B4F4A!important;--accent-soft:#E4F1ED!important;--accent-ring:#0369A1!important;--on-accent:#FFFFFF!important;
+ --green:#0F766E!important;--green-hover:#115E59!important;--green-soft:#E4F1ED!important;--forest:#163C3A!important;--forest-2:#1E4E4A!important;--glow:#F4B740!important;
+ --good:#256956!important;--good-soft:#DDEFE6!important;--bad:#A33442!important;--bad-soft:#FBE9EC!important;--warn:#8A5A00!important;--warn-soft:#FFF3D6!important;--orange-soft:#FFF3D6!important;
+}
+body{background:#FBFAF6}
+:focus-visible{outline:3px solid #0369A1!important;outline-offset:3px}
+::selection{background:#BFE3DA}

@@ -1,1 +1,39 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Результаты ребёнка - Ayan</title><meta name="title-kk" content="Баланың нәтижелері - Ayan"><link rel="icon" href="/assets/ayan-mark.svg"><link rel="stylesheet" href="/platform.css"><link rel="stylesheet" href="/theme-fix.css"><link rel="stylesheet" href="/polish.css"><script src="/page-i18n.js"></script></head><body><header class="portal-top"><a class="platform-brand" href="/"><img src="/assets/ayan-mark.svg" width="40" height="40" alt="">ayan</a><a href="/" data-kk="Платформа туралы">О платформе</a></header><main class="lesson-reader parent-page"><h1 data-kk="Оқу қалай өтіп жатыр">Как проходит обучение</h1><form id="parent-form"><p data-kk="Мұғалімнің сілтемесіндегі кодты енгізіңіз. Есеп тек шақыру бойынша қолжетімді.">Введите код из ссылки учителя. Отчёт доступен только по приглашению.</p><label for="parent-code" data-kk="Кіру коды">Код доступа</label><input id="parent-code" required><button class="primary" data-kk="Нәтижелерді ашу">Открыть результаты</button></form><p id="report-error" class="error" role="alert"></p><section id="parent-report" class="report-list"></section></main><p class="auth-note"><a href="/privacy" id="privacy-link" data-kk="Ayan қандай деректерді сақтайды">Какие данные хранит Ayan</a></p><script src="/parent.js"></script></body></html>
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аян · баланың оқуы</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/ayan-mark.svg">
+<link rel="preload" href="/fonts/Nunito.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/v2/tokens.css">
+<link rel="stylesheet" href="/v2/lights.css">
+<style>
+ .parent-wrap{max-width:900px;margin:0 auto;padding:28px 20px 48px;display:flex;flex-direction:column;gap:24px}
+ .parent-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+ .parent-top .brand{padding:0}
+ .p-lessons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+ .p-lesson{display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;align-items:start}
+ .p-lesson .lamp{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid #C9D6D0}
+ .p-lesson.done .lamp{background:var(--light-soft);border-color:var(--honey)}
+ .p-lesson .lamp .lantern-ico{width:26px;height:32px}
+ .p-facts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+ .p-facts span{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:999px;background:#F3F7F5;font-weight:750;font-size:.9375rem}
+ .p-home{margin-top:12px;color:var(--text);display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:start;padding:12px 14px;border-radius:14px;background:var(--light-soft,#FFF6DA)}
+ .p-home svg{width:22px;height:22px;margin-top:2px;color:var(--honey-deep,#8A5A00)}
+ .p-home b{display:block;margin-bottom:2px}
+ .parent-wrap [data-demo-note]{white-space:normal;height:auto;min-height:32px;padding:6px 12px;max-width:100%;line-height:1.35}
+ @media (max-width:767px){.parent-wrap{padding:20px 16px 40px}.parent-top{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<a class="sr-only" href="#main">Негізгі мазмұнға</a>
+<div class="parent-wrap">
+ <header class="parent-top"><a class="brand" href="/" aria-label="Аян"><img class="brand-mark" src="/assets/ayan-mark.svg" alt="" width="36" height="36"><span><b>Аян</b></span></a><button type="button" class="tool" data-lang>ҚАЗ / РУС</button></header>
+ <main id="main" class="stack" style="gap:24px"><p class="muted" role="status">…</p></main>
+ <p class="muted"><a href="/privacy" data-privacy></a></p>
+</div>
+<script type="module" src="/v2/parent.mjs"></script>
+</body>
+</html>

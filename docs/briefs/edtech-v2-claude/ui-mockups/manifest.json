@@ -1,0 +1,106 @@
+[
+  {
+    "id": "01-child-home",
+    "title": "Детский кабинет",
+    "image": "01-child-home.png",
+    "source": "source/01-child-home.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "02-learning-path",
+    "title": "Visual Learning Path",
+    "image": "02-learning-path.png",
+    "source": "source/02-learning-path.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "03-fraction-3d",
+    "title": "Fraction World · 3D",
+    "image": "03-fraction-3d.png",
+    "source": "source/03-fraction-3d.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "04-fraction-2d",
+    "title": "Fraction World · 2D",
+    "image": "04-fraction-2d.png",
+    "source": "source/04-fraction-2d.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "05-fraction-simple",
+    "title": "Fraction World · Карточки",
+    "image": "05-fraction-simple.png",
+    "source": "source/05-fraction-simple.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "06-mascot",
+    "title": "Маскот и его настройки",
+    "image": "06-mascot.png",
+    "source": "source/06-mascot.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "07-sensory",
+    "title": "Sensory Control",
+    "image": "07-sensory.png",
+    "source": "source/07-sensory.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "08-video",
+    "title": "Видеоурок с субтитрами",
+    "image": "08-video.png",
+    "source": "source/08-video.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "09-communication",
+    "title": "Communication Board",
+    "image": "09-communication.png",
+    "source": "source/09-communication.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "10-explanation-modes",
+    "title": "Форматы объяснения",
+    "image": "10-explanation-modes.png",
+    "source": "source/10-explanation-modes.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "11-teacher-dashboard",
+    "title": "Кабинет учителя",
+    "image": "11-teacher-dashboard.png",
+    "source": "source/11-teacher-dashboard.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "12-support-profile",
+    "title": "Профиль поддержки",
+    "image": "12-support-profile.png",
+    "source": "source/12-support-profile.svg",
+    "width": 1440,
+    "height": 1024
+  },
+  {
+    "id": "13-child-mobile",
+    "title": "Мобильный детский кабинет",
+    "image": "13-child-mobile.png",
+    "source": "source/13-child-mobile.svg",
+    "width": 390,
+    "height": 844
+  }
+]

@@ -3,213 +3,414 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ayan - уроки по шагам для ребёнка с РАС</title>
-<meta name="description" content="Ayan помогает учителю подготовить урок по шагам для ребёнка с РАС в обычном классе. Прототип: математика 3-4 класса, 9 игр, казахский и русский.">
-<meta name="theme-color" content="#f6f4ea">
+<title>Аян - урок для инклюзивного класса</title>
+<meta name="title-kk" content="Аян - инклюзивті сыныпқа арналған сабақ">
+<meta name="description" content="Аян: уроки по программе Казахстана на казахском и русском. Каждый ребёнок идёт своим путём, учитель инклюзивного класса видит, кому нужна помощь, родитель получает короткий отчёт.">
+<meta name="theme-color" content="#FBFAF6">
 <link rel="icon" href="/assets/ayan-mark.svg">
 <link rel="preload" href="/fonts/Nunito.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="/landing.css">
-<script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script>
-<script src="/mascot.js"></script>
+<script src="/page-i18n.js" defer></script>
 </head>
 <body>
-<a class="skip" href="#main">Перейти к содержанию</a>
+<a class="skip" href="#main" data-kk="Негізгі мазмұнға өту">Перейти к содержанию</a>
 
 <header class="nav">
   <div class="wrap nav-row">
-    <a class="brand" href="/" aria-label="Ayan, на главную"><img src="/assets/ayan-mark.svg" alt="" width="40" height="40"><span>ayan</span></a>
-    <nav aria-label="Разделы">
-      <a href="#how">Как работает</a>
-      <a href="#calm">Для ребёнка</a>
-      <a href="#roles">Кому</a>
-      <a href="#faq">Вопросы</a>
+    <a class="brand" href="/" aria-label="Аян"><img src="/assets/ayan-mark.svg" alt="" width="36" height="36"><span>Аян</span></a>
+    <nav class="nav-links" aria-label="Разделы">
+      <a href="#inside" data-kk="Ішінде не бар">Что внутри</a>
+      <a href="#how" data-kk="Қалай жұмыс істейді">Как работает</a>
+      <a href="#benefit" data-kk="Пайдасы">Польза</a>
+      <a href="#diff" data-kk="Айырмашылығы">Отличие</a>
+      <a href="/pricing" data-kk="Тарифтер">Тарифы</a>
     </nav>
-    <a class="btn btn-ghost" href="/teacher/login">Войти</a>
+    <div class="nav-tools">
+      <button type="button" class="motion-btn" data-motion-toggle aria-pressed="false">
+        <svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>
+        <svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z"/></svg>
+        <span class="sr-only" data-kk="Фондағы қозғалысты тоқтату">Остановить движение на странице</span>
+      </button>
+      <span data-lang-switch></span>
+      <a class="btn btn-ghost btn-sm nav-login" href="/login" data-kk="Кіру">Войти</a>
+      <a class="btn btn-primary btn-sm nav-start" href="/signup" data-kk="Тегін бастау">Начать бесплатно</a>
+    </div>
   </div>
 </header>
 
 <main id="main">
 
-<section class="hero" data-enter>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="flies" data-flies="9" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="hero-fact"><span class="dot" aria-hidden="true"></span>Прототип: математика 3-4 класса, 9 игр, Қаз и Рус</p>
-      <h1>Урок по шагам для ребёнка с РАС в обычном классе</h1>
-      <p class="lead">Учитель готовит объяснение и выбирает игры. Ребёнок видит один шаг за раз. Родитель получает короткий отчёт.</p>
+      <p class="chip-fact"><i class="spark" aria-hidden="true"></i><span data-kk="Инклюзия қағазда бар. Аян оны сабаққа әкеледі.">Инклюзия есть на бумаге. Аян приносит её в урок.</span></p>
+      <h1 id="hero-title"><span data-kk="Әр бала">Каждый ребёнок</span> <mark data-kk="өз жолымен жүреді.">идёт своим путём.</mark> <span class="h1-2" data-kk="Инклюзивті сынып мұғалімі кімге көмек керек екенін көреді.">Учитель инклюзивного класса видит, кому нужна помощь.</span></h1>
+      <p class="lead" data-kk="Аян - Қазақстан бағдарламасы бойынша қазақ және орыс тіліндегі сабақтар. Бала тақырыпты қадам-қадаммен өтіп, шырақ жағады, мұғалім бүкіл сыныпты сабақ үстінде көреді, ата-ана қысқа есеп алады.">Аян - уроки по программе Казахстана на казахском и русском. Ребёнок проходит тему по шагам и зажигает огоньки, учитель видит весь класс прямо на уроке, родитель получает короткий отчёт.</p>
       <div class="actions">
-        <a class="btn btn-primary" href="/demo/teacher">Открыть демо учителя<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
-        <a class="btn btn-secondary" href="/demo/child">Посмотреть экран ребёнка</a>
+        <a class="btn btn-primary btn-lg" href="/signup"><span data-kk="Тегін бастау">Начать бесплатно</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-secondary btn-lg" href="#how" data-kk="Қалай жұмыс істейді">Как это работает</a>
       </div>
-      <p class="hero-note">Без регистрации. Демо-данные хранятся только в вашем браузере.</p>
-    </div>
-
-    <div class="hero-stage">
-      <div class="stage-glow" aria-hidden="true"></div>
-      <div id="intro-mascot" class="stage-mascot" role="img" aria-label="Аян, трёхмерный светлячок"></div>
-
-      <div class="ui-card step-card" aria-hidden="true">
-        <div class="step-track"><i class="on"></i><i class="on"></i><i></i><i></i></div>
-        <b>Шаг 2 из 4</b>
-        <strong>Добавь ещё три яблока</strong>
-        <div class="apples"><span></span><span></span><em>+</em><span></span><span></span><span></span></div>
-      </div>
-
-      <div class="ui-card hint-card" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3zM9.5 19h5M10.5 21.5h3"/></svg>
-        <span>Можно не спешить</span>
-      </div>
-
-      <div class="mascot-actions" role="group" aria-label="Движения Аяна">
-        <button data-mascot-clip="Wave">Привет, Аян</button>
-        <button data-mascot-clip="Fly">Полетели</button>
-        <button data-mascot-clip="Spin">Покрутись</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="how" id="how">
-  <div class="wrap">
-    <h2>Три экрана одного урока</h2>
-    <p class="section-lead">У каждого участника своё пространство и только то, что ему нужно.</p>
-
-    <div class="how-grid">
-      <article class="how-item">
-        <div class="shot" aria-hidden="true">
-          <div class="shot-bar"><i></i><i></i><i></i><span>Кабинет учителя</span></div>
-          <div class="shot-body">
-            <label>Тема урока</label>
-            <div class="field">Сложение: 2 + 3</div>
-            <label>Объяснение: один шаг на строке</label>
-            <div class="field area">Посмотри: у тебя два яблока.<br>Добавь ещё три яблока.<br>Посчитай все яблоки вместе.</div>
-            <div class="shot-actions"><span class="chip">Помочь с объяснением (ИИ)</span><span class="chip solid">Проверено, назначить</span></div>
-          </div>
-        </div>
-        <h3>Учитель готовит и проверяет</h3>
-        <p>Пишет объяснение по шагам сам или с черновиком от ИИ. Материал уходит ребёнку только после проверки взрослым.</p>
-        <a class="text-link" href="/demo/teacher">Демо учителя</a>
-      </article>
-
-      <article class="how-item">
-        <div class="shot" aria-hidden="true">
-          <div class="shot-bar"><i></i><i></i><i></i><span>Экран ребёнка</span></div>
-          <div class="shot-body child">
-            <div class="step-track"><i class="on"></i><i></i><i></i></div>
-            <strong>Найди пару</strong>
-            <div class="pairs"><span class="sel">2 + 3</span><span>6</span><span>4 − 2</span><span class="sel">5</span><span>3 + 3</span><span>2</span></div>
-            <div class="shot-actions"><span class="chip">Подсказка</span><span class="chip">Перерыв</span></div>
-          </div>
-        </div>
-        <h3>Ребёнок идёт в своём темпе</h3>
-        <p>Один шаг на экране, подсказка и перерыв всегда рядом. Нет таймеров, рейтингов и штрафов за ошибку.</p>
-        <a class="text-link" href="/demo/child">Демо ребёнка</a>
-      </article>
-
-      <article class="how-item">
-        <div class="shot" aria-hidden="true">
-          <div class="shot-bar"><i></i><i></i><i></i><span>Отчёт родителю</span></div>
-          <div class="shot-body report">
-            <strong>Саша, неделя</strong>
-            <div class="row"><span>Пройдено шагов</span><b>12</b></div>
-            <div class="row"><span>Использовано подсказок</span><b>3</b></div>
-            <div class="row"><span>Тема для повторения</span><b>Вычитание</b></div>
-            <p class="disclaimer">Наблюдение, не диагноз</p>
-          </div>
-        </div>
-        <h3>Семья видит, что было на уроке</h3>
-        <p>Короткий отчёт по ссылке-приглашению: что пройдено, где помогали подсказки, что повторить дома.</p>
-        <a class="text-link" href="/demo/parent">Демо родителя</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="calm" id="calm">
-  <div class="wrap calm-grid">
-    <div>
-      <h2>Спокойный экран, на котором ничего не происходит внезапно</h2>
-      <p>Ребёнку с РАС важны порядок и предсказуемость. Экран ребёнка в Ayan устроен вокруг этого.</p>
-      <ul class="calm-list">
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>План виден заранее</b><span>Ребёнок знает, сколько шагов впереди и какой сейчас.</span></div></li>
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>Движение можно выключить</b><span>Одна кнопка, и Аян становится неподвижной картинкой.</span></div></li>
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>Перерыв в любой момент</b><span>Игра ждёт. Прогресс не сгорает, наград за скорость нет.</span></div></li>
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>Ошибка без наказания</b><span>Аян отвечает «Попробуем ещё раз. Я рядом.»</span></div></li>
+      <ul class="trust">
+        <li data-kk="Жарнамасыз">Без рекламы</li>
+        <li data-kk="Диагнозсыз">Без диагнозов</li>
+        <li data-kk="Балаға пошта керек емес">Ребёнку не нужна почта</li>
       </ul>
     </div>
 
-    <div class="plan" aria-hidden="true">
-      <span class="plan-title">Твой план</span>
-      <div class="plan-row done"><i>1</i><span>Посмотреть пример</span><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-      <div class="plan-row now"><i>2</i><span>Попробовать вместе</span><em>Сейчас</em></div>
-      <div class="plan-row"><i>3</i><span>Решить самому</span></div>
-      <div class="plan-foot">
-        <span class="toggle"><b></b></span><span>Движение выключено</span>
+    <div class="hero-stage">
+      <div class="stage-art">
+        <img src="/assets/landing/hero-path.webp" srcset="/assets/landing/hero-path-768.webp 768w, /assets/landing/hero-path.webp 1536w" sizes="(max-width: 600px) 420px, 760px" width="1536" height="1024" fetchpriority="high" decoding="async" alt="Светлячок Аян освещает тропинку огоньков, по которой идут ученик и учительница" data-kk-alt="Аян жарқырауық қоңызы оқушы мен мұғалім жүріп келе жатқан шырақтар соқпағын жарықтандырады">
+        <div class="flies flies-art" data-flies="6" aria-hidden="true"></div>
+      </div>
+      <div class="float-card fc-lesson" aria-hidden="true">
+        <span class="fc-top"><b data-kk="5 қадамның 4-і, практика">Шаг 4 из 5, практика</b><span class="ember-count"><i></i>13</span></span>
+        <strong data-kk="Шырақ жанды">Огонёк зажжён</strong>
+        <span class="lamps"><i class="lit"></i><i class="lit"></i><i class="lit"></i><i class="lit"></i><i class="now"></i></span>
+      </div>
+
+      <div class="float-card fc-teacher" data-ticker aria-hidden="true">
+        <span class="fc-label" data-kk="Мұғалім экраны">Экран учителя</span>
+        <div class="tick on" data-tick="0"><b data-kk="Оқушы 03 көмек сұрап тұр">Ученик 03 просит помощь</b><span class="pill pill-honey" data-kk="Көрдім, барамын">Видел, иду</span></div>
+        <div class="tick" data-tick="1"><b data-kk="Оқушы 01 үзілісте">Ученик 01 на перерыве</b><span class="pill" data-kk="Прогресс сақталды">Прогресс сохранён</span></div>
+        <div class="tick" data-tick="2"><b data-kk="Оқушы 02 сабақты өтті: 7/7">Ученик 02 прошёл урок: 7 из 7</b><span class="pill pill-teal" data-kk="Келесі мысал">Следующий пример</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="roles" id="roles">
+<section class="problem" id="problem" aria-labelledby="problem-title">
   <div class="wrap">
-    <h2>Попробуйте каждую роль в демо</h2>
-    <p class="section-lead">Регистрация не нужна. Пример ученика уже заполнен.</p>
-    <div class="roles-grid">
-      <a class="role" href="/demo/teacher">
-        <span class="role-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v10H4zM9 20h6M12 16v4"/></svg></span>
-        <h3>Учитель</h3>
-        <p>Готовит урок, выбирает игры, отмечает наблюдения за 30 секунд.</p>
-        <span class="role-go">Открыть кабинет<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span>
-      </a>
-      <a class="role" href="/demo/child">
-        <span class="role-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4 0-7-3-7-7 0-5 7-11 7-11s7 6 7 11c0 4-3 7-7 7z"/></svg></span>
-        <h3>Ребёнок</h3>
-        <p>Проходит урок по шагам и играет с Аяном. Заходит по одноразовой ссылке, без почты.</p>
-        <span class="role-go">Открыть игры<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span>
-      </a>
-      <a class="role" href="/demo/parent">
-        <span class="role-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg></span>
-        <h3>Родитель</h3>
-        <p>Читает отчёт по приглашению учителя. Видит только своего ребёнка.</p>
-        <span class="role-go">Открыть отчёт<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span>
-      </a>
+    <div class="sec-head">
+      <h2 id="problem-title" data-kk="Жағдай бар, ал сабақ бұрынғыдай қалды">Условия есть, а урок остался прежним</h2>
+      <p class="sec-lead" data-kk="Ерекше қажеттілігі бар балалар қазірдің өзінде қарапайым сыныптарда отыр. Пандус пен кабинет бар. Бәріне ортақ сабақты мұғалім өзі жинауы керек.">Дети с особыми потребностями уже сидят в обычных классах. Пандус и кабинет есть. Урок, в котором учатся все вместе, учителю приходится собирать самому.</p>
+    </div>
+    <div class="facts">
+      <article class="fact"><b class="num">94&nbsp;527</b><p data-kk="бала инклюзивті ортада оқиды">детей учатся в инклюзивной среде</p><a href="https://bizmedia.kz/2026-01-12-minprosveshheniya-rk-usilivaet-razvitie-inklyuzivnogo-obrazovaniya/" rel="noopener" target="_blank" data-kk="Оқу-ағарту министрлігі, bizmedia.kz, 12.01.2026">Минпросвещения, bizmedia.kz, 12.01.2026</a></article>
+      <article class="fact"><b class="num">95,2%</b><p data-kk="мектеп инклюзияға «жағдай жасады»: бұл ғимарат, сабақ емес">школ «создали условия» для инклюзии: это здание, а не урок</p><a href="https://www.gov.kz/memleket/entities/edu/press/news/details/988902?lang=ru" rel="noopener" target="_blank">gov.kz, bizmedia.kz, 2025</a></article>
+      <article class="fact"><b class="num">12</b><p data-kk="бүкіл елге аутизм орталығы: мектептен тыс көмек өсуге үлгермейді">центров аутизма на всю страну: помощь вне школы не догонит рост</p><a href="https://bizmedia.kz/2026-01-12-minprosveshheniya-rk-usilivaet-razvitie-inklyuzivnogo-obrazovaniya/" rel="noopener" target="_blank" data-kk="Оқу-ағарту министрлігі, bizmedia.kz">Минпросвещения, bizmedia.kz</a></article>
+    </div>
+    <p class="policy"><span data-kk="2025-2030 жылдарға арналған инклюзивті саясат тұжырымдамасы балаларды қарапайым сыныпқа әкеледі. Мұғалімге сабақтың өзіне арналған құрал керек.">Концепция инклюзивной политики 2025-2030 ведёт детей в обычные классы. Учителю нужен инструмент для самого урока.</span> <a href="https://adilet.zan.kz/rus/docs/P2400001143" rel="noopener" target="_blank" data-kk="ҚР Үкіметінің қаулысы № 1143, adilet.zan.kz">Постановление Правительства РК № 1143, adilet.zan.kz</a></p>
+  </div>
+</section>
+
+<section class="inside" id="inside" aria-labelledby="inside-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="inside-title" data-kk="Үшеуге бір өнім: бала оқиды, мұғалім сыныпты жүргізеді, ата-ана нәтижені көреді">Один продукт на троих: ребёнок учится, учитель ведёт класс, родитель видит итог</h2>
+    </div>
+
+    <div class="bento">
+      <article class="tile tile-child">
+        <div class="tile-copy">
+          <h3 data-kk="Балаға арналған сабақ">Урок для ребёнка</h3>
+          <p data-kk="Тақырып қадамдарға бөлінген, экранда әрқашан біреуі ғана. Бала түсіндіру тәсілін өзі таңдап, бір түртумен жауап береді.">Тема разбита на шаги, на экране всегда один. Ребёнок сам выбирает, как ему объяснить, и отвечает касанием.</p>
+          <ul class="stats">
+            <li><b>5</b><span data-kk="түсіндіру тәсілі">способов объяснения</span></li>
+            <li><b>3</b><span data-kk="жауап беру тәсілі">способа ответа</span></li>
+            <li><b>3</b><span data-kk="кеңес деңгейі">уровня подсказки</span></li>
+          </ul>
+        </div>
+        <div class="mini mini-child" aria-hidden="true">
+          <div class="mc-top"><span class="mc-x"></span><span class="trail"><i class="lit"></i><i class="lit"></i><i class="now"></i><i></i><i></i></span><span class="ember-count"><i></i>6</span></div>
+          <p class="mc-q" data-kk="Саған қалай түсіндірейін?">Как тебе объяснить?</p>
+          <div class="mc-modes"><span data-kk="Мәтін">Текст</span><span class="sel" data-kk="Сурет">Картинка</span><span data-kk="Аудио">Аудио</span><span data-kk="Бейне">Видео</span><span data-kk="Модель">Модель</span></div>
+          <div class="mc-figure"><svg viewBox="0 0 120 120"><path class="q" d="M60 60L60 10A50 50 0 0 1 110 60Z"/><path class="q q-on" d="M60 60L110 60A50 50 0 0 1 60 110Z"/><path class="q" d="M60 60L60 110A50 50 0 0 1 10 60Z"/><path class="q" d="M60 60L10 60A50 50 0 0 1 60 10Z"/></svg></div>
+          <div class="mc-foot"><span data-kk="Маған көмек керек">Мне нужна помощь</span><span data-kk="Үзіліс керек">Нужен перерыв</span></div>
+        </div>
+      </article>
+
+      <article class="tile tile-teacher">
+        <div class="tile-copy">
+          <h3 data-kk="Мұғалім кабинеті">Кабинет учителя</h3>
+          <p data-kk="ҚР бағдарламасы бойынша дайын сабақтар, сыныптың тірі тынысы және бір минуттағы сабақ жобасы. ЖИ жобасын бала мұғалім тексергеннен кейін ғана көреді.">Готовые уроки по программе РК, живой пульс класса и черновик урока за минуту. Черновик ИИ ребёнок увидит только после проверки учителем.</p>
+        </div>
+        <div class="mini mini-teacher" aria-hidden="true">
+          <div class="mt-row alert"><b data-kk="Оқушы 03">Ученик 03</b><span class="pill pill-honey" data-kk="Көмек сұрап тұр">Просит помощь</span><span class="mt-bar"><i style="--w:.62"></i></span></div>
+          <div class="mt-row"><b data-kk="Оқушы 02">Ученик 02</b><span class="pill pill-teal" data-kk="Сабақ өтті">Урок пройден</span><span class="mt-bar"><i style="--w:1"></i></span></div>
+        </div>
+      </article>
+
+      <article class="tile tile-parent">
+        <div class="tile-copy">
+          <h3 data-kk="Ата-анаға есеп">Отчёт родителю</h3>
+          <p data-kk="Сілтеме арқылы қысқа есеп: сабақта не болды және үйде нені қайталау керек. Бұл диагноз емес, бақылау.">Короткий отчёт по ссылке: что было на уроке и что повторить дома. Это наблюдение, а не диагноз.</p>
+        </div>
+        <div class="mini mini-parent" aria-hidden="true">
+          <b class="mp-title" data-kk="Тең бөліктер">Равные доли</b>
+          <span class="mp-row"><span data-kk="Шешілді">Решено</span><b data-kk="7/7">7 из 7</b></span>
+          <span class="mp-row"><span data-kk="Үйде">Дома</span><b data-kk="алманы 4 бөлікке бөлу">разделить яблоко на 4 части</b></span>
+        </div>
+      </article>
+    </div>
+
+
+    <!-- the 8 subjects mirror dist/v2/subjects.js (names, short lines, status available / soon); icons there are temporary -->
+    <div class="subjects" id="subjects">
+      <h3 data-kk="5-6 сыныптың 8 пәні, ҚР бағдарламасы бойынша">8 предметов 5-6 класса по программе РК</h3>
+      <ul class="subj-grid">
+        <li class="subj" id="subject-math"><img src="/assets/subjects/math.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Математика">Математика</b><span data-kk="Сандар, бөлшектер, пайыздар">Числа, дроби, проценты</span></span><em class="subj-s on" data-kk="Сабақтар бар">Уроки есть</em></li>
+        <li class="subj" id="subject-kazakh-lang"><img src="/assets/subjects/kazakh-lang.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Қазақ тілі">Казахский язык</b><span data-kk="Дыбыс, сөз, сөйлем">Звуки, слова, предложения</span></span><em class="subj-s " data-kk="Жақында">Скоро</em></li>
+        <li class="subj" id="subject-kazakh-lit"><img src="/assets/subjects/kazakh-lit.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Қазақ әдебиеті">Казахская литература</b><span data-kk="Ертегі, жыр, әңгіме">Сказки, эпос, рассказы</span></span><em class="subj-s " data-kk="Жақында">Скоро</em></li>
+        <li class="subj" id="subject-russian"><img src="/assets/subjects/russian.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Орыс тілі мен әдебиеті">Русский язык и литература</b><span data-kk="Сөздік қор, мәтін, шығарма">Словарь, текст, произведения</span></span><em class="subj-s " data-kk="Жақында">Скоро</em></li>
+        <li class="subj" id="subject-english"><img src="/assets/subjects/english.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Ағылшын тілі">Английский язык</b><span data-kk="Тыңдалым, айтылым, оқылым">Слушание, речь, чтение</span></span><em class="subj-s " data-kk="Жақында">Скоро</em></li>
+        <li class="subj" id="subject-natural-science"><img src="/assets/subjects/natural-science.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Жаратылыстану">Естествознание</b><span data-kk="Зат, тірі табиғат, экология">Вещества, живая природа, экология</span></span><em class="subj-s on" data-kk="Сабақтар бар">Уроки есть</em></li>
+        <li class="subj" id="subject-kz-history"><img src="/assets/subjects/kz-history.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Қазақстан тарихы">История Казахстана</b><span data-kk="Ежелгі дәуірден хандыққа дейін">От древности до ханства</span></span><em class="subj-s " data-kk="Жақында">Скоро</em></li>
+        <li class="subj" id="subject-informatics"><img src="/assets/subjects/informatics.webp" alt="" width="56" height="56" loading="lazy" decoding="async" data-temp="1"><span class="subj-t"><b data-kk="Информатика">Информатика</b><span data-kk="Ақпарат, робот, алгоритм">Информация, роботы, алгоритмы</span></span><em class="subj-s on" data-kk="Сабақтар бар">Уроки есть</em></li>
+      </ul>
+      <p class="subj-src"><span data-kk="Пәндер мен тақырыптар:">Предметы и темы:</span> <a href="https://adilet.zan.kz/rus/docs/V1200008170" rel="noopener" target="_blank" data-kk="Үлгілік оқу жоспары, ҚР ОҒМ № 500 бұйрығы (ҚР ОМ № 323, 2023 ж. редакциясы)">Типовой учебный план, приказ МОН РК № 500 (ред. приказа МП РК № 323, 2023)</a></p>
+    </div>
+
+    <ul class="base">
+      <li data-kk="Қазақша және орысша">Қазақша и по-русски</li>
+      <li data-kk="Қазақстан бағдарламасы">Программа Казахстана</li>
+      <li data-kk="Қозғалыс: Тыныш, Жұмсақ, Жанды">Движение: Тихо, Мягко, Живо</li>
+      <li data-kk="Тегі мен диагнозсыз">Без фамилий и диагнозов</li>
+      <li data-kk="Браузерде жұмыс істейді">Работает в браузере</li>
+    </ul>
+  </div>
+</section>
+
+<section class="how" id="how" aria-labelledby="how-title">
+  <div class="flies flies-dark" data-flies="12" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="how-title" data-kk="Сабақтың бір минуты: оқушы мен мұғалім қатар">Минута урока: ученик и учитель рядом</h2>
+      <p class="sec-lead" data-kk="Сол жақта оқушының планшеті, оң жақта мұғалімнің экраны. Мысал өзі ауысады, оны тоқтатуға немесе кез келген қадамды ашуға болады.">Слева планшет ученика, справа экран учителя. Пример сменяется сам, его можно остановить или открыть любой шаг.</p>
+    </div>
+
+    <div class="demo" data-scene data-step="1" data-focus="child">
+      <div class="demo-glow" aria-hidden="true"></div>
+      <div class="demo-stage" aria-hidden="true">
+        <div class="pane pane-child">
+          <span class="pane-label" data-kk="Оқушы планшеті">Планшет ученика</span>
+          <div class="pane-body">
+            <div class="cp-top"><span class="mc-x"></span><span class="trail"><i class="lit"></i><i class="lit"></i><i class="lit"></i><i class="t4"></i><i></i></span><span class="ember-count cp-count"><i></i><b class="n0">12</b><b class="n1">13</b></span></div>
+            <div class="cp-views">
+              <div class="cp-view cp-task1">
+                <p class="cp-label" data-kk="Практика, 5 тапсырманың 2-сі">Практика, задание 2 из 5</p>
+                <p class="cp-task" data-kk="Бір ширекті таңда">Выбери одну четверть</p>
+                <div class="cp-figure"><svg viewBox="0 0 120 120"><path class="q" d="M60 60L60 10A50 50 0 0 1 110 60Z"/><path class="q q-pick" data-target="pick" d="M60 60L110 60A50 50 0 0 1 60 110Z"/><path class="q" d="M60 60L60 110A50 50 0 0 1 10 60Z"/><path class="q" d="M60 60L10 60A50 50 0 0 1 60 10Z"/></svg><span class="cp-check"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div>
+              </div>
+              <div class="cp-view cp-task2">
+                <p class="cp-label" data-kk="Практика, 5 тапсырманың 3-і">Практика, задание 3 из 5</p>
+                <p class="cp-task" data-kk="Жартысы боялған жолақты таңда">Найди полоску, где закрашена половина</p>
+                <div class="cp-bars"><span class="bar4"><i class="f"></i><i class="f"></i><i></i><i></i></span><span class="bar4"><i class="f"></i><i></i><i></i><i></i></span></div>
+              </div>
+              <div class="cp-view cp-done">
+                <img class="cp-lantern" src="/assets/landing/lesson-result.webp" width="400" height="400" alt="" loading="lazy" decoding="async">
+                <p class="cp-task" data-kk="Сабақ аяқталды">Урок пройден</p>
+                <p class="cp-label" data-kk="Жанған шырақтар: 7">Зажжено огоньков: 7</p>
+              </div>
+            </div>
+            <div class="cp-sheet"><span class="lamp"></span><b data-kk="Шырақ жанды">Огонёк зажжён</b><span data-kk="Үшеуі қалды">Осталось три</span></div>
+            <div class="cp-known"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-kk="Мұғалім біледі, жақында келеді">Учитель знает, скоро подойдёт</span></div>
+            <div class="cp-foot">
+              <span class="ui-btn ui-ghost cp-help" data-target="help"><span class="l-a" data-kk="Маған көмек керек">Мне нужна помощь</span><span class="l-b" data-kk="Өтініш жіберілді">Просьба отправлена</span></span>
+              <span class="ui-btn ui-main cp-main" data-target="check" data-kk="Тексеру">Проверить</span>
+            </div>
+            <span class="ember-fly"></span>
+          </div>
+        </div>
+
+        <div class="pane pane-teacher">
+          <span class="pane-label" data-kk="Мұғалім экраны">Экран учителя</span>
+          <div class="pane-body">
+            <div class="tp-views">
+              <div class="tp-view tp-pulse">
+                <p class="tp-title" data-kk="Кімге қазір көмек керек?">Кому сейчас нужна помощь?</p>
+                <div class="tp-counters"><span class="cnt cnt-help"><span data-kk="Көмек сұрайды">Просят помощь</span> <b class="n0">0</b><b class="n1">1</b></span><span class="cnt"><span data-kk="Сабақта">На уроке</span> <b>2</b></span></div>
+                <div class="tp-card tp-c3">
+                  <div class="tp-row"><b data-kk="Оқушы 03">Ученик 03</b><span class="st"><span class="pill st-work" data-kk="Сабақта">На уроке</span><span class="pill pill-honey st-help" data-kk="Көмек сұрап тұр">Просит помощь</span><span class="pill pill-teal st-go" data-kk="Сіз келе жатырсыз">Вы идёте</span></span></div>
+                  <span class="tp-meta" data-kk="Тең бөліктер, 5 қадамның 4-і">Равные доли, шаг 4 из 5</span>
+                  <span class="tp-bar"><i style="--w:.62"></i></span>
+                  <span class="ui-btn ui-main ui-sm tp-ack" data-target="ack"><span class="l-a" data-kk="Көрдім, барамын">Видел, иду</span><span class="l-b" data-kk="Белгіленді">Отмечено</span></span>
+                </div>
+                <div class="tp-card"><div class="tp-row"><b data-kk="Оқушы 01">Ученик 01</b><span class="pill st-work" data-kk="Сабақта">На уроке</span></div><span class="tp-bar"><i style="--w:.4"></i></span></div>
+                <div class="tp-card"><div class="tp-row"><b data-kk="Оқушы 02">Ученик 02</b><span class="pill pill-teal" data-kk="Сабақ өтті">Урок пройден</span></div><span class="tp-bar"><i style="--w:1"></i></span></div>
+              </div>
+              <div class="tp-view tp-report">
+                <p class="tp-title" data-kk="Есеп: Оқушы 03">Отчёт: Ученик 03</p>
+                <span class="tp-meta" data-kk="Тең бөліктер">Равные доли</span>
+                <dl class="tp-dl">
+                  <div><dt data-kk="Шешілді">Решено</dt><dd data-kk="7/7">7 из 7</dd></div>
+                  <div><dt data-kk="Көмектесті">Помогло</dt><dd data-kk="сурет және 1-кеңес">картинка и подсказка 1</dd></div>
+                  <div><dt data-kk="Келесі қадам">Дальше</dt><dd data-kk="үлестерді салыстыру">сравнение долей</dd></div>
+                </dl>
+                <span class="ui-btn ui-main tp-assign" data-target="assign"><span class="l-a" data-kk="Келесі мысалды тағайындау">Назначить следующий пример</span><span class="l-b" data-kk="Тағайындалды">Назначено</span></span>
+                <p class="tp-parent"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7l8 6 8-6M4 7h16v11H4z"/></svg><span data-kk="Ата-анаға қысқа есеп жіберілді">Родителю ушёл короткий отчёт</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6.2 1.6L10 19z"/></svg></span>
+      </div>
+
+      <ol class="demo-steps">
+        <li><button type="button" data-step-btn="1"><span class="sn">1</span><span class="st-t" data-kk="Бала жауап береді">Ребёнок отвечает</span><span class="st-d" data-kk="Экранда бір қадам, жауап бір түртумен.">Один шаг на экране, ответ касанием.</span><span class="prog"><i></i></span></button></li>
+        <li><button type="button" data-step-btn="2"><span class="sn">2</span><span class="st-t" data-kk="Шырақ жанады">Загорается огонёк</span><span class="st-d" data-kk="Дұрыс қадам соқпақта шырақ жағады. Қате дауыссыз: қызыл белгі жоқ, кеңес бар.">Верный шаг зажигает огонёк на тропинке. Ошибка тише: без красного, с подсказкой.</span><span class="prog"><i></i></span></button></li>
+        <li><button type="button" data-step-btn="3"><span class="sn">3</span><span class="st-t" data-kk="Мұғалім өтінішті көреді">Учитель видит просьбу</span><span class="st-d" data-kk="«Маған көмек керек» мұғалімге 3 секундта жетеді.">«Мне нужна помощь» доходит до учителя за 3 секунды.</span><span class="prog"><i></i></span></button></li>
+        <li><button type="button" data-step-btn="4"><span class="sn">4</span><span class="st-t" data-kk="Есеп және келесі қадам">Отчёт и следующий шаг</span><span class="st-d" data-kk="Не көмектесті және келесі мысал. Ата-анаға қысқа есеп.">Что помогло и какой пример дать дальше. Родителю короткий отчёт.</span><span class="prog"><i></i></span></button></li>
+      </ol>
+      <div class="demo-caps" aria-hidden="true">
+        <p data-c="1" data-kk="Экранда бір қадам, жауап бір түртумен.">Один шаг на экране, ответ касанием.</p>
+        <p data-c="2" data-kk="Дұрыс қадам соқпақта шырақ жағады. Қате дауыссыз: қызыл белгі жоқ, кеңес бар.">Верный шаг зажигает огонёк на тропинке. Ошибка тише: без красного, с подсказкой.</p>
+        <p data-c="3" data-kk="«Маған көмек керек» мұғалімге 3 секундта жетеді.">«Мне нужна помощь» доходит до учителя за 3 секунды.</p>
+        <p data-c="4" data-kk="Не көмектесті және келесі мысал. Ата-анаға қысқа есеп.">Что помогло и какой пример дать дальше. Родителю короткий отчёт.</p>
+      </div>
+      <div class="demo-controls">
+        <button type="button" class="btn btn-on-dark" data-scene-play>
+          <svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z"/></svg>
+          <span class="when-play" data-kk="Кідірту">Пауза</span><span class="when-pause" data-kk="Жалғастыру">Продолжить</span>
+        </button>
+        <p class="demo-live" role="status" aria-live="polite"></p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="faq" id="faq">
+<section class="benefit" id="benefit" aria-labelledby="benefit-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="benefit-title" data-kk="Әркім өзіне керегін алады">Каждый получает своё</h2>
+    </div>
+    <div class="roles">
+      <article class="role">
+        <p class="role-who"><span class="role-dot rd-teacher" aria-hidden="true"></span><span data-kk="Мұғалімге">Учителю</span></p>
+        <h3 data-kk="Сабақ жүріп жатқанда кімге көмек керек екенін көресіз.">Видите, кому нужна помощь, пока урок идёт.</h3>
+        <ul>
+          <li data-kk="Көмек өтініші мен үзіліс 3 секундта, бетті жаңартпай келеді">Просьба о помощи и перерыв приходят за 3 секунды, без перезагрузки</li>
+          <li data-kk="Сабақтан кейін не көмектескені көрінеді, келесі мысал 2 басумен тағайындалады">После урока видно, что помогло, а следующий пример назначается в 2 клика</li>
+          <li data-kk="Тақырып бойынша сабақ жобасы бір минутта, ал оны тек мұғалім жариялайды">Черновик урока по теме за минуту, а публикует его только учитель</li>
+        </ul>
+      </article>
+      <article class="role">
+        <p class="role-who"><span class="role-dot rd-child" aria-hidden="true"></span><span data-kk="Балаға">Ребёнку</span></p>
+        <h3 data-kk="Өз тәсілімен және өз қарқынымен оқиды.">Учится своим способом и в своём темпе.</h3>
+        <ul>
+          <li data-kk="Өзі таңдайды: мәтін, сурет, аудио, бейне немесе модель">Сам выбирает: текст, картинка, аудио, видео или модель</li>
+          <li data-kk="Жазасыз қате: «Әзірге сәйкес келмеді» және кеңес">Ошибка без наказания: «Пока не подошло» и подсказка</li>
+          <li data-kk="Кез келген сәтте үзіліс, прогресс жанып кетпейді. Қозғалысты өшіруге болады">Перерыв в любой момент, прогресс не сгорает. Движение можно выключить</li>
+        </ul>
+      </article>
+      <article class="role">
+        <p class="role-who"><span class="role-dot rd-parent" aria-hidden="true"></span><span data-kk="Ата-анаға">Родителю</span></p>
+        <h3 data-kk="Сабақта не болғанын және үйде нені қайталау керегін түсінеді.">Понимает, что было на уроке и что повторить дома.</h3>
+        <ul>
+          <li data-kk="Сілтеме арқылы қазақ немесе орыс тіліндегі қысқа есеп">Короткий отчёт по ссылке, на казахском или русском</li>
+          <li data-kk="Тек өз баласын көреді">Видит только своего ребёнка</li>
+          <li data-kk="Баға да, диагноз да емес, бақылау">Наблюдение, а не оценка и не диагноз</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="diff" id="diff" aria-labelledby="diff-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="diff-title" data-kk="Мектеп бағдарламасы мен арнайы қолдау бір сабақта">Школьная программа и особая поддержка в одном уроке</h2>
+      <p class="sec-lead" data-kk="Мектеп тренажёрлары бағдарламаны біледі, бірақ балаға бейімделмейді. РАС-қа арналған қосымшалар бейімделеді, бірақ мектеп сабағын білмейді. Аян екеуін біріктіреді және мұғалімді қасында қалдырады.">Школьные тренажёры знают программу, но не подстраиваются под ребёнка. Приложения для детей с РАС подстраиваются, но не знают школьного урока. Аян соединяет одно с другим и оставляет учителя рядом.</p>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only" data-kk="Мүмкіндік">Возможность</span></th>
+            <th scope="col" class="c-ayan"><span>Аян</span></th>
+            <th scope="col"><span data-kk="ҚР бағдарламасы бойынша тренажёрлар">Тренажёры по программе РК</span><small>Qalan, Bilimland</small></th>
+            <th scope="col"><span data-kk="Ойын қосымшалары">Игровые приложения</span><small>Duolingo ABC, Khan Academy Kids</small></th>
+            <th scope="col"><span data-kk="РАС-қа арналған қосымшалар">Приложения для детей с РАС</span><small>Otsimo, Proloquo2Go</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" data-kk="Қазақстан бағдарламасы, қазақ және орыс тілі">Программа Казахстана, казахский и русский</th>
+            <td class="c-ayan"><span class="lbl">Аян</span><span class="v yes" data-kk="бар">есть</span></td>
+            <td><span class="lbl" data-kk="ҚР тренажёрлары">Тренажёры РК</span><span class="v yes" data-kk="бар">есть</span></td>
+            <td><span class="lbl" data-kk="Ойын қосымшалары">Игровые приложения</span><span class="v no" data-kk="жоқ">нет</span></td>
+            <td><span class="lbl" data-kk="РАС қосымшалары">Приложения для РАС</span><span class="v no" data-kk="жоқ">нет</span></td>
+          </tr>
+          <tr>
+            <th scope="row" data-kk="Балаға бейімделу: түсіндіру тәсілі, тыныш режим, үзіліс">Подстройка под ребёнка: способ объяснения, тихий режим, перерыв</th>
+            <td class="c-ayan"><span class="lbl">Аян</span><span class="v yes" data-kk="бар">есть</span></td>
+            <td><span class="lbl" data-kk="ҚР тренажёрлары">Тренажёры РК</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+            <td><span class="lbl" data-kk="Ойын қосымшалары">Игровые приложения</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+            <td><span class="lbl" data-kk="РАС қосымшалары">Приложения для РАС</span><span class="v yes" data-kk="бар">есть</span></td>
+          </tr>
+          <tr>
+            <th scope="row" data-kk="Мұғалім сыныпты сабақ үстінде көреді">Учитель видит класс прямо на уроке</th>
+            <td class="c-ayan"><span class="lbl">Аян</span><span class="v yes" data-kk="бар">есть</span></td>
+            <td><span class="lbl" data-kk="ҚР тренажёрлары">Тренажёры РК</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+            <td><span class="lbl" data-kk="Ойын қосымшалары">Игровые приложения</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+            <td><span class="lbl" data-kk="РАС қосымшалары">Приложения для РАС</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+          </tr>
+          <tr>
+            <th scope="row" data-kk="Ата-анаға есеп: не көмектесті">Отчёт родителю: что помогло</th>
+            <td class="c-ayan"><span class="lbl">Аян</span><span class="v yes" data-kk="бар">есть</span></td>
+            <td><span class="lbl" data-kk="ҚР тренажёрлары">Тренажёры РК</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+            <td><span class="lbl" data-kk="Ойын қосымшалары">Игровые приложения</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+            <td><span class="lbl" data-kk="РАС қосымшалары">Приложения для РАС</span><span class="v unk" data-kk="табылмады">не найдено</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cmp-note" data-kk="Сервистердің ашық сипаттамалары бойынша, 2026 жылғы қараша. «Табылмады» - сипаттамаларда бұл жоқ деген сөз. Салыстыруды қолмен тексеріп жатырмыз.">По открытым описаниям сервисов, ноябрь 2026. «Не найдено» значит, что в описаниях этого нет. Сравнение проверяем вручную.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="faq-title">
   <div class="wrap faq-grid">
-    <div>
-      <h2>Честно о прототипе</h2>
-      <p class="section-lead">Ayan сейчас демо. Мы не обещаем доказанный эффект и не ставим диагнозы.</p>
+    <div class="sec-head">
+      <h2 id="faq-title" data-kk="Жиі қойылатын сұрақтар">Частые вопросы</h2>
+      <p class="sec-lead" data-kk="Аян диагноз қоймайды және маманды алмастырмайды. Шешімді мұғалім қабылдайды.">Аян не ставит диагнозы и не заменяет специалиста. Решения принимает учитель.</p>
     </div>
     <div class="faq-list">
-      <details><summary>Как ребёнку войти?</summary><p>Учитель создаёт профиль без фамилии и отправляет одноразовую ссылку. Почта ребёнку не нужна.</p></details>
-      <details><summary>Заменяет ли Ayan педагога или специалиста?</summary><p>Нет. Настройки и материал выбирает взрослый. Ayan помогает подготовить визуальную и пошаговую поддержку, решение всегда за учителем.</p></details>
-      <details><summary>Кто проверяет объяснения от ИИ?</summary><p>Учитель. Черновик ИИ может содержать ошибки, поэтому ребёнок видит только то, что взрослый проверил и назначил.</p></details>
-      <details><summary>Проверены ли казахские тексты?</summary><p>Пока нет. Казахские тексты и учебные материалы ждут проверки носителем языка и учителем.</p></details>
+      <details><summary><span data-kk="Бала қалай кіреді?">Как ребёнку войти?</span></summary><div class="ans"><p data-kk="Мұғалім тегі жоқ профиль жасап, бір реттік сілтеме жібереді. Балаға пошта керек емес.">Учитель создаёт профиль без фамилии и отправляет одноразовую ссылку. Почта ребёнку не нужна.</p></div></details>
+      <details><summary><span data-kk="Аян мұғалімді немесе маманды алмастыра ма?">Заменяет ли Аян педагога или специалиста?</span></summary><div class="ans"><p data-kk="Жоқ. Баптау мен материалды ересек адам таңдайды. Аян көрнекі және қадамдық қолдау дайындауға көмектеседі, шешімді әрқашан мұғалім қабылдайды.">Нет. Настройки и материал выбирает взрослый. Аян помогает подготовить визуальную и пошаговую поддержку, решение всегда за учителем.</p></div></details>
+      <details><summary><span data-kk="ЖИ түсіндірмелерін кім тексереді?">Кто проверяет объяснения от ИИ?</span></summary><div class="ans"><p data-kk="Мұғалім. ЖИ жобасында қате болуы мүмкін, сондықтан бала ересек адам тексеріп, тағайындағанды ғана көреді.">Учитель. Черновик ИИ может содержать ошибки, поэтому ребёнок видит только то, что взрослый проверил и назначил.</p></div></details>
+      <details><summary><span data-kk="Қазақша мәтіндерді кім тексереді?">Кто проверяет казахские тексты?</span></summary><div class="ans"><p data-kk="Қазақша мәтіндер мен оқу материалдарын тіл маманы мен мұғалім тексереді. Тексеру жалғасып жатыр.">Казахские тексты и учебные материалы проверяют носитель языка и учитель. Проверка продолжается.</p></div></details>
+      <details><summary><span data-kk="Қанша тұрады?">Сколько это стоит?</span></summary><div class="ans"><p data-kk="Тегін бастауға болады. Мұғалімге және мектепке арналған тарифтер «Тарифтер» бетінде.">Начать можно бесплатно. Тарифы для учителя и для школы на странице «Тарифы».</p></div></details>
     </div>
   </div>
 </section>
 
-<section class="close">
-  <div class="wrap close-box">
-    <h2>Подготовьте первый урок за несколько минут</h2>
-    <div class="actions">
-      <a class="btn btn-light" href="/teacher/login">Создать кабинет учителя<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
-      <a class="btn btn-outline-light" href="/demo/teacher">Сначала демо</a>
+<section class="close" aria-labelledby="close-title">
+  <div class="wrap">
+    <div class="close-box">
+      <div class="flies flies-dark" data-flies="7" aria-hidden="true"></div>
+      <div class="close-copy">
+        <h2 id="close-title" data-kk="Аянды өз сыныбыңызда байқап көріңіз">Попробуйте Аян в своём классе</h2>
+        <p data-kk="Мұғалімді тіркеу бір минут алады. Бала поштасыз, бір реттік сілтеме арқылы кіреді.">Регистрация учителя занимает минуту. Ребёнок входит по одноразовой ссылке, без почты.</p>
+        <div class="actions">
+          <a class="btn btn-light btn-lg" href="/signup"><span data-kk="Тегін бастау">Начать бесплатно</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-outline-light btn-lg" href="/pricing" data-kk="Тарифтер">Тарифы</a>
+        </div>
+        <ul class="trust trust-dark">
+          <li data-kk="Жарнамасыз">Без рекламы</li>
+          <li data-kk="Диагнозсыз">Без диагнозов</li>
+          <li data-kk="Балаға пошта керек емес">Ребёнку не нужна почта</li>
+        </ul>
+      </div>
+      <div class="close-pal">
+        <div class="pal-glow" aria-hidden="true"></div>
+        <div id="intro-mascot" class="stage-mascot" role="img" aria-label="Аян, светлячок-фонарик"></div>
+        <div class="mascot-actions" role="group" aria-label="Поиграть с Аяном">
+        <button type="button" data-mascot-clip="Greeting" data-kk="Сәлем, Аян">Привет, Аян</button>
+        <button type="button" data-mascot-clip="Thinking" data-kk="Ойлан">Подумай</button>
+        <button type="button" data-mascot-clip="Celebrating" data-kk="Қуан">Порадуйся</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="footer">
-  <div class="wrap footer-row">
-    <a class="brand" href="/"><img src="/assets/ayan-mark.svg" alt="" width="32" height="32"><span>ayan</span></a>
-    <span>Понимать. Пробовать. Расти.</span>
-    <nav aria-label="Вход"><a href="/teacher/login">Учителю</a><a href="/child/login">Ученику</a><a href="/parent">Родителю</a><a href="/privacy">Данные детей</a></nav>
-  </div>
-</footer>
-<script src="/landing.js"></script>
+<div data-site-footer></div>
+<script type="module" src="/landing.js"></script>
+<script type="module" src="/site-footer.js"></script>
+<script src="/cookie-consent.js" defer></script>
 </body>
 </html>

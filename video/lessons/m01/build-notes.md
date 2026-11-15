@@ -32,3 +32,19 @@ The voiceover file `video/public/m01/audio.ru.mp3` is kept in git: regenerating 
 - Nobody listened to the take for wrong word stress; this needs a human ear.
 - No separate reduced-motion cut: the player offers captions and the full transcript instead.
 - Kazakh audio is a later stage; Kazakh captions need a native check.
+
+## Version 0.2.0 (13.11.2026): new firefly, V2.1 palette, slow camera
+
+Result: `dist/media/M01/0.2.0/` with `lesson.mp4` (camera) and `lesson.calm.mp4` (still camera, chosen by the player in calm mode, with minimal motion or with the system "reduce motion" setting). Same voiceover file and the same timing as 0.1.0, so captions and transcripts are unchanged. No paid request was made for this version.
+
+- Mascot: PNG sequences of the V2.1 firefly from `assets-src/firefly.blend`, script `assets-src/render_firefly_frames.py` (720 px, camera 18 degrees from the character's left so it is turned towards the board).
+- Camera: keyframed pushes and pans in `video/src/M01.tsx` (`boardKeys`, `guideKeys`): 1.8-2.4 s per move, cubic ease in-out, zoom at most 1.15, three layers with parallax (background shapes, board, presenter). No cuts, flashes or shake.
+- Palette: tokens of `dist/v2/tokens.css` (teal primary, mint selection with a dark outline, sand for "not equal").
+
+Rebuild:
+```bash
+/Applications/Blender.app/Contents/MacOS/Blender -b assets-src/firefly.blend -P assets-src/render_firefly_frames.py
+cd video && npx remotion render src/index.ts M01 out/m01v2/lesson.mp4 --codec h264 --crf 21 --audio-bitrate 128k
+npx remotion render src/index.ts M01Calm out/m01v2/lesson.calm.mp4 --codec h264 --crf 21 --audio-bitrate 128k
+npx remotion still src/index.ts M01 out/m01v2/poster.png --frame 640
+```

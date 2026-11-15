@@ -1,6 +1,6 @@
 {
   "lessonId": "M01",
-  "lessonVersion": "0.1.0-draft",
+  "lessonVersion": "0.2.0-draft",
   "scriptVersion": "0.1.0",
   "locale": "ru",
   "audioLocale": "ru",
@@ -33,14 +33,15 @@
   },
   "video": {
     "file": "lesson.mp4",
-    "sha256": "6a5b1ada76ddf2ca2b9942f82a8af9c0069283c6794df94a7aeae5019264ade1",
-    "bytes": 3453427,
+    "sha256": "fde7e80e0991cf4c374f0fc4eb0feb7f07d38a4ff86ebe414c89cc3c0574c905",
+    "bytes": 3687922,
     "durationSeconds": 54.12,
     "width": 1280,
     "height": 720,
     "fps": 30,
     "codec": "H.264 + AAC, faststart",
-    "renderer": "Remotion 4.0.484 (video/), mascot frames from Blender 5.3.0 (assets-src/ayan.blend)"
+    "renderer": "Remotion 4.0.484 (video/), mascot frames from assets-src/firefly.blend (assets-src/render_firefly_frames.py)",
+    "camera": "slow virtual camera: pushes and pans 1.8-2.4 s, ease in-out, zoom at most 1.15, three parallax layers"
   },
   "poster": "poster.jpg",
   "captions": {
@@ -61,5 +62,24 @@
   "curriculum": {
     "verified": false,
     "note": "No objective code assigned. Not to be published as \"checked against the RK programme\" until a teacher confirms."
-  }
+  },
+  "videoCalm": {
+    "file": "lesson.calm.mp4",
+    "sha256": "32729d9b5d277572e41567dd8a9089a71ecf33f09d4b378fb1532ea3974a85e5",
+    "bytes": 2528462,
+    "note": "same lesson, sound and timing with a still camera; the player picks it in calm mode, with minimal motion or prefers-reduced-motion"
+  },
+  "mascot": {
+    "model": "assets-src/firefly.blend",
+    "name": "Аян (V2.1 firefly)",
+    "clips": [
+      "Idle",
+      "Greeting",
+      "Explaining",
+      "Helping",
+      "Thinking",
+      "Encouraging"
+    ]
+  },
+  "changes": "0.2.0 (13.11.2026): new firefly, V2.1 palette, slow camera and a still-camera cut. Voiceover, timing, captions and transcripts are unchanged from 0.1.0; no paid request was made."
 }

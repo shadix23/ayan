@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Поддержка - Аян</title>
+<meta name="title-kk" content="Қолдау - Аян">
+<meta name="theme-color" content="#FBFAF6">
+<link rel="icon" href="/assets/ayan-mark.svg">
+<link rel="stylesheet" href="/acc/acc.css">
+<link rel="stylesheet" href="/site-footer.css">
+<script src="/page-i18n.js"></script>
+<script src="/cookie-consent.js" defer></script>
+<script type="module" src="/acc/support.js"></script>
+<script type="module" src="/site-footer.js"></script>
+</head>
+<body>
+<a class="skip" href="#main" data-kk="Негізгі мазмұнға өту">Перейти к содержанию</a>
+<header data-acc-top></header>
+<main id="main">
+ <div class="wrap">
+  <div class="page-head">
+   <p class="eyebrow"><i aria-hidden="true"></i><span data-kk="Қолдау">Поддержка</span></p>
+   <h1 data-kk="Қалай көмектесе аламыз?">Чем помочь?</h1>
+   <p class="lead" data-kk="Жиі сұрақтардың жауабы төменде. Таппасаңыз, бізге жазыңыз: бір жұмыс күні ішінде поштаңызға жауап береміз.">Ответы на частые вопросы ниже. Не нашли - напишите нам, ответим на почту в течение рабочего дня.</p>
+  </div>
+  <section class="faq" style="margin-top:8px" aria-label="Частые вопросы">
+   <div class="faq-list" style="grid-column:1/-1">
+    <details><summary data-kk="Оқушыны қалай қосамын?">Как добавить ученика?</summary><p data-kk="Кабинетте «Оқушылар» бөлімінде «Оқушы қосу» батырмасын басыңыз. Аты немесе бүркеншік ат жеткілікті, ата-анасының келісімін растау сұралады. Баланы кіргізу үшін шақыру сілтемесін немесе кодты беріңіз.">В кабинете в разделе «Ученики» нажмите «Добавить ученика». Достаточно имени или псевдонима, нужно подтвердить согласие родителей. Чтобы ребёнок вошёл, дайте ему ссылку-приглашение или код.</p></details>
+    <details><summary data-kk="Құпиясөзді ұмыттым">Забыл пароль</summary><p data-kk="Төмендегі формаға аккаунттың поштасын жазып, «Құпиясөзді ұмыттым» деп жіберіңіз. Тұлғаңызды растап, кіруге көмектесеміз.">Напишите в форму ниже с почты аккаунта: «Забыл пароль». Мы подтвердим, что это вы, и поможем войти.</p></details>
+    <details><summary data-kk="Шот пен төлем туралы">Счёт и оплата</summary><p data-kk="Төлем Kaspi шоты немесе мектепке арналған шот арқылы өтеді, барлық бағалар ҚҚС-пен. Түбіртектер кабинеттегі «Төлемдер тарихында». Мектепке шарт пен акт керек болса, жазыңыз.">Оплата по счёту Kaspi или счётом для школы, все цены с НДС. Чеки - в «Истории платежей» в кабинете. Если школе нужен договор и акт, напишите нам.</p></details>
+    <details><summary data-kk="Ақшаны қайтару">Возврат денег</summary><p data-kk="Төлемнен кейін 14 күн ішінде кабинеттегі «Қайтаруды сұрау» батырмасы арқылы. Толығырақ: <a href=&quot;/legal/refunds?lang=kk&quot;>қайтару шарттары</a>.">В течение 14 дней после оплаты кнопкой «Запросить возврат» в кабинете. Подробнее: <a href="/legal/refunds">условия возврата</a>.</p></details>
+    <details><summary data-kk="Бала деректерін жою">Удалить данные ребёнка</summary><p data-kk="Мұғалім оқушыны кабинеттен жоя алады, ата-ана келісімін кез келген уақытта кері қайтара алады. Деректер 30 күн ішінде жойылады.">Учитель может удалить ученика в кабинете, родитель может в любой момент отозвать согласие. Данные удаляются в течение 30 дней.</p></details>
+   </div>
+  </section>
+  <section id="write" class="card" style="margin:40px 0 72px;max-width:720px" aria-labelledby="w-title">
+   <h2 id="w-title" data-kk="Бізге жазу">Написать нам</h2>
+   <p class="muted" style="margin-top:6px" data-kk="Хабарлама сақталады, жауапты поштаңызға жібереміз. Бала туралы медициналық деректерді жазбаңыз.">Сообщение сохранится, ответ придёт на вашу почту. Пожалуйста, не пишите медицинские данные о ребёнке.</p>
+   <form id="sup" novalidate style="margin-top:18px">
+    <div class="f"><label for="s-email" data-kk="Пошта">Почта</label><input class="in" id="s-email" type="email" inputmode="email" autocomplete="email" maxlength="200"></div>
+    <div class="f"><label for="s-msg" data-kk="Хабарлама">Сообщение</label><textarea class="in" id="s-msg" rows="6" maxlength="2000" style="resize:vertical" aria-describedby="s-count"></textarea><p class="hint" id="s-count">0 / 2000</p></div>
+    <p class="alert" id="s-res" role="status" style="margin-top:14px"></p>
+    <div class="actions" style="margin-top:16px"><button class="b primary" id="s-go" data-kk="Жіберу">Отправить</button></div>
+   </form>
+  </section>
+ </div>
+</main>
+<div data-site-footer></div>
+</body>
+</html>
