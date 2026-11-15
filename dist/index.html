@@ -177,13 +177,15 @@
       <h2 id="film-title" data-kk="Аян 40 секундта">Аян за 40 секунд</h2>
     </div>
     <div class="film-frame">
-      <video id="film-video" muted loop playsinline controls preload="metadata" poster="/assets/landing/ayan-site-poster.webp" aria-label="Ролик: как ребёнок проходит урок в Аяне и как учитель видит, кому нужна помощь">
+      <video id="film-video" muted loop playsinline controls preload="metadata" poster="/assets/landing/ayan-site-poster.webp" aria-label="Ролик со звуком по кнопке: как ребёнок проходит урок в Аяне и как учитель видит, кому нужна помощь">
         <source src="/assets/landing/ayan-site.webm" type="video/webm">
         <source src="/assets/landing/ayan-site.mp4" type="video/mp4">
       </video>
+      <button type="button" class="film-sound" id="film-sound" data-kk="Дыбысты қосу">Включить звук</button>
     </div>
   </div>
-  <script>(function(){var v=document.getElementById('film-video');if(!v||matchMedia('(prefers-reduced-motion: reduce)').matches)return;var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){v.play().catch(function(){});}else{v.pause();}});},{threshold:.4});io.observe(v);})();</script>
+  <script>(function(){var v=document.getElementById('film-video');if(!v||matchMedia('(prefers-reduced-motion: reduce)').matches)return;var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){v.play().catch(function(){});}else{v.pause();}});},{threshold:.4});io.observe(v);})();
+(function(){var v=document.getElementById('film-video'),b=document.getElementById('film-sound');if(!v||!b)return;b.addEventListener('click',function(){var on=v.muted;if(on&&!v.dataset.snd){var t=v.currentTime;v.dataset.snd='1';v.src='/assets/landing/ayan-site-sound.mp4';v.addEventListener('loadedmetadata',function f(){v.removeEventListener('loadedmetadata',f);v.currentTime=t;v.play().catch(function(){});});}v.muted=!on;if(!v.muted)v.play().catch(function(){});var kk=document.documentElement.lang==='kk';b.textContent=v.muted?(kk?'Дыбысты қосу':'Включить звук'):(kk?'Дыбысты өшіру':'Выключить звук');b.setAttribute('aria-pressed',String(!v.muted));});})();</script>
 </section>
 
 <section class="how" id="how" aria-labelledby="how-title">

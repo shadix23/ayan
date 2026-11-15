@@ -51,9 +51,9 @@
 
 ## Видео
 
-[![Ролик Аян](dist/assets/landing/ayan-site-poster.webp)](dist/assets/landing/ayan-site.mp4)
+[![Ролик Аян](dist/assets/landing/ayan-site-poster.webp)](dist/assets/landing/ayan-site-sound.mp4)
 
-[Смотреть ролик (37 с, MP4)](dist/assets/landing/ayan-site.mp4). Он же на сайте в блоке «Аян за 40 секунд».
+[Смотреть ролик со звуком (41 с, MP4)](dist/assets/landing/ayan-site-sound.mp4). Он же на сайте в блоке «Аян за 40 секунд».
 
 <!-- VIDEO -->
 

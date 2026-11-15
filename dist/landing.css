@@ -526,3 +526,4 @@ html[data-motion=off] .cursor,html[data-motion=off] .ember-fly{display:none}
 
 /* film */
 .film{padding:72px 0}.film-frame{max-width:960px;margin:24px auto 0;border-radius:20px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 12px 40px rgba(22,34,31,.12);background:#FBFAF6}.film-frame video{display:block;width:100%;height:auto;aspect-ratio:16/9}@media (max-width:600px){.film{padding:48px 0}.film-frame{border-radius:14px}}
+.film-frame{position:relative}.film-sound{position:absolute;top:14px;right:14px;padding:10px 16px;border-radius:999px;border:0;background:rgba(22,34,31,.82);color:#fff;font:800 15px/1 Nunito,system-ui,sans-serif;cursor:pointer;min-height:44px}.film-sound:focus-visible{outline:3px solid #F4B740;outline-offset:2px}
