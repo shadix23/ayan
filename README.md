@@ -57,7 +57,10 @@
 
 ## Презентация
 
-Презентация: будет добавлена.
+[![Презентация Аян](docs/pitch/cover.png)](docs/pitch/Ayan-pitch.pdf)
+
+- [Презентация, PDF](docs/pitch/Ayan-pitch.pdf) (9 слайдов и запасной)
+- [Презентация, PPTX с заметками докладчика](docs/pitch/Ayan-pitch.pptx)
 
 <!-- SLIDES -->
 
