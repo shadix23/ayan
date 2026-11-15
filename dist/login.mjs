@@ -22,7 +22,7 @@ function render(){
  eyeToggle(fields);
  $('#submit').textContent=t('Кіру','Войти');
  $('#register-line').hidden=isChild;
- $('#register-q').textContent=t('Аккаунтыңыз жоқ па?','Нет аккаунта?');$('#register').textContent=t('Тіркелу','Зарегистрироваться');
+ $('#register-q').textContent=t('Аккаунтыңыз жоқ па?','Нет аккаунта?');$('#register').textContent=t('Тіркелу','Зарегистрироваться');$('#child-q').textContent=t('Сен оқушысың ба?','Вы ученик?');$('#child-login').textContent=t('Кодпен кіру','Войти по коду от учителя');
  const lk=window.AyanPage?.link||(h=>h);$('#privacy-link').href=lk('/legal/privacy');$('#privacy-side').href=lk('/legal/privacy');$('#register').href=lk('/signup');
 }
 render();onLang(render);

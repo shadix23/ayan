@@ -113,7 +113,7 @@ function shell(active,title,sub,content){
  if(me.manages&&me.teaches)nav.push(['admin','#/admin','users']);
  app.innerHTML=`<div class="app"><header class="side"><a class="brand" href="#/reports" aria-label="Аян">${MARK}<span><b>Аян</b><small>${esc(t('brandSub'))}</small></span></a>
   <button type="button" class="tool menu-btn" aria-expanded="false" aria-controls="nav" data-menu>${icon('menu')}${esc(t('menu'))}</button>
-  <nav aria-label="${esc(t('menu'))}"><ul class="nav" id="nav">${nav.map(([k,h,ic])=>`<li><a href="${h}" ${k===active?'aria-current="page"':''}>${icon(ic)}<span>${esc(t(k))}</span></a></li>`).join('')}${me.teaches&&!me.demo?`<li><a href="/teacher/classic">${icon('library')}<span>${esc(t('classic'))}</span></a></li>`:''}</ul></nav>
+  <nav aria-label="${esc(t('menu'))}"><ul class="nav" id="nav">${nav.map(([k,h,ic])=>`<li><a href="${h}" ${k===active?'aria-current="page"':''}>${icon(ic)}<span>${esc(t(k))}</span></a></li>`).join('')}</ul></nav>
   <div class="side-note opt-detail"><b>${esc(t('note'))}</b><p>${esc(t('noteText'))}</p></div></header>
   <main class="main" id="main" tabindex="-1">${me.demo?`<div class="demo-strip"><span>${esc(t('demo'))}</span><a href="/demo">${esc(t('switchUser'))}</a></div>`:''}<div class="page">
   <div class="top"><div><h1 id="page-h" tabindex="-1">${esc(title)}</h1>${sub?`<p class="sub">${esc(sub)}</p>`:''}</div><div class="top-tools"><span class="badge ${me.plan.plan==='free'?'grey':''}" style="min-height:40px;padding:0 14px">${esc(me.plan.plan==='free'?t('planFree'):t('planPilot'))}</span><button type="button" class="tool" data-lang>${icon('globe')}ҚАЗ / РУС</button><button type="button" class="tool" data-logout>${icon('out')}${esc(t('logout'))}</button></div></div>
